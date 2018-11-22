@@ -1,0 +1,17 @@
+{
+  "name": "huchat",
+  "version": "1.0.0",
+  "description": "Đồ án môn công nghệ phần mềm",
+  "main": "./Sever/index.js",
+  "dependencies": {
+    "express": "*",
+    "mysql": "~2.16.0",
+    "socket.io": "*",
+    "socketio-file-upload": "^0.6.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GooFlow",
+  "license": "ISC"
+}
