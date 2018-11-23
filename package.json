@@ -2,11 +2,11 @@
   "name": "huchat",
   "version": "1.0.0",
   "description": "Đồ án môn công nghệ phần mềm",
-  "main": "./Sever/index.js",
+  "main": "./sever.js",
   "dependencies": {
     "express": "*",
     "mysql": "~2.16.0",
-    "socket.io": "*",
+    "socket.io": "^2.1.1",
     "socketio-file-upload": "^0.6.4"
   },
   "scripts": {
