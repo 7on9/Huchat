@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
-    <title>ssssss</title>
+    <title>chat</title>
 </head>
+
 <body>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          var socket = io();
-        </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io("http://localhost:2409/");
+        socket.emit("checkUserName", "LONG");
+    </script>
     <h1>sssdadasdasadsasadsdasa</h1>
-    
+
 </body>
+
 </html>
