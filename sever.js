@@ -1,13 +1,12 @@
 var express = require("express");
 var app = express();
 //app.use(express.static("api"));
-var db = require("./database");
 var sever = require("http").Server(app);
 var io = require("socket.io").listen(sever);
 //var routes = require("./routes");
 var user = require("./user");
 var account = require("./account");
-
+var db = require("./database");
 
 io.on("connection", function (socket) {
 	console.log("One user connected" + socket.id);
@@ -27,7 +26,7 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
-	
+
 	socket.on("disconnect", function () {
 		console.log("One user Disconnected " + socket.id);
 	})
