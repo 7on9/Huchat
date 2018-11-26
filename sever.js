@@ -10,17 +10,24 @@ var db = require("./database");
 
 io.on("connection", function (socket) {
 	console.log("One user connected" + socket.id);
-
-	socket.on("checkExistUserName", function (user_name) {
-		account.checkExistUserName(user_name, function (err, rows) {
+	socket.on("user",async function(user_name){
+		let check = await account.checkExistUserName(user_name);
+		console.log("have account -> ", check);
+	});
+	socket.on("register", function (user_name, password) {
+		console.log(password);
+		account.registerAccount(user_name, password, function (err, rows) {
 			if (err) {
 				console.log(err);
+				throw err;
 			}
 			else {
-				if (rows.length > 0) {
-					console.log("Ok");
+				if (rows.affectedRows > 0) {
+					console.log("account created " + user_name);
+					socket.emit("result", true);
 				}
 				else {
+					socket.emit("result", false);
 					console.log("Nazz");
 				}
 			}
@@ -28,7 +35,7 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on("disconnect", function () {
-		console.log("One user Disconnected " + socket.id);
+		console.log("User disconnected " + socket.id);
 	})
 });
 

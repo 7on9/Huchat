@@ -10,7 +10,16 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io("http://localhost:2409/");
-        socket.emit("checkUserName", "LONG");
+        socket.emit("user", "tttt");
+        socket.emit("register", "aaa","ba");
+        socket.on("result", function(result){
+            if(result)
+                alert("successfully registered!");
+            else
+            {
+                alert("fail!");
+            }
+        });
     </script>
     <h1>sssdadasdasadsasadsdasa</h1>
 

@@ -10,18 +10,15 @@ var user = {
     //     //return true;//return (resq == user_name) ? true : false; 
     // },
     getUserById: function (id, callback) {
-        return db.query("SELECT * FROM account WHERE ID = ?", [id], callback);
-    },
-    login: function (user_name, pass, callback) {
-        return db.query("select * from account where user_name = ? and password = ?", [user_name], [pass], callback);
+        return db.query("SELECT * FROM ACCOUNT WHERE ID = ?", [id], callback);
     },
     addInfoUser: function (user, callback) {
-        db.query("select * from account where user_name = ?", [user.mail], function (err, res) {
+        db.query("SELECT * FROM ACCOUNT WHERE USER_NAME = ?", [user.mail], function (err, res) {
             if (!err) {
                 if (res.length > 0) {
-                    return db.query("select ?", [user.mail], callback);
+                    return db.query("SELECT ?", [user.mail], callback);
                 } else {
-                    return db.query("insert into user(name, birth, gender, phone, mail, pass, type, lastLongitude, lastLatitude) values(?, ?, ?, ?, ?, ?, ?, ?, ?)", [user.name, user.birth, user.gender, user.phone, user.mail, user.pass, user.type, user.lastLongitude, user.lastLatitude], callback);
+                    return db.query("", callback);
                 }
             }
         });

@@ -17,28 +17,35 @@ CREATE TABLE USERS(
     CREATE_AT LONG,
     AVATAR_PATH VARCHAR(200),
     FOREIGN KEY (USER_NAME) REFERENCES ACCOUNT(USER_NAME)
-) ENGINE=INNODB;
+) ENGINE = INNODB;
 
 CREATE TABLE ROOMS(
     ID INT PRIMARY KEY AUTO_INCREMENT,
     USER_NAME_OWNER VARCHAR(15) NOT NULL,
     PASSWORD VARCHAR(64),
     FOREIGN KEY (USER_NAME_OWNER) REFERENCES ACCOUNT(USER_NAME)
-)ENGINE=INNODB;
+)ENGINE = INNODB;
 
 CREATE TABLE ROOM_MEMBER(
     ID INT NOT NULL, 
     USER_NAME_MEMBER VARCHAR(20),
     FOREIGN KEY (ID) REFERENCES ROOMS(ID),
     FOREIGN KEY (USER_NAME_MEMBER) REFERENCES ACCOUNT(USER_NAME)
-)ENGINE=INNODB;
+)ENGINE = INNODB;
 
 CREATE TABLE INFO_ROOM(
-  ID INT NOT NULL, 
-  NAME_GROUP NVARCHAR(50),
-  AVATAR_PATH VARCHAR(200),
-  FOREIGN KEY (ID) REFERENCES ROOMS(ID)
-)ENGINE=INNODB;
+    ID INT NOT NULL, 
+    NAME_ROOM NVARCHAR(50),
+    AVATAR_PATH VARCHAR(200),
+    FOREIGN KEY (ID) REFERENCES ROOMS(ID)
+)ENGINE = INNODB;
+
+CREATE TABLE CHAT_ROOMS_HISTORY(
+    ID_ROOM INT NOT NULL,
+    USER_NAME VARCHAR(20),
+    CONTENT NVARCHAR(1000),
+    TIME LONG
+);
 
 CREATE TABLE LOG(
     EVENT VARCHAR(100),
@@ -57,10 +64,23 @@ DELIMITER ;
 -- call PROC_INSERT_LOG_EVENT("aaaaaaaa");
 
 DELIMITER $$
-CREATE PROCEDURE PROC_WATCH_ALL_EVENT ()    
+CREATE PROCEDURE PROC_VIEW_ALL_EVENT ()    
 BEGIN
     SELECT EVENT AS "Hành động", FROM_UNIXTIME(CREATE_AT, "%d-%m-%Y %H:%i:%s") AS "Thời gian tạo"
     FROM LOG
+    ORDER BY CREATE_AT DESC;
+END; $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE PROC_VIEW_EVENT_BETWEEN (
+    IN TIME_A LONG,
+    IN TIME_B LONG
+)    
+BEGIN
+    SELECT EVENT AS "Hành động", FROM_UNIXTIME(CREATE_AT, "%d-%m-%Y %H:%i:%s") AS "Thời gian tạo"
+    FROM LOG
+    WHERE TIME_A <= CREATE_AT AND CREATE_AT <= TIME_B
     ORDER BY CREATE_AT DESC;
 END; $$
 DELIMITER ;
@@ -85,10 +105,8 @@ BEGIN
 	CALL PROC_INSERT_LOG_EVENT(USER_NAME);
 END; $$
 DELIMITER ;
+
 ------------------------------------LOGIN------------------------------------------
-
-
-
 
 -----------------------------------ACCOUNT-----------------------------------------
 DELIMITER $$
@@ -96,7 +114,7 @@ CREATE PROCEDURE PROC_INSERT_ACCOUNT (
 	IN N_USER_NAME VARCHAR(20),  
 	IN PASSWORD VARCHAR(64))
 BEGIN
-    INSERT INTO ACCOUNT VALUES(USER_NAME, PASSWORD);
+    INSERT INTO ACCOUNT VALUES(N_USER_NAME, PASSWORD);
     INSERT INTO USERS(USER_NAME) VALUES(N_USER_NAME);
 END; $$
 DELIMITER ;
@@ -124,8 +142,6 @@ END; $$
 DELIMITER ;
 -----------------------------------ACCOUNT-----------------------------------------
 
-
-
 ---------------------------------INFO_USERS----------------------------------------
 
 DELIMITER $$
@@ -150,17 +166,17 @@ BEGIN
     WHERE USERS_NAME = N_USER_NAME;
 END; $$
 DELIMITER ;
+-- -------------------------------INFO_USERS----------------------------------------
 
----------------------------------INFO_USERS----------------------------------------
-
------------------------------------TRIGGER-----------------------------------------
---INSERT
+-- --------------------------------TRIGGER-----------------------------------------
+-- INSERT
 --
 
------------------------------------TRIGGER-----------------------------------------
+-- ---------------------------------TRIGGER-----------------------------------------
 -- CALL PROC_DELETE_ACCOUNT("MON");
 -- CALL PROC_CHANGE_PASSWORD_ACCOUNT ("MON", "YEYEYE");
--- CALL PROC_INSERT_ACCOUNT ("MON","XXX");
+-- CALL PROC_INSERT_ACCOUNT ("tttt","XXX");
 -- INSERT INTO `ACCOUNT` VALUES ("LONG", "DAS");
 -- SELECT * FROM `group` 
 -- System.currentTimeMillis()
+DELETE  FROM `ACCOUNT` WHERE PASSWORD = "XXX";
