@@ -10,12 +10,14 @@ var db = require("./database");
 
 io.on("connection", function (socket) {
 	console.log("One user connected" + socket.id);
-	socket.on("user",async function(user_name){
-		let check = await account.checkExistUserName(user_name);
-		console.log("have account -> ", check);
-	});
+	
+	// socket.on("user",async (user_name) => {
+	// 	let check = await account.checkExistUserName(user_name);
+	// 	console.log("have account -> ", check);
+	// });
+
 	socket.on("register", function (user_name, password) {
-		console.log(password);
+		//console.log(password);
 		account.registerAccount(user_name, password, function (err, rows) {
 			if (err) {
 				console.log(err);
@@ -23,17 +25,32 @@ io.on("connection", function (socket) {
 			}
 			else {
 				if (rows.affectedRows > 0) {
-					console.log("account created " + user_name);
-					socket.emit("result", true);
+					//console.log("account created " + user_name);
+					socket.emit("result", "register", true);
 				}
 				else {
-					socket.emit("result", false);
-					console.log("Nazz");
+					socket.emit("result", "register", false);
 				}
 			}
 		})
 	});
 
+	socket.on("login", function (user_name, password) {
+		account.login(user_name, password, function (err, rows) {
+			if (err) {
+				console.log(err);
+				throw err;
+			}
+			else {
+				if (rows.length > 0) {
+					socket.emit("result", "login", true);
+				}
+				else {
+					socket.emit("result", "login", false);
+				}
+			}
+		})
+	});
 	socket.on("disconnect", function () {
 		console.log("User disconnected " + socket.id);
 	})
