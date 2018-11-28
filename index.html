@@ -10,8 +10,17 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io("http://localhost:2409/");
+        
+        alert(socket.id);
+
+        socket.emit("joinRoom", "long");
+        for(let i = 1; i <= 10; i++)
+            socket.emit("messageFromClient", "long", i);
+        socket.on("messageFromSever", (message)=>{
+            document.getElementById("rec").innerHTML += "<p>" + message + "</p>";
+        });
         //socket.emit("user", "aaaaaa");
-        socket.emit("register", "aaaaaa","aba");
+        // socket.emit("register", "aaaaaa","aba");/p>
 
         socket.on("result", (event, result) => {
             if(result)
@@ -24,8 +33,7 @@
 
         socket.emit("login", "aaa","aba");
     </script>
-    <h1>sssdadasdasadsasadsdasa</h1>
-
+    <h1 id="rec"></h1>
 </body>
 
 </html>

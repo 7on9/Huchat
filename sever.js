@@ -9,16 +9,16 @@ var account = require("./account");
 var db = require("./database");
 
 io.on("connection", function (socket) {
-	console.log("One user connected" + socket.id);
-	
+	console.log("One user connected " + socket.id);
+
 	// socket.on("user",async (user_name) => {
 	// 	let check = await account.checkExistUserName(user_name);
 	// 	console.log("have account -> ", check);
 	// });
 
-	socket.on("register", function (user_name, password) {
+	socket.on("register", (user_name, password) => {
 		//console.log(password);
-		account.registerAccount(user_name, password, function (err, rows) {
+		account.registerAccount(user_name, password, (err, rows) => {
 			if (err) {
 				console.log(err);
 				throw err;
@@ -35,11 +35,10 @@ io.on("connection", function (socket) {
 		})
 	});
 
-	socket.on("login", function (user_name, password) {
-		account.login(user_name, password, function (err, rows) {
+	socket.on("login", (user_name, password) => {
+		account.login(user_name, password, (err, rows) => {
 			if (err) {
 				console.log(err);
-				throw err;
 			}
 			else {
 				if (rows.length > 0) {
@@ -51,7 +50,46 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
-	socket.on("disconnect", function () {
+
+	socket.on("logout", (user_name) => {
+		account.logout(user_name, (err, rows) => {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				if (rows.affectedRows > 0) {
+					//console.log("account created " + user_name);
+					socket.emit("result", "logout", true);
+				}
+				else {
+					socket.emit("result", "logout", false);
+				}
+			}
+		})
+	});
+
+	//chat
+	socket.on("joinRoom", (room) => {
+		//find room if exist
+		socket.join(room);
+	});
+
+	socket.on("leaveRoom", (room) => {
+		//remove from list room
+		socket.leave(room);
+	});
+
+	socket.on("clientGetHistoryChatRoom", (room) =>{
+		//do some fucking thing sever
+		socket.emit("severReturnHistoryChatRoom", /*some thing you do? */);
+	});
+
+	socket.on("messageFromClient", async (room, message)=>{
+		io.to(room).emit("messageFromSever", message);
+		//console.log(message);
+	});
+
+	socket.on("disconnect", () => {
 		console.log("User disconnected " + socket.id);
 	})
 });
@@ -60,7 +98,7 @@ app.get("/", function (req, res) {
 	res.sendFile(__dirname + "/index.html");
 });
 
-sever.listen(2409, function () {
+sever.listen(2409, () => {
 	console.log("Sever is online!");
 });
 //app.use("/", routes);
