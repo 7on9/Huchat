@@ -21,7 +21,7 @@ CREATE TABLE USERS(
 
 CREATE TABLE ROOMS(
     ID INT PRIMARY KEY AUTO_INCREMENT,
-    USER_NAME_OWNER VARCHAR(15) NOT NULL,
+    USER_NAME_OWNER VARCHAR(20) NOT NULL,
     PASSWORD VARCHAR(64),
     FOREIGN KEY (USER_NAME_OWNER) REFERENCES ACCOUNT(USER_NAME)  ON UPDATE CASCADE 
 )ENGINE = INNODB;
@@ -35,7 +35,7 @@ CREATE TABLE ROOM_MEMBER(
 
 CREATE TABLE INFO_ROOM(
     ID INT NOT NULL, 
-    NAME_ROOM NVARCHAR(50),
+    ROOM_NAME NVARCHAR(50),
     AVATAR_PATH VARCHAR(200),
     FOREIGN KEY (ID) REFERENCES ROOMS(ID)  ON UPDATE CASCADE 
 )ENGINE = INNODB;
@@ -171,7 +171,7 @@ BEGIN
         PHONE = N_PHONE,
         CREATE_AT = N_CREATE_AT,
         AVATAR_PATH = N_AVATAR_PATH
-    WHERE USERS_NAME = N_USER_NAME;
+    WHERE USER_NAME = N_USER_NAME;
 END; $$
 DELIMITER ;
 
@@ -185,6 +185,20 @@ BEGIN
 END; $$
 DELIMITER ;
 -- -------------------------------INFO_USERS----------------------------------------
+
+-- -------------------------------ROOM----------------------------------------
+DELIMITER $$
+CREATE PROCEDURE PROC_CREATE_ROOM(
+    IN N_USER_NAME VARCHAR(20),
+    IN N_PASSWORD VARCHAR(64),
+    IN N_ROOM_NAME NVARCHAR(50))
+BEGIN
+    INSERT INTO ROOMS(USER_NAME_OWNER, PASSWORD) VALUES(N_USER_NAME, PASSWORD);
+    INSERT INTO INFO_ROOM(ID, ROOM_NAME) VALUES((SELECT ID FROM `ROOMS` ORDER BY id DESC limit 1), N_ROOM_NAME);
+END; $$
+DELIMITER ;
+-- -------------------------------ROOM----------------------------------------
+
 -- --------------------------------TRIGGER------------------------------------------
 -- INSERT
 --
@@ -192,7 +206,11 @@ DELIMITER ;
 -- ---------------------------------TRIGGER-----------------------------------------
 -- CALL PROC_DELETE_ACCOUNT("tttt");
 -- CALL PROC_CHANGE_PASSWORD_ACCOUNT ("MON", "YEYEYE");
- CALL PROC_INSERT_ACCOUNT ("tttt","XXX");
+CALL PROC_INSERT_ACCOUNT ("tttt","XXX");
+CALL PROC_INSERT_ACCOUNT ("admin","a");
+CALL PROC_INSERT_ACCOUNT ("test","a");
+CALL PROC_UPDATE_INFO_USER("tttt", "Nguyễn Thành Long", 1111111, true, "a@gmail.com", "00000111", 1111111, "//aaa///");
+CALL PROC_CREATE_ROOM("TTTT", "","LoL");
 -- SELECT * FROM `group` 
 -- System.currentTimeMillis()
 DELETE  FROM `ACCOUNT` WHERE PASSWORD = "XXX";
