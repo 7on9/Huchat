@@ -1,18 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@mipmap/labelhuchat"
+        android:layout_margin="20dp"/>
+
+    <EditText
+        android:id="@+id/txtLoginUserName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:background="@drawable/shape_text_edit"
+        android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+        android:drawablePadding="10dp"
+        android:hint="Tên đăng nhập"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textColorHighlight="@color/white"/>
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/txtLoginPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:maxLength="32"
+        android:maxLines="1"
+        android:background="@drawable/shape_text_edit"
+        android:drawableLeft="@drawable/ic_lock_black_24dp"
+        android:drawablePadding="10dp"
+        android:hint="Mật khẩu"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textColorHighlight="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/btnRememberPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhớ mật khẩu"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/white"
+            android:buttonTint="@color/white"
+            android:checked="true"/>
+        <TextView
+            android:id="@+id/btnForgetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_lock_open_black_24dp"
+            android:drawablePadding="6dp"
+            android:padding="4dp"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:shadowColor="@android:color/transparent"
+        android:padding="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/shape_button_login" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng ký"
+        android:shadowColor="@android:color/transparent"
+        android:padding="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/shape_button_signup"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>

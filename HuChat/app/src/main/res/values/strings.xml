@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HuChat</string>
+    <string name="input_placeholder">Nhập tin nhắn</string>
+    <string name="title_profile">Cá nhân</string>
+    <string name="title_friend">Bạn bè</string>
+    <string name="title_message">Tin nhắn</string>
 </resources>
