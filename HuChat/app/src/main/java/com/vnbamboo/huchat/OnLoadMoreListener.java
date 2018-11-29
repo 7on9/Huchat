@@ -1,4 +1,4 @@
-package com.example.nguyenlong.cmn;
+package com.vnbamboo.huchat;
 
 public interface OnLoadMoreListener {
     void onLoadMore();

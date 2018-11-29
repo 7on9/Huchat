@@ -1,5 +1,10 @@
 package com.vnbamboo.huchat;
 
+import com.vnbamboo.huchat.fragment.FriendFragment;
+import com.vnbamboo.huchat.fragment.MessageFragment;
+import com.vnbamboo.huchat.fragment.ProfileFragment;
+import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,10 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.vnbamboo.huchat.fragment.FriendFragment;
-import com.vnbamboo.huchat.fragment.MessageFragment;
-import com.vnbamboo.huchat.fragment.ProfileFragment;
-import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,14 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        // load the store fragment by default
-        loadFragment(new MessageFragment());
-
 
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
+        // load the store fragment by default
+        loadFragment(new MessageFragment());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

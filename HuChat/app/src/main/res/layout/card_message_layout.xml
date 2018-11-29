@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/line">
+
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:background="@drawable/circle"
-        android:src="@mipmap/roundLogoHuchat"
+        android:src="@mipmap/roundiconhuchat"
         android:layout_margin="10dp"/>
 
     <LinearLayout
@@ -15,13 +17,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/txtCardName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:padding="10dp"
-            android:TextSize="30dp"
             android:layout_weight="1"/>
 
         <LinearLayout
@@ -30,12 +32,14 @@
             android:layout_weight="1"
             android:padding="10dp">
             <TextView
+                android:id="@+id/txtLastMessage"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="LastestMessage"/>
             <TextView
-                android:layout_weight=""
+                android:id="@+id/txtTimeLastMessage"
+                android:layout_weight="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="last time"/>

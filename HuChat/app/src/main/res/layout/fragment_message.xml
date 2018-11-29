@@ -3,12 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.MessageFragment">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="My Gifts"
-        android:gravity="center"
-        android:textSize="22dp" />
+        android:orientation="vertical">
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </SearchView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rclViewCardMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 </FrameLayout>
