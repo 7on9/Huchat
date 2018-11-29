@@ -1,118 +1,74 @@
 package com.vnbamboo.huchat;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.MenuItem;
+
+import com.vnbamboo.huchat.fragment.FriendFragment;
+import com.vnbamboo.huchat.fragment.MessageFragment;
+import com.vnbamboo.huchat.fragment.ProfileFragment;
+import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    @Override
+    public void onBackPressed() {
 
-    private ViewPager mViewPager;
-
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // load the store fragment by default
+        loadFragment(new MessageFragment());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
+
     }
 
-    public static class PlaceholderFragment extends Fragment {
-
-        private static final String KEY_COLOR = "key_color";
-
-        public PlaceholderFragment() {
-        }
-
-        // Method static dạng singleton, cho phép tạo fragment mới, lấy tham số đầu vào để cài đặt màu sắc.
-        public static PlaceholderFragment newInstance(int color) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(KEY_COLOR, color);
-            fragment.setArguments(args);
-            return fragment;
-        }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.rl_fragment);
-
-            /**
-             * Số 1: Màu xanh.
-             * Số 2: Màu đỏ.
-             * Số 3: Màu vàng.
-             */
-            switch (getArguments().getInt(KEY_COLOR)) {
-                case 1:
-                    relativeLayout.setBackgroundColor(Color.GREEN);
-                    break;
-                case 2:
-                    relativeLayout.setBackgroundColor(Color.RED);
-                    break;
-                case 3:
-                    relativeLayout.setBackgroundColor(Color.YELLOW);
-                    break;
-                default:
-                    relativeLayout.setBackgroundColor(Color.GREEN);
-                    break;
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.navigation_gifts:
+                    fragment = new MessageFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.navigation_cart:
+                    fragment = new FriendFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.navigation_profile:
+                    fragment = new ProfileFragment();
+                    loadFragment(fragment);
+                    return true;
             }
 
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Kteam");
-            return rootView;
+            return false;
         }
+    };
+
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // position + 1 vì position bắt đầu từ số 0.
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
-        }
-    }
 }

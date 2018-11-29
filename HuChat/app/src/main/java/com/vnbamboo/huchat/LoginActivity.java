@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
 
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -25,10 +26,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        Button btnRegister = findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                startChatActivity();
+            }
+        });
+
     }
 
     public void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void startChatActivity(){
+        Intent intent = new Intent(this, ChatActivity.class);
         this.startActivity(intent);
     }
 
