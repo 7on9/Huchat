@@ -1,6 +1,7 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.RecyclerViewAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 
+import com.vnbamboo.huchat.ChatActivity;
+import com.vnbamboo.huchat.OnLoadMoreListener;
+import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.User;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 
 import java.util.ArrayList;
@@ -113,6 +118,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    startChatActivity((String) userName.getText());
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
@@ -143,5 +149,9 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
         this.onItemClickedListener = onItemClickedListener;
     }
-
+    public void startChatActivity(String userName){
+        Intent intent = new Intent(mContext.getActivity(), ChatActivity.class);
+        intent.putExtra("UserName", userName);
+        mContext.startActivity(intent);
+    }
 }

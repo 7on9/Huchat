@@ -65,7 +65,7 @@
             android:buttonTint="@color/white"
             android:checked="true"/>
         <TextView
-            android:id="@+id/btnForgetPassword"
+            android:id="@+id/btnForgot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Quên mật khẩu"

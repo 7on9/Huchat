@@ -1,19 +1,16 @@
 package com.vnbamboo.huchat.fragment;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.vnbamboo.huchat.MessageRecyclerViewAdapter;
+import com.vnbamboo.huchat.RecyclerViewAdapter.MessageRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.User;
@@ -60,13 +57,13 @@ public class MessageFragment extends Fragment {
     }
 
     public void bounData(){
-        tempUser = new User("CR7", "Rô", "6996", "Bồ@gmail.com", "Xào rau muống");
+        tempUser = new User("Rem", "Rem", "6996", "Bồ@gmail.com", "Xào rau muống");
         listTempData.add(tempUser);
-        tempUser = new User("M10", "Si", "9699", "Arg","Luộc trứng");
+        tempUser = new User("Ram", "Ram", "9699", "Arg","Luộc trứng");
         listTempData.add(tempUser);
-        tempUser = new User("N10", "Ney", "9669966", "Bra","Trứng vịt lộn");
+        tempUser = new User("Songoku", "Goku", "9669966", "Bra","Trứng vịt lộn");
         listTempData.add(tempUser);
-        tempUser = new User("spc", "Mou", "000010", "MU","Đậu chiên");
+        tempUser = new User("Luffy", "Monkey D Luffy", "000010", "MU","Đậu chiên");
 
         listTempData.add(tempUser);
         listTempData.add(null);
@@ -94,7 +91,7 @@ public class MessageFragment extends Fragment {
                         }
                     },1000);
                 }else{
-                    Toast.makeText(getContext(), "Load data completed !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Đã tải hết các liên hệ gần đây!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
