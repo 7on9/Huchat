@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MessageFragment">
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/btnCreateNewMessage"
         android:backgroundTint="@color/signupColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,6 @@
             android:contextClickable="true"
             android:layout_margin="10dp"
             >
-
         </android.support.v7.widget.SearchView>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rclViewCardMessage"

@@ -1,7 +1,9 @@
 package com.vnbamboo.huchat.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.vnbamboo.huchat.ChatActivity;
+import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.RecyclerViewAdapter.MessageRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
@@ -50,6 +54,16 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
+        FloatingActionButton btnCreateNewMessage = (FloatingActionButton) v.findViewById(R.id.btnCreateNewMessage);
+
+        btnCreateNewMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                startLoginActivity("s");
+             }
+        });
+
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         bounData();
@@ -103,5 +117,11 @@ public class MessageFragment extends Fragment {
             tempUser = new User((User) listTempData.get(x));
             listData.add(tempUser);
         }
+    }
+
+    public void startLoginActivity(String userName){
+        Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+        intent.putExtra("UserName", userName);
+        this.startActivity(intent);
     }
 }
