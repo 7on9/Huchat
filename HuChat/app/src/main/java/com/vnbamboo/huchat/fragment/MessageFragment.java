@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vnbamboo.huchat.ChatActivity;
+import com.vnbamboo.huchat.CreateNewMessageActivity;
 import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.RecyclerViewAdapter.MessageRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
@@ -59,11 +60,9 @@ public class MessageFragment extends Fragment {
         btnCreateNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                startLoginActivity("s");
+                startCreateNewMessageActivity("s");
              }
         });
-
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         bounData();
@@ -119,8 +118,8 @@ public class MessageFragment extends Fragment {
         }
     }
 
-    public void startLoginActivity(String userName){
-        Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+    public void startCreateNewMessageActivity(String userName){
+        Intent intent = new Intent(this.getActivity(), CreateNewMessageActivity.class);
         intent.putExtra("UserName", userName);
         this.startActivity(intent);
     }

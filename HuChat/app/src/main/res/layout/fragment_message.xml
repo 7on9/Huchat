@@ -1,6 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
     tools:context=".fragment.MessageFragment">
     <android.support.design.widget.FloatingActionButton
@@ -17,15 +19,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/searchBar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/grayColor"
-            android:contextClickable="true"
-            android:layout_margin="10dp"
-            >
-        </android.support.v7.widget.SearchView>
+            android:text="Tin nhắn gần đây"
+            android:textStyle="bold"
+            android:textSize="30dp"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rclViewCardMessage"
             android:layout_width="match_parent"
