@@ -5,6 +5,8 @@ import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.fragment.ProfileFragment;
 import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;

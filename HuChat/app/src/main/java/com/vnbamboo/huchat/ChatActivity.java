@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.vnbamboo.huchat.RecyclerViewAdapter.ChatMessage;
+import com.vnbamboo.huchat.object.ChatMessage;
 import com.vnbamboo.huchat.RecyclerViewAdapter.ChatMessageListViewAdapter;
 
 public class ChatActivity extends AppCompatActivity{

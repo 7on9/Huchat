@@ -2,76 +2,91 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipToPadding="false">
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/grayColor"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="20dp"
+                android:layout_margin="10dp"
+                android:layout_height="20dp"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/back_arrow"/>
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="left|center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tin nhắn mới"
+                android:textColor="#232628"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:fontFamily="@font/notosan_regular"
+                android:paddingRight="10dp"
+                android:paddingLeft="45dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tin nhắn mới"
-            android:textColor="#1f1127"
-            android:textStyle="bold"
-            android:textSize="20dp"/>
-        <TextView
-            android:layout_marginLeft="20dp"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textSize="30dp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:padding="10dp"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Tới :"
+                android:fontFamily="@font/notosan_regular"
+                android:background="@color/grayColor"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                />
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingLeft="30dp"
+                android:background="@color/grayColor"
+                android:hint="Nhập tên người dùng"
+                android:maxLines="1"
+                android:lines="1"
+                android:singleLine="true"
+                android:maxLength="32"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Gửi đến :"
-            android:textStyle="bold"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <AutoCompleteTextView
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:hint="Nhập tên người dùng"
-                android:layout_height="40dp"
-            />
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:drawableLeft="@drawable/ic_group_add_black_24dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@android:color/transparent"
-            android:text="Bắt đầu một cuộc trò chuyện nhóm"
-            android:textAllCaps="false"/>
+
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:drawableLeft="@drawable/ic_group_add_black_24dp"-->
+            <!--android:background="@color/grayColor"-->
+            <!--android:text="Bắt đầu một cuộc trò chuyện nhóm"-->
+            <!--android:textColor="@color/blackTextColor"-->
+            <!--android:textAllCaps="false"/>-->
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
         </android.support.v7.widget.RecyclerView>
 

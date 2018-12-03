@@ -7,7 +7,7 @@
     tools:context=".fragment.MessageFragment">
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCreateNewMessage"
-        android:backgroundTint="@color/signupColor"
+        android:backgroundTint="@color/greenMenuBarColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -17,21 +17,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:clipToPadding="false">
         <TextView
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:text="Tin nhắn gần đây"
+            android:textColor="@color/blackTextColor"
             android:textStyle="bold"
-            android:textSize="30dp"/>
+            android:textSize="18dp"
+            android:fontFamily="@font/notosan_regular"
+            android:background="@color/grayColor"
+            android:elevation="2dp"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rclViewCardMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:divider="@color/blackTextColor"
+            android:dividerHeight="2dp">
 
         </android.support.v7.widget.RecyclerView>
 

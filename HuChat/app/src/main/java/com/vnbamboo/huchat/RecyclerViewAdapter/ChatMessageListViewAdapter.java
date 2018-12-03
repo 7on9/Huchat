@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.object.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ import java.util.List;
 public class ChatMessageListViewAdapter extends BaseAdapter{
 
     private List<ChatMessage> listData = new ArrayList<ChatMessage>();
-    private LayoutInflater layoutInflater;
     private Context context;
+    private LayoutInflater layoutInflater;
 
     public ChatMessageListViewAdapter(Context aContext) {
         this.context = aContext;
@@ -49,18 +49,18 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
     public View getView( int position, View convertView, ViewGroup parent ) {
         ChatMessage chatMessage = listData.get(position);
         MessageViewHolder messageListViewHolder = new MessageViewHolder();
-        if (chatMessage.from == "") {
+        if (chatMessage.getFrom() == "") {
             convertView = layoutInflater.inflate(R.layout.my_message, null);
             messageListViewHolder.message = (TextView) convertView.findViewById(R.id.txtMyMessage);
             convertView.setTag(messageListViewHolder);
-            messageListViewHolder.message.setText(chatMessage.value);
+            messageListViewHolder.message.setText(chatMessage.getValue());
         } else {
             convertView = layoutInflater.inflate(R.layout.their_message, null);
             messageListViewHolder.message = (TextView) convertView.findViewById(R.id.txtTheirMessage);
             messageListViewHolder.user = (TextView) convertView.findViewById(R.id.txtTheirName);
 
-            messageListViewHolder.message.setText(chatMessage.value);
-            messageListViewHolder.user.setText(chatMessage.from);
+            messageListViewHolder.message.setText(chatMessage.getValue());
+            messageListViewHolder.user.setText(chatMessage.getFrom());
             convertView.setTag(messageListViewHolder);
 
         }

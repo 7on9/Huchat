@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/signupColor"
+        app:itemBackground="@color/greenMenuBarColor"
         android:foreground="?attr/selectableItemBackground"
         app:itemIconTint="@color/white"
         app:itemTextColor="@android:color/white"
