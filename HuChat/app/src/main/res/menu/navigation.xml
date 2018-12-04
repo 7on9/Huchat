@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_cart"
         android:icon="@drawable/ic_people_black_24dp"
-        android:title="@string/title_friend" />
+        android:title="@string/title_group" />
 
     <item
         android:id="@+id/navigation_profile"

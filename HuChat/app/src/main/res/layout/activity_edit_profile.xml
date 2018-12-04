@@ -1,10 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background_2">
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/grayColor"
+    android:clipToPadding="false">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/lightestGreenColor"
+        android:elevation="@dimen/mediumlv1High">
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center|left"
+        android:layout_gravity="center|left"
+        android:background="@drawable/back_arrow"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/lightestGreenColor"
+        android:elevation="@dimen/mediumlv1High"
+        android:clipToPadding="false"
+        android:layout_weight="3">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/squareiconhuchat"
+            app:civ_border_overlay="true"
+            app:civ_border_width="@dimen/lowestHigh"
+            app:civ_border_color="@color/grayColor"
+            android:elevation="@dimen/mediumlv1High"
+            android:clickable="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nguyễn Thành Long"
+            android:fontFamily="@font/roboto_bold"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_weight="2"
+        android:background="@color/grayColor"
+        android:orientation="vertical">
+
+        <Button
+            android:paddingRight="10dp"
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:background="@color/white"
+            android:clickable="true"
+            android:drawableRight="@mipmap/left_arrows"
+            android:text="Android Profile UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+
+        <Button
+            android:textAllCaps="false"
+            android:paddingRight="10dp"
+            android:drawableRight="@mipmap/left_arrows"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:layout_marginTop="@dimen/singleLine"
+            android:layout_marginBottom="15dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:elevation="@dimen/lowestHigh"
+            android:text="Android Profile XMl UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+        <Button
+            android:textAllCaps="false"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:background="@color/white"
+            android:clickable="true"
+            android:drawableRight="@mipmap/left_arrows"
+            android:text="Android Profile UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+
+        <Button
+            android:textAllCaps="false"
+            android:paddingRight="10dp"
+            android:drawableRight="@mipmap/left_arrows"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:layout_marginTop="@dimen/singleLine"
+            android:layout_marginBottom="15dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:elevation="@dimen/lowestHigh"
+            android:text="Android Profile XMl UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+
+        <Button
+            android:textAllCaps="false"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:background="@color/white"
+            android:clickable="true"
+            android:drawableRight="@mipmap/left_arrows"
+            android:text="Android Profile UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+
+        <Button
+            android:textAllCaps="false"
+            android:paddingRight="10dp"
+            android:drawableRight="@mipmap/left_arrows"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHigh"
+            android:layout_marginTop="@dimen/singleLine"
+            android:layout_marginBottom="15dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:elevation="@dimen/lowestHigh"
+            android:text="Android Profile XMl UI Design"
+            android:textColor="@color/blackTextColor"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center|left"/>
+    </LinearLayout>
+    <Button
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lineHigh"
+        android:background="@color/red"
+        android:clickable="true"
+        android:elevation="@dimen/lowestHigh"
+        android:text="Xóa tài khoản"
+        android:textColor="@color/blackTextColor"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"/>
 </LinearLayout>

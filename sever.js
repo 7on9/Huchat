@@ -7,6 +7,7 @@ var io = require("socket.io").listen(sever);
 var user = require("./user");
 var account = require("./account");
 var db = require("./database");
+var mail = require("./mail");
 
 io.on("connection", function (socket) {
 	console.log("One user connected " + socket.id);
@@ -16,6 +17,10 @@ io.on("connection", function (socket) {
 	// 	console.log("have account -> ", check);
 	// });
 
+	socket.on("recoveryPassword", (user_name, email) =>{
+		mail.sendMail(u)
+	});
+	mail.sendMail("tamdaulong207@gmail.com");
 	socket.on("register", (user_name, password) => {
 		//console.log(password);
 		account.registerAccount(user_name, password, (err, rows) => {

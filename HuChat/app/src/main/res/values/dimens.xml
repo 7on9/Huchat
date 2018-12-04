@@ -2,4 +2,11 @@
 <resources>
     <dimen name="textNormal">20dp</dimen>
     <dimen name="textTitle">18dp</dimen>
+    <dimen name="lowestHigh">2dp</dimen>
+    <dimen name="mediumlv0High">4dp</dimen>
+    <dimen name="mediumlv1High">6dp</dimen>
+    <dimen name="mediumlv2High">8dp</dimen>
+    <dimen name="highestHigh">12dp</dimen>
+    <dimen name="singleLine">2px</dimen>
+    <dimen name="lineHigh">40dp</dimen>
 </resources>
