@@ -12,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.vnbamboo.huchat.ChatActivity;
-import com.vnbamboo.huchat.CreateNewMessageActivity;
-import com.vnbamboo.huchat.LoginActivity;
-import com.vnbamboo.huchat.RecyclerViewAdapter.MessageRecyclerViewAdapter;
+import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.ViewAdapter.MessageRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.User;
+import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +54,10 @@ public class MessageFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_message, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
         FloatingActionButton btnCreateNewMessage = (FloatingActionButton) v.findViewById(R.id.btnCreateNewMessage);
-
         btnCreateNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                startCreateNewMessageActivity("s");
+                Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
              }
         });
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -70,13 +67,13 @@ public class MessageFragment extends Fragment {
     }
 
     public void bounData(){
-        tempUser = new User("Rem", "Rem", "6996", "Bồ@gmail.com", "Xào rau muống");
+        tempUser = new User("Rem", "Rem", "6996", "Bồ@gmail.com", "Xào rau muống", (long) 12344,true);
         listTempData.add(tempUser);
-        tempUser = new User("Ram", "Ram", "9699", "Arg","Luộc trứng");
+        tempUser = new User("Ram", "Ram", "9699", "Arg","Luộc trứng", (long) 12344,true);
         listTempData.add(tempUser);
-        tempUser = new User("Songoku", "Goku", "9669966", "Bra","Trứng vịt lộn");
+        tempUser = new User("Songoku", "Goku", "9669966", "Bra","Trứng vịt lộn", (long) 12344,true);
         listTempData.add(tempUser);
-        tempUser = new User("Luffy", "Monkey D Luffy", "000010", "MU","Đậu chiên");
+        tempUser = new User("Luffy", "Monkey D Luffy", "000010", "MU","Đậu chiên", (long) 12344,true);
 
         listTempData.add(tempUser);
         listTempData.add(null);
@@ -116,11 +113,5 @@ public class MessageFragment extends Fragment {
             tempUser = new User((User) listTempData.get(x));
             listData.add(tempUser);
         }
-    }
-
-    public void startCreateNewMessageActivity(String userName){
-        Intent intent = new Intent(this.getActivity(), CreateNewMessageActivity.class);
-        intent.putExtra("UserName", userName);
-        this.startActivity(intent);
     }
 }

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.object.ChatMessage;
-import com.vnbamboo.huchat.RecyclerViewAdapter.ChatMessageListViewAdapter;
+import com.vnbamboo.huchat.ViewAdapter.ChatMessageListViewAdapter;
 
 public class ChatActivity extends AppCompatActivity{
     @Override

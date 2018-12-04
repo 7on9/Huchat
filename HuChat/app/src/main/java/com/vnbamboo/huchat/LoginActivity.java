@@ -1,7 +1,6 @@
 package com.vnbamboo.huchat;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
+
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                startChatActivity();
+                startProfileActivity();
             }
         });
 
@@ -48,10 +48,15 @@ public class LoginActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    public void startProfileActivity(){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+            finishAndRemoveTask();
             return;
         }
 
@@ -62,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

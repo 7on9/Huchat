@@ -1,6 +1,5 @@
-package com.vnbamboo.huchat.RecyclerViewAdapter;
+package com.vnbamboo.huchat.ViewAdapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +14,9 @@ import android.widget.LinearLayout;
 import com.vnbamboo.huchat.ChatActivity;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.User;
+import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.fragment.MessageFragment;
+import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +54,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         });
     }
 
+
     @Override
     public int getItemViewType(int position) {
         if (data.get(position) == null)
@@ -84,7 +85,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (holder instanceof CardMessageViewHolder) {
             CardMessageViewHolder temp = (CardMessageViewHolder) holder;
             User user = (User) data.get(position);
-            temp.bindData(user.getName(), user.getPhoneNumber());
+            temp.bindData(user.getFullName(), user.getPhone());
         } else {
             LoadingViewHolder temp = (LoadingViewHolder) holder;
             temp.progressBar.setIndeterminate(true);
@@ -118,7 +119,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startChatActivity((String) userName.getText());
+                    Utility.startChatActivity(v.getContext(),(String) userName.getText());
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
@@ -149,9 +150,5 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
         this.onItemClickedListener = onItemClickedListener;
     }
-    public void startChatActivity(String userName){
-        Intent intent = new Intent(mContext.getActivity(), ChatActivity.class);
-        intent.putExtra("UserName", userName);
-        mContext.startActivity(intent);
-    }
+
 }

@@ -1,6 +1,8 @@
 package com.vnbamboo.huchat.object;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String userName;
     private String fullName;
     private String email;
@@ -21,6 +23,15 @@ public class User {
         this.avatarPath = a.avatarPath;
         this.dob = a.dob;
         this.gender = a.gender;
+    }
+    public User(String userName, String fullName, String email, String phone, String avatarPath, Long dob, Boolean gender){
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.avatarPath = avatarPath;
+        this.dob = dob;
+        this.gender = gender;
     }
     public void setUserName( String userName ) {
         this.userName = userName;

@@ -24,6 +24,7 @@
         android:maxLength="20"
         android:maxLines="1"
         android:lines="1"
+        android:singleLine="true"
         android:background="@drawable/shape_text_edit"
         android:drawableLeft="@drawable/ic_account_circle_black_24dp"
         android:drawablePadding="10dp"
@@ -41,6 +42,7 @@
         android:maxLength="32"
         android:maxLines="1"
         android:lines="1"
+        android:singleLine="true"
         android:background="@drawable/shape_text_edit"
         android:drawableLeft="@drawable/ic_lock_black_24dp"
         android:drawablePadding="10dp"
@@ -111,5 +113,12 @@
         android:background="@drawable/shape_button_signup"
         android:textColor="@color/blueColor"/>
 
-
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:text="Googflow®"
+        android:textColor="@color/grayColor" />
 </LinearLayout>

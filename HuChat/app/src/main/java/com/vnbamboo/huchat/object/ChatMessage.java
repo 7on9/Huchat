@@ -1,40 +1,51 @@
 package com.vnbamboo.huchat.object;
 
 public class ChatMessage{
-    private String from;
-    private String value;
-    private String time;
+    private String fromUser;
+    private String content;
+    private long time;
+    private String toUser;
     ChatMessage()
     {
-        from = "";
-        value = "";
+        fromUser = "";
+        content = "";
+        toUser = "";
+        time = 0;
     }
-    public ChatMessage( String from, String value ){
-        this.from = from;
-        this.value = value;
-    }
-
-    public String getFrom() {
-        return from;
+    public ChatMessage( String fromUser, String content ){
+        this.fromUser = fromUser;
+        this.content = content;
     }
 
-    public String getTime() {
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public long getTime() {
         return time;
     }
 
-    public String getValue() {
-        return value;
+    public String getContent() {
+        return content;
     }
 
-    public void setFrom( String from ) {
-        this.from = from;
+    public void setToUser( String toUser ) {
+        this.toUser = toUser;
     }
 
-    public void setTime( String time ) {
+    public void setFromUser( String fromUser ) {
+        this.fromUser = fromUser;
+    }
+
+    public void setContent( String content ) {
+        this.content = content;
+    }
+
+    public void setTime( long time ) {
         this.time = time;
-    }
-
-    public void setValue( String value ) {
-        this.value = value;
     }
 }

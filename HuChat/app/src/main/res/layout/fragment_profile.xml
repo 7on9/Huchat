@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.ProfileFragment">
+    tools:context=".fragment.ProfileFragment"
+    android:clipToPadding="false">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,8 +12,7 @@
         android:gravity="center"
         android:background="@color/grayColor"
         android:paddingBottom="20dp"
-        android:layout_marginBottom="50dp"
-        >
+        android:layout_marginBottom="50dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="150dp"
@@ -21,6 +21,7 @@
             android:layout_weight="1"
             app:civ_border_width="2dp"
             app:civ_border_color="#ffffff"
+            android:elevation="4dp"
             />
         <TextView
             android:layout_width="match_parent"

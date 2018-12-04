@@ -16,8 +16,8 @@
         android:drawableLeft="@drawable/ic_search_black_24dp"
         android:drawablePadding="10dp"
         android:maxLines="1"
+        android:singleLine="true"
         android:maxLength="32"
-
         android:hint="Tên tài khoản/Số điện thoại/Email"/>
     <ListView
         android:layout_width="match_parent"

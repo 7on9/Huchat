@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat.RecyclerViewAdapter;
+package com.vnbamboo.huchat.ViewAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

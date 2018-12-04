@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.object.User;
 
 public class ProfileFragment extends Fragment {
 
@@ -38,13 +40,18 @@ public class ProfileFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                startLoginActivity();
+                Utility.startLoginActivity(v.getContext());
             }
         });
+        final User user = new User();
+        Button btnEditProfile = (Button) v.findViewById(R.id.btnEditProfile);
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Utility.startEditProfileActivity(v.getContext(), user);
+            }
+        });
+
         return v;
-    }
-    public void startLoginActivity(){
-        Intent intent = new Intent(this.getContext(), LoginActivity.class);
-        this.startActivity(intent);
     }
 }
