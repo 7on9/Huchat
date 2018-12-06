@@ -5,6 +5,7 @@ import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.fragment.ProfileFragment;
 import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,4 +77,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(MainActivity.this, ServiceConnection.class);
+        this.stopService(intent);
+        super.onDestroy();
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,7 +19,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+
+        Log.d("xxxxxx", String.valueOf(Utility.getLocalHost()));
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
+
+        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+        this.startService(intent);
 
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -32,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                startProfileActivity();
+                startRegisterActivity();
             }
         });
 
@@ -43,12 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void startChatActivity(){
-        Intent intent = new Intent(this, ChatActivity.class);
-        this.startActivity(intent);
-    }
-
-    public void startProfileActivity(){
+    public void startRegisterActivity(){
         Intent intent = new Intent(this, RegisterActivity.class);
         this.startActivity(intent);
     }
@@ -70,5 +71,12 @@ public class LoginActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+        this.stopService(intent);
+        super.onDestroy();
     }
 }
