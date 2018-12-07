@@ -13,6 +13,7 @@ import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE;
 public class ServiceConnection extends Service {
 
     public static Socket mSocket;
+    public static Boolean isConnected = false;
     public static Emitter.Listener onNewImage;
 
     public ServiceConnection() {
@@ -34,6 +35,8 @@ public class ServiceConnection extends Service {
 
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
+        if(isConnected) return START_STICKY;
+        isConnected = true;
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
@@ -48,7 +51,6 @@ public class ServiceConnection extends Service {
 
             }
         };
-
         mSocket.connect();
         mSocket.on(SERVER_SEND_IMAGE, onNewImage);
         return START_STICKY;
@@ -56,6 +58,7 @@ public class ServiceConnection extends Service {
 
     @Override
     public void onDestroy() {
+        isConnected = false;
         mSocket.disconnect();
         super.onDestroy();
     }

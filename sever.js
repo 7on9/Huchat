@@ -79,6 +79,7 @@ io.on("connection", function (socket) {
 			else {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true);
+					socket.id = rows[0].USER_NAME;
 				}
 				else {
 					socket.emit("result", "login", false);

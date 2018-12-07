@@ -19,11 +19,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-
-        Log.d("xxxxxx", String.valueOf(Utility.getLocalHost()));
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+        if(!ServiceConnection.isConnected)
+            this.stopService(intent);
         this.startService(intent);
 
         Button btnLogin = findViewById(R.id.btnLogin);
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            finishAndRemoveTask();
+            finishAffinity();
             return;
         }
 

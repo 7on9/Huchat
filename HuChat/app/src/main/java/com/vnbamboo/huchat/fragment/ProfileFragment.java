@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.ServiceConnection;
 import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.object.User;
 

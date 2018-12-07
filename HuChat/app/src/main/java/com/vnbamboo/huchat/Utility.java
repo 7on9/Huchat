@@ -3,9 +3,7 @@ package com.vnbamboo.huchat;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-
 import com.vnbamboo.huchat.object.User;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,14 +11,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class Utility {
 
     public static final String SERVER_SEND_IMAGE = "severSendImage";
     public static final String CLIENT_SEND_IMAGE = "clientSendImage";
-
+    public static final String REGISTER = "register";
+    public static final String LOGIN = "login";
+    public static final String LOGOUT = "register";
+    public static final String JOINROOM = "register";
+    public static final String LEAVEROOM = "register";
+    public static final String CLIENT_GET_HISTORY_CHAT_ROOM = "clientGetHistoryChatRoom";
+    public static final String SEVER_RETURN_HISTORY_CHAT_ROOM = "severReturnHistoryChatRoom";
+    public static final String MESSAGE_FROM_CLIENT = "messageFromClient";
+    public static final String MESSAGE_FROM_SEVER = "messageFromSever";
     public static final byte REQUEST_TAKE_PHOTO = 24;
     public static final byte REQUEST_CHOOSE_PHOTO = 9;
 
