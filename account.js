@@ -11,10 +11,30 @@ var getUsername = (user_name) => {
     })
 };
 
+var getEmail = (email) => {
+    return new Promise(function (resolve, reject) {
+        db.query("SELECT MAIL FROM USERS WHERE MAIL LIKE ?", [email], function (err, rows) {
+            if (err) {
+                reject(() => console.log(err + ""));
+            }
+            resolve(rows);
+        });
+    })
+};
+
 var account = {
     checkExistUserName: async (user_name) => {
         try {
             let result = await getUsername(user_name);
+            return (result.length > 0) ? true : false;
+        } catch (ex) {
+            console.log(ex);
+            return false;
+        }
+    },
+    checkExistEmail: async (email) => {
+        try {
+            let result = await getEmail(email);
             return (result.length > 0) ? true : false;
         } catch (ex) {
             console.log(ex);
@@ -27,13 +47,8 @@ var account = {
     logout: function (user_name, callback) {
         return db.query("CALL PROC_LOGOUT_EVENT(?)", [user_name], callback);
     },
-    registerAccount: async function (user_name, password, callback) {
-        let result = await getUsername(user_name);
-        if (result.length > 0) {
-            return db.query("SELECT -1", callback);
-        } else {
-            return db.query("CALL PROC_INSERT_ACCOUNT(?, ?);", [user_name, password], callback);
-        }
+    registerAccount: async function (user_name, password, email, callback) {
+        return db.query("CALL PROC_INSERT_ACCOUNT(?, ?, ?);", [user_name, password, email], callback);
     },
     updateAccountPass: async (user_name, password, callback) => {
         try {

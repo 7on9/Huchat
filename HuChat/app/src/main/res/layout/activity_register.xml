@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         />
     <EditText
-        android:id="@+id/txtLoginUserName"
+        android:id="@+id/txtUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -33,7 +33,7 @@
         android:textColorHighlight="@color/white"/>
 
     <EditText
-        android:id="@+id/txtLoginPassword"
+        android:id="@+id/txtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -71,7 +71,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/shape_text_edit"
         android:hint="Email"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:lines="1"
         android:maxLength="32"
         android:maxLines="1"
@@ -81,7 +81,7 @@
         android:textColorHighlight="@color/white"
         android:textColorHint="@color/white" />
     <CheckBox
-        android:id="@+id/btnRememberPass"
+        android:id="@+id/btnAcceptPrivacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tôi đồng ý với các điều khoản sử dụng"
@@ -111,10 +111,10 @@
             android:textColor="@color/blueColor"
             android:background="@drawable/shape_button_login" />
         <Button
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/btnRegister"
             android:text="Đăng ký"
             android:shadowColor="@android:color/transparent"
             android:padding="15dp"

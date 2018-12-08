@@ -6,8 +6,6 @@ import com.vnbamboo.huchat.fragment.ProfileFragment;
 import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,9 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
 
 
 public class MainActivity extends AppCompatActivity {

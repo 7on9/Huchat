@@ -48,7 +48,7 @@ public class ServiceConnection extends Service {
         onNewImage = new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-
+                
             }
         };
         mSocket.connect();

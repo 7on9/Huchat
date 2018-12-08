@@ -52,9 +52,19 @@ io.on("connection", function (socket) {
 			}
 		});
 	});
-	socket.on("register", (user_name, password) => {
+	socket.on("register", async (user_name, password, email) => {
 		//console.log(password);
-		account.registerAccount(user_name, password, (err, rows) => {
+		let existUserName = await account.checkExistUserName(user_name);
+		if (existUserName){
+			socket.emit("result", "existUserName", true);
+			return;
+		}
+		let existEmail = await account.checkExistEmail(email);
+		if (existEmail){
+			socket.emit("result", "existEmail", true);
+			return;
+		}
+		account.registerAccount(user_name, password, email, (err, rows) => {
 			if (err) {
 				console.log(err);
 				throw err;
