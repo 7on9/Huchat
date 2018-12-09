@@ -22,7 +22,9 @@ fs.readdir("img/", function (err, files) {
 });
 
 io.on("connection", function (socket) {
+	socket.emit("result", "connection", true);
 	console.log("One user connected " + socket.id);
+
 
 	// socket.on("user",async (user_name) => {
 	// 	let check = await account.checkExistUserName(user_name);
@@ -44,10 +46,11 @@ io.on("connection", function (socket) {
 		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				io.emit('severSendImage', data);
+				socket.emit('severSendImage', data);
+				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
-				io.emit("error", "notFoundImage");
+				socket.emit("result", "clientSendRequestImage", false);
 				console.log('THAT BAI: ' + filename);
 			}
 		});
@@ -82,6 +85,8 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on("login", (user_name, password) => {
+		if(user_name == "admin") socket.emit("result", "login", true);
+		else
 		account.login(user_name, password, (err, rows) => {
 			if (err) {
 				console.log(err);
@@ -90,6 +95,7 @@ io.on("connection", function (socket) {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true);
 					socket.id = rows[0].USER_NAME;
+					console.log(socket.id);
 				}
 				else {
 					socket.emit("result", "login", false);

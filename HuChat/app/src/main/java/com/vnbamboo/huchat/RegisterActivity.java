@@ -1,15 +1,21 @@
 package com.vnbamboo.huchat;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.Utility.REGISTER;
+import static com.vnbamboo.huchat.Utility.startLoginActivity;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -17,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister, btnCancel;
     TextView txtUserName, txtPassword, txtRetypePassword, txtEmail;
     CheckBox cbxAcceptPriacy;
+    Context thisContext = this;
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -42,7 +49,27 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 mSocket.emit(REGISTER,  txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
-                resetText();
+                final ProgressDialog dialog = new ProgressDialog(thisContext);
+                dialog.setTitle("Đang tiến hành...");
+                dialog.setContentView(R.layout.loading_layout);
+                dialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(resultFromSever.event.equals(REGISTER) && resultFromSever.success) {
+                            resetText();
+                            Toast.makeText(thisContext, "Đăng ký thành công! Sẽ chuyển đến màn hình đăng nhập", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startLoginActivity(thisContext);
+                                }
+                            },2000);
+                        }
+                        else Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                }, 1000);
             }
         });
 

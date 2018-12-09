@@ -67,13 +67,13 @@ public class MessageFragment extends Fragment {
     }
 
     public void bounData(){
-        tempUser = new User("Rem", "Rem", "6996", "Bồ@gmail.com", "Xào rau muống", (long) 12344,true);
+        tempUser = new User("Rem", "Rem", (long) 12344,true, "6996", "Bồ@gmail.com", "Xào rau muống");
         listTempData.add(tempUser);
-        tempUser = new User("Ram", "Ram", "9699", "Arg","Luộc trứng", (long) 12344,true);
+        tempUser = new User("Ram", "Ram", (long) 12344,true, "9699", "Arg","Luộc trứng");
         listTempData.add(tempUser);
-        tempUser = new User("Songoku", "Goku", "9669966", "Bra","Trứng vịt lộn", (long) 12344,true);
+        tempUser = new User("Songoku", "Goku", (long) 12344,true, "9669966", "Bra","Trứng vịt lộn");
         listTempData.add(tempUser);
-        tempUser = new User("Luffy", "Monkey D Luffy", "000010", "MU","Đậu chiên", (long) 12344,true);
+        tempUser = new User("Luffy", "Monkey D Luffy", (long) 12344,true, "000010", "MU","Đậu chiên");
 
         listTempData.add(tempUser);
         listTempData.add(null);

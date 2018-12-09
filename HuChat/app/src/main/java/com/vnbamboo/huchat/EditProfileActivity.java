@@ -3,7 +3,6 @@ package com.vnbamboo.huchat;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -63,7 +62,6 @@ public class EditProfileActivity extends AppCompatActivity {
         Boolean success = false;
         Bitmap img = null;
         if(requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK){
-
             try {
                 Uri imageURI = data.getData();
                 InputStream is = getContentResolver().openInputStream(imageURI);

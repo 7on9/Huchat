@@ -24,7 +24,7 @@ public class User implements Serializable {
         this.dob = a.dob;
         this.gender = a.gender;
     }
-    public User(String userName, String fullName, String email, String phone, String avatarPath, Long dob, Boolean gender){
+    public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone, String avatarPath){
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;

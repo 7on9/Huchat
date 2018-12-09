@@ -1,7 +1,6 @@
 var db = require("./database");
 
 var user = {
-    
     // isExistUserName: async function (user_name) {
     //         var x = await fnIsExistUserName(user_name);
     //     return  (x.length > 0) ? true : false;       
@@ -9,30 +8,17 @@ var user = {
     //     //console.log((resq == user_name) ? true : false); 
     //     //return true;//return (resq == user_name) ? true : false; 
     // },
-    getUserById: function (id, callback) {
-        return db.query("SELECT * FROM ACCOUNT WHERE ID = ?", [id], callback);
+    updateMail : (user_name, mail, callback) => {
+        return db.query("UPDATE USERS SET MAIL = ? WHERE USER_NAME = ?", [mail], [user_name], callback);
     },
-    addInfoUser: function (user, callback) {
-        db.query("SELECT * FROM ACCOUNT WHERE USER_NAME = ?", [user.mail], function (err, res) {
-            if (!err) {
-                if (res.length > 0) {
-                    return db.query("SELECT ?", [user.mail], callback);
-                } else {
-                    return db.query("", callback);
-                }
-            }
-        });
+    updateFullName : (user_name, fullName, callback) => {
+        return db.query("UPDATE USERS SET FULL_NAME = ? WHERE USER_NAME = ?", [fullName], [user_name], callback);
     },
-    updateInfoUser: function (id, user, callback) {
-        db.query("select * from user where mail = ?", [user.mail], function (err, res) {
-            if (!err) {
-                if (res.id != id) {
-                    return db.query("select ?", [user.mail], callback);
-                } else {
-                    return db.query("update user set name = ?, birth = ?, gender = ?, phone = ?, mail = ?, pass = ?, type = ?, lastLongitude = ?, lastLatitude = ?, rating = ? where Id = ?", [user.name, user.birth, user.gender, user.phone, user.mail, user.pass, user.type, user.lastLongitude, user.lastLatitude, user.rating, id], callback);
-                }
-            }
-        });
+    updateAvatarPath : (user_name, avatarPath, callback) => {
+        return db.query("UPDATE USERS SET AVATAR_PATH = ? WHERE USER_NAME = ?", [avatarPath], [user_name], callback);
+    },
+    updateInfoUser : (aUser, callback) => {
+        return db.query("CALL PROC_UPDATE_INFO_USER(?, ?, ?, ?, ?, ?, ?", [aUser.user_name], [aUser.fullName], [aUser.dob], [aUser.gender], [aUser.mail], [aUser.phone], [aUser.avatarPath], callback);
     }
 };
 module.exports = user;

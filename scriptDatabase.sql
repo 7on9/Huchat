@@ -162,7 +162,6 @@ CREATE PROCEDURE PROC_UPDATE_INFO_USER (
     IN N_GENDER BOOLEAN,
     IN N_MAIL VARCHAR(50),
     IN N_PHONE VARCHAR(11),
-    IN N_CREATE_AT LONG,
     IN N_AVATAR_PATH VARCHAR(200))
 BEGIN
     UPDATE USERS 
@@ -283,7 +282,7 @@ CREATE TRIGGER TRIG_UPDATE_ACCOUNT AFTER UPDATE
 CALL PROC_INSERT_ACCOUNT ("tttt","tamdaulong207@gmail.com","XXX");
 CALL PROC_INSERT_ACCOUNT ("admin","tamdaulong207@yahoo.com","a");
 -- CALL PROC_INSERT_ACCOUNT ("test","a");
-CALL PROC_UPDATE_INFO_USER("tttt", "Nguyễn Thành Long", 1111111, true, "a@gmail.com", "00000111", 1111111, "//aaa///");
+CALL PROC_UPDATE_INFO_USER("tttt", "Nguyễn Thành Long", 1111111, true, "a@gmail.com", "00000111", "//aaa///");
 CALL PROC_CREATE_ROOM("TTTT", "","LoL");
 -- SELECT * FROM `group` 
 -- System.currentTimeMillis()

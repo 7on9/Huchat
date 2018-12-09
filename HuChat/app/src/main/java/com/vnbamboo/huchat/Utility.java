@@ -17,13 +17,15 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utility {
 
+    public static final String CONNECTION = "connection";
     public static final String SERVER_SEND_IMAGE = "severSendImage";
     public static final String CLIENT_SEND_IMAGE = "clientSendImage";
     public static final String REGISTER = "register";
     public static final String LOGIN = "login";
-    public static final String LOGOUT = "register";
-    public static final String JOINROOM = "register";
-    public static final String LEAVEROOM = "register";
+    public static final String RESULT = "result";
+    public static final String LOGOUT = "logout";
+    public static final String JOINROOM = "joinRoom";
+    public static final String LEAVEROOM = "leaveRoom";
     public static final String CLIENT_GET_HISTORY_CHAT_ROOM = "clientGetHistoryChatRoom";
     public static final String SEVER_RETURN_HISTORY_CHAT_ROOM = "severReturnHistoryChatRoom";
     public static final String MESSAGE_FROM_CLIENT = "messageFromClient";
@@ -56,7 +58,7 @@ public class Utility {
 
     public static String getLocalHost(){
         //set match sever ip
-        return "http://192.168.1.98:2409/";
+        return "http://192.168.1.73:2409/";
     }
 
     public static String toSHA256(String input)
