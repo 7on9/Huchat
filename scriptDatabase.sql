@@ -170,7 +170,6 @@ BEGIN
         GENDER = N_GENDER,
         MAIL = N_MAIL,
         PHONE = N_PHONE,
-        CREATE_AT = N_CREATE_AT,
         AVATAR_PATH = N_AVATAR_PATH
     WHERE USER_NAME = N_USER_NAME;
 END; $$
@@ -180,15 +179,41 @@ DELIMITER $$
 CREATE PROCEDURE PROC_GET_INFO_USER(
     IN N_USER_NAME VARCHAR(30))
 BEGIN
-    SELECT  *
+    SELECT *
     FROM USERS
     WHERE USER_NAME = N_USER_NAME;
 END; $$
 DELIMITER ;
 
--- -------------------------------INFO_USERS----------------------------------------
+DELIMITER $$
+CREATE PROCEDURE PROC_GET_PUBLIC_INFO_USER(
+    IN N_USER_NAME VARCHAR(30))
+BEGIN
+    SELECT USER_NAME, FULL_NAME, GENDER, AVATAR_PATH
+    FROM USERS
+    WHERE USER_NAME = N_USER_NAME;
+END; $$
+DELIMITER ;
 
--- -------------------------------ROOM----------------------------------------
+DELIMITER $$
+CREATE PROCEDURE PROC_FIND_USER(
+    IN N_USER_NAME VARCHAR(30))
+BEGIN
+    DECLARE U VARCHAR(32);
+    SET U = "%";
+    SET U = CONCAT(U, N_USER_NAME, U);
+    (SELECT USER_NAME
+    FROM ACCOUNT
+    WHERE USER_NAME LIKE N_USER_NAME) 
+    UNION DISTINCT
+    (SELECT USER_NAME
+    FROM ACCOUNT
+    WHERE USER_NAME LIKE U); 
+END; $$
+DELIMITER ;
+----------------------------------INFO_USERS----------------------------------------
+
+----------------------------------ROOM----------------------------------------
 DELIMITER $$
 CREATE PROCEDURE PROC_ROOM_OF_USER(
     IN N_USER_NAME VARCHAR(30))
@@ -284,6 +309,7 @@ CALL PROC_INSERT_ACCOUNT ("admin","tamdaulong207@yahoo.com","a");
 -- CALL PROC_INSERT_ACCOUNT ("test","a");
 CALL PROC_UPDATE_INFO_USER("tttt", "Nguyễn Thành Long", 1111111, true, "a@gmail.com", "00000111", "//aaa///");
 CALL PROC_CREATE_ROOM("TTTT", "","LoL");
+CALL PROC_FIND_USER("t");
 -- SELECT * FROM `group` 
 -- System.currentTimeMillis()
 DELETE  FROM `ACCOUNT` WHERE PASSWORD = "XXX";

@@ -4,12 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtPassword, txtConnectionState;
     CheckBox cbxRememberPass;
     Context thisContext = this;
+    Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -39,10 +42,11 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
-        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
         if(!ServiceConnection.isConnected)
             this.stopService(intent);
         this.startService(intent);
+        if(resultFromSever == null)
+            resultFromSever = new ResultFromSever();
 
         setControl();
         addEvent();
@@ -128,6 +132,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public boolean onTouch( View v, MotionEvent event ) {
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_UP:
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_black_24dp, 0);
+                        txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_black_24dp, 0);
+                        txtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
                 return false;
             }
         });
@@ -198,6 +211,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(!ServiceConnection.isConnected)
+            this.stopService(intent);
+        this.startService(intent);
         restoringPreferences();
     }
 

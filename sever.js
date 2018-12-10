@@ -1,6 +1,5 @@
 var express = require("express");
 var app = express();
-//app.use(express.static("api"));
 var sever = require("http").Server(app);
 var io = require("socket.io").listen(sever);
 //var routes = require("./routes");
@@ -26,11 +25,11 @@ io.on("connection", function (socket) {
 	console.log("One user connected " + socket.id);
 
 
-	// socket.on("user",async (user_name) => {
-	// 	let check = await account.checkExistUserName(user_name);
+	// socket.on("user",async (userName) => {
+	// 	let check = await account.checkExistUserName(userName);
 	// 	console.log("have account -> ", check);
 	// // });
-	// socket.on("recoveryPassword", (user_name, email) =>{
+	// socket.on("recoveryPassword", (userName, email) =>{
 	// 	mail.sendMail(u)
 	// });
 	// mail.sendMail("tamdaulong207@gmail.com");
@@ -40,9 +39,9 @@ io.on("connection", function (socket) {
 		arrayImage.push(filename);
 		fs.writeFile(filename, data);
 	});
-	socket.on('clientSendRequestImage', function (user_name, data) {
-		let dir = "img/" + "" + user_name + "" + ".png";
-		let index = arrayImage.indexOf(user_name);
+	socket.on('clientSendRequestImage', function (userName, data) {
+		// let dir = "img/" + "" + userName + "" + ".png";
+		let index = arrayImage.indexOf(userName);
 		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
@@ -55,26 +54,26 @@ io.on("connection", function (socket) {
 			}
 		});
 	});
-	socket.on("register", async (user_name, password, email) => {
+	socket.on("register", async (userName, password, email) => {
 		//console.log(password);
-		let existUserName = await account.checkExistUserName(user_name);
-		if (existUserName){
+		let existUserName = await account.checkExistUserName(userName);
+		if (existUserName) {
 			socket.emit("result", "existUserName", true);
 			return;
 		}
 		let existEmail = await account.checkExistEmail(email);
-		if (existEmail){
+		if (existEmail) {
 			socket.emit("result", "existEmail", true);
 			return;
 		}
-		account.registerAccount(user_name, password, email, (err, rows) => {
+		account.registerAccount(userName, password, email, (err, rows) => {
 			if (err) {
 				console.log(err);
 				throw err;
 			}
 			else {
 				if (rows.affectedRows > 0) {
-					//console.log("account created " + user_name);
+					//console.log("account created " + userName);
 					socket.emit("result", "register", true);
 				}
 				else {
@@ -84,34 +83,34 @@ io.on("connection", function (socket) {
 		})
 	});
 
-	socket.on("login", (user_name, password) => {
-		if(user_name == "admin") socket.emit("result", "login", true);
+	socket.on("login", (userName, password) => {
+		if (userName == "admin") socket.emit("result", "login", true);
 		else
-		account.login(user_name, password, (err, rows) => {
-			if (err) {
-				console.log(err);
-			}
-			else {
-				if (rows.length > 0) {
-					socket.emit("result", "login", true);
-					socket.id = rows[0].USER_NAME;
-					console.log(socket.id);
+			account.login(userName, password, (err, rows) => {
+				if (err) {
+					console.log(err);
 				}
 				else {
-					socket.emit("result", "login", false);
+					if (rows.length > 0) {
+						socket.emit("result", "login", true);
+						socket.id = rows[0].userName;
+						console.log(socket.id);
+					}
+					else {
+						socket.emit("result", "login", false);
+					}
 				}
-			}
-		})
+			})
 	});
 
-	socket.on("logout", (user_name) => {
-		account.logout(user_name, (err, rows) => {
+	socket.on("logout", (userName) => {
+		account.logout(userName, (err, rows) => {
 			if (err) {
 				console.log(err);
 			}
 			else {
 				if (rows.affectedRows > 0) {
-					//console.log("account created " + user_name);
+					//console.log("account created " + userName);
 					socket.emit("result", "logout", true);
 				}
 				else {

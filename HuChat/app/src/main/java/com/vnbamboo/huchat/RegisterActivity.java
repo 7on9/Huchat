@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,11 +47,19 @@ public class RegisterActivity extends AppCompatActivity {
         txtEmail = (TextView) findViewById(R.id.txtEmail);
     }
 
-    private void addEvent(){
+    private void addEvent() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                mSocket.emit(REGISTER,  txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
+                if(!txtPassword.getText().toString().equals(txtRetypePassword.getText().toString())){
+                    Toast.makeText(thisContext, "Mật khẩu gõ lại không trùng khớp!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(txtPassword.length()*txtEmail.length()*txtUserName.length()*txtRetypePassword.length() == 0){
+                    Toast.makeText(thisContext, "Hãy điền hết tất cả các trường!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mSocket.emit(REGISTER, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
                 dialog.setTitle("Đang tiến hành...");
                 dialog.setContentView(R.layout.loading_layout);
@@ -56,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(resultFromSever.event.equals(REGISTER) && resultFromSever.success) {
+                        if (resultFromSever.event.equals(REGISTER) && resultFromSever.success) {
                             resetText();
                             Toast.makeText(thisContext, "Đăng ký thành công! Sẽ chuyển đến màn hình đăng nhập", Toast.LENGTH_SHORT).show();
                             new Handler().postDelayed(new Runnable() {
@@ -64,9 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void run() {
                                     startLoginActivity(thisContext);
                                 }
-                            },2000);
-                        }
-                        else Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
+                            }, 2000);
+                        } else
+                            Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                     }
                 }, 1000);
@@ -77,6 +88,39 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick( View v ) {
                 onBackPressed();
+            }
+        });
+
+        txtPassword.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch( View v, MotionEvent event ) {
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_UP:
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_black_24dp, 0);
+                        txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_black_24dp, 0);
+                        txtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                return false;
+            }
+        });
+        txtRetypePassword.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch( View v, MotionEvent event ) {
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_UP:
+                        txtRetypePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_black_24dp, 0);
+                        txtRetypePassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        txtRetypePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_black_24dp, 0);
+                        txtRetypePassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                return false;
             }
         });
     }

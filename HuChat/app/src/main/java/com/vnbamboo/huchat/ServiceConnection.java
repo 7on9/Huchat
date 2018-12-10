@@ -41,8 +41,6 @@ public class ServiceConnection extends Service {
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
         isConnected = true;
-        if(resultFromSever == null)
-            resultFromSever = new ResultFromSever();
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
@@ -79,6 +77,10 @@ public class ServiceConnection extends Service {
         isConnected = false;
         mSocket.disconnect();
         super.onDestroy();
+    }
+
+    public void disConnect(){
+        mSocket.disconnect();
     }
 }
 class ResultFromSever{
