@@ -36,7 +36,7 @@ public class MessageFragment extends Fragment {
 
 
     public int size = 40;
-    private List<User> listTempData = new ArrayList<>();
+//    private List<User> listTempData = new ArrayList<>();
     private List<User> listData = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -67,18 +67,18 @@ public class MessageFragment extends Fragment {
     }
 
     public void bounData(){
-        tempUser = new User("Rem", "Rem", (long) 12344,true, "6996", "Bồ@gmail.com", "Xào rau muống");
-        listTempData.add(tempUser);
-        tempUser = new User("Ram", "Ram", (long) 12344,true, "9699", "Arg","Luộc trứng");
-        listTempData.add(tempUser);
-        tempUser = new User("Songoku", "Goku", (long) 12344,true, "9669966", "Bra","Trứng vịt lộn");
-        listTempData.add(tempUser);
-        tempUser = new User("Luffy", "Monkey D Luffy", (long) 12344,true, "000010", "MU","Đậu chiên");
-
-        listTempData.add(tempUser);
-        listTempData.add(null);
-
-        createRandom10User();
+//        tempUser = new User("Rem", "Rem", (long) 12344,true, "6996", "Bồ@gmail.com", "Xào rau muống");
+//        listTempData.add(tempUser);
+//        tempUser = new User("Ram", "Ram", (long) 12344,true, "9699", "Arg","Luộc trứng");
+//        listTempData.add(tempUser);
+//        tempUser = new User("Songoku", "Goku", (long) 12344,true, "9669966", "Bra","Trứng vịt lộn");
+//        listTempData.add(tempUser);
+//        tempUser = new User("Luffy", "Monkey D Luffy", (long) 12344,true, "000010", "MU","Đậu chiên");
+//
+//        listTempData.add(tempUser);
+//        listTempData.add(null);
+//
+//        createRandom10User();
 
         final MessageRecyclerViewAdapter recyclerViewAdapter = new MessageRecyclerViewAdapter(recyclerView,this, listData);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -95,7 +95,7 @@ public class MessageFragment extends Fragment {
                             recyclerViewAdapter.notifyItemRemoved(listData.size());
 
                             //random data
-                            createRandom10User();
+//                            createRandom10User();
                             recyclerViewAdapter.notifyDataSetChanged();
                             recyclerViewAdapter.setLoaded();
                         }
@@ -107,11 +107,11 @@ public class MessageFragment extends Fragment {
         });
     }
 
-    void createRandom10User(){
-        for(int i = 1; i <= 10; i++){
-            int x = (int) (Math.random()*10)%4;
-            tempUser = new User((User) listTempData.get(x));
-            listData.add(tempUser);
-        }
-    }
+//    void createRandom10User(){
+//        for(int i = 1; i <= 10; i++){
+//            int x = (int) (Math.random()*10)%4;
+//            tempUser = new User((User) listTempData.get(x));
+//            listData.add(tempUser);
+//        }
+//    }
 }

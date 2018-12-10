@@ -15,6 +15,7 @@
         android:layout_marginBottom="50dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgViewAvatar"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@mipmap/roundiconhuchat"
@@ -24,6 +25,7 @@
             android:elevation="4dp"
             />
         <TextView
+            android:id="@+id/txtFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nguyễn Thành Long"
@@ -35,6 +37,7 @@
             android:layout_margin="5dp"
             />
         <TextView
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tamdaulong207@gmail.com"
@@ -46,6 +49,7 @@
             android:layout_margin="5dp"
             />
         <TextView
+            android:id="@+id/txtPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0966988356"

@@ -2,12 +2,16 @@ var express = require("express");
 var app = express();
 var sever = require("http").Server(app);
 var io = require("socket.io").listen(sever);
+var fs = require("fs");
+
 //var routes = require("./routes");
+//impliment modules
 var user = require("./user");
 var account = require("./account");
 var db = require("./database");
 var mail = require("./mail");
-var fs = require("fs");
+var room = require("./room");
+
 
 var arrayImage = new Array();
 
@@ -24,7 +28,6 @@ io.on("connection", function (socket) {
 	socket.emit("result", "connection", true);
 	console.log("One user connected " + socket.id);
 
-
 	// socket.on("user",async (userName) => {
 	// 	let check = await account.checkExistUserName(userName);
 	// 	console.log("have account -> ", check);
@@ -35,21 +38,22 @@ io.on("connection", function (socket) {
 	// mail.sendMail("tamdaulong207@gmail.com");
 	socket.on("clientSendImage", function (data) {
 		console.log("SERVER SAVED A NEW IMAGE");
-		var filename = getFilenameImage(socket.id);
+		var filename = getFilenameImageUser(socket.id);
 		arrayImage.push(filename);
 		fs.writeFile(filename, data);
 	});
-	socket.on('clientSendRequestImage', function (userName, data) {
-		// let dir = "img/" + "" + userName + "" + ".png";
-		let index = arrayImage.indexOf(userName);
+	console.log(arrayImage);
+	socket.on('clientRequestImageUser', function (userName) {
+		let dir = getFilenameImageUser(userName);
+		let index = arrayImage.indexOf(dir);
 		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit('severSendImage', data);
+				socket.emit("result",'severSendImage', true, data);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
-				socket.emit("result", "clientSendRequestImage", false);
+				socket.emit("result",'severSendImage', false);
 				console.log('THAT BAI: ' + filename);
 			}
 		});
@@ -58,12 +62,12 @@ io.on("connection", function (socket) {
 		//console.log(password);
 		let existUserName = await account.checkExistUserName(userName);
 		if (existUserName) {
-			socket.emit("result", "existUserName", true);
+			socket.emit("result", "register", false);
 			return;
 		}
 		let existEmail = await account.checkExistEmail(email);
 		if (existEmail) {
-			socket.emit("result", "existEmail", true);
+			socket.emit("result", "register", false);
 			return;
 		}
 		account.registerAccount(userName, password, email, (err, rows) => {
@@ -84,29 +88,33 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on("login", (userName, password) => {
-		if (userName == "admin") socket.emit("result", "login", true);
-		else
-			account.login(userName, password, (err, rows) => {
-				if (err) {
-					console.log(err);
+		// if (userName == "admin") socket.emit("result", "login", true);
+		// else
+		account.login(userName, password, (err, rows) => {
+			if (err) {
+				console.log(err);
+				socket.emit("result", "login", false);
+			}
+			else {
+				if (rows.length > 0) {
+					socket.emit("result", "login", true, rows[0][0]);
+					console.log(rows);
+					socket.id = rows[0][0].USER_NAME;
+					console.log(socket.id);
 				}
 				else {
-					if (rows.length > 0) {
-						socket.emit("result", "login", true);
-						socket.id = rows[0].userName;
-						console.log(socket.id);
-					}
-					else {
-						socket.emit("result", "login", false);
-					}
+					//console.log("emited");
+					socket.emit("result", "login", false);
 				}
-			})
+			}
+		})
 	});
 
 	socket.on("logout", (userName) => {
 		account.logout(userName, (err, rows) => {
 			if (err) {
 				console.log(err);
+				socket.emit("result", "logout", false);
 			}
 			else {
 				if (rows.affectedRows > 0) {
@@ -119,7 +127,14 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
-
+	socket.on("getListRoomOfUser", (userName) => {
+		room.getListRoomOfUser(userName, (err, rows) => {
+			if (err) {
+				socket.emit("result", "getListRoomOfUser", false);
+			}
+			socket.emit
+		})
+	});
 	//chat
 	socket.on("joinRoom", (room) => {
 		//find room if exist
@@ -155,8 +170,14 @@ sever.listen(2409, () => {
 });
 //app.use("/", routes);
 
-function getFilenameImage(id) {
-	return "img/" + id + ".png";
+function getFilenameImageUser(id) {
+	let name = "user" + "" + id.toLowerCase();
+	return "img/" + name + ".png";
+}
+
+function getFilenameImageRoom(id) {
+	let name = "room" + "" + id.toLowerCase();
+	return "img/" + name + ".png";
 }
 
 function getMilis() {

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtPassword, txtConnectionState;
     CheckBox cbxRememberPass;
     Context thisContext = this;
-    Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
+        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
         if(!ServiceConnection.isConnected)
             this.stopService(intent);
         this.startService(intent);
@@ -93,14 +94,20 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setTitle("Đang đăng nhập...");
                 dialog.setContentView(R.layout.loading_layout);
                 dialog.show();
-                while (!resultFromSever.event.equals(LOGIN)){
-                };
-                dialog.cancel();
-                if (resultFromSever.event.equals(LOGIN) && resultFromSever.success) {
-                    savingPreferences();
-                    startMainActivity();
-                } else
-                    Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+//                dialog.cancel();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (resultFromSever.event.equals(LOGIN) && resultFromSever.success) {
+                            savingPreferences();
+                            dialog.cancel();
+                            startMainActivity();
+                        } else {
+                            dialog.cancel();
+                            Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, 1000);
             }
         });
 
@@ -211,9 +218,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!ServiceConnection.isConnected)
-            this.stopService(intent);
-        this.startService(intent);
+//        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+//        if(!ServiceConnection.isConnected)
+//            this.stopService(intent);
+//        this.startService(intent);
         restoringPreferences();
     }
 

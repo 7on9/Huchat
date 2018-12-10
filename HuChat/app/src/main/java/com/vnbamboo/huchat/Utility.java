@@ -3,7 +3,14 @@ package com.vnbamboo.huchat;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.vnbamboo.huchat.object.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,16 +25,17 @@ import java.security.NoSuchAlgorithmException;
 public class Utility {
 
     public static final String CONNECTION = "connection";
-    public static final String SERVER_SEND_IMAGE = "severSendImage";
-    public static final String CLIENT_SEND_IMAGE = "clientSendImage";
     public static final String REGISTER = "register";
     public static final String LOGIN = "login";
     public static final String RESULT = "result";
     public static final String LOGOUT = "logout";
-    public static final String JOINROOM = "joinRoom";
-    public static final String LEAVEROOM = "leaveRoom";
+    public static final String SERVER_SEND_IMAGE = "severSendImage";
+    public static final String CLIENT_SEND_IMAGE = "clientSendImage";
+    public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
     public static final String CLIENT_GET_HISTORY_CHAT_ROOM = "clientGetHistoryChatRoom";
     public static final String SEVER_RETURN_HISTORY_CHAT_ROOM = "severReturnHistoryChatRoom";
+    public static final String JOINROOM = "joinRoom";
+    public static final String LEAVEROOM = "leaveRoom";
     public static final String MESSAGE_FROM_CLIENT = "messageFromClient";
     public static final String MESSAGE_FROM_SEVER = "messageFromSever";
     public static final byte REQUEST_TAKE_PHOTO = 24;
@@ -103,6 +111,12 @@ public class Utility {
         return byteArray;
     }
 
+    public static Bitmap byteArrayToBimap(byte[] img) {
+        byte[] imageByteArray = (byte[]) img;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+        return bitmap;
+    }
+
     public static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
         if (maxHeight > 0 && maxWidth > 0) {
             int width = image.getWidth();
@@ -141,4 +155,19 @@ public class Utility {
         }
         return bytes;
     }
+
+    public static JSONObject objectToJSONObject( Object object){
+        Object json = null;
+        JSONObject jsonObject = null;
+        try {
+            json = new JSONTokener(object.toString()).nextValue();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (json instanceof JSONObject) {
+            jsonObject = (JSONObject) json;
+        }
+        return jsonObject;
+    }
+
 }

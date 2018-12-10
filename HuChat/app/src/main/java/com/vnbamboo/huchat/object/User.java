@@ -1,5 +1,7 @@
 package com.vnbamboo.huchat.object;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -10,11 +12,14 @@ public class User implements Serializable {
     private String avatarPath;
     private Long dob;
     private Boolean gender;
+    private transient Bitmap avatar;
+
     public User(){
         userName = email = phone = avatarPath = "";
         gender = null;
         dob = null;
     }
+
     public User(User a){
         this.userName = a.userName;
         this.fullName = a.fullName;
@@ -23,7 +28,9 @@ public class User implements Serializable {
         this.avatarPath = a.avatarPath;
         this.dob = a.dob;
         this.gender = a.gender;
+        this.avatar = a.avatar;
     }
+
     public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone, String avatarPath){
         this.userName = userName;
         this.fullName = fullName;
@@ -33,6 +40,7 @@ public class User implements Serializable {
         this.dob = dob;
         this.gender = gender;
     }
+
     public void setUserName( String userName ) {
         this.userName = userName;
     }
@@ -65,6 +73,10 @@ public class User implements Serializable {
         return dob;
     }
 
+    public Bitmap getAvatar() {
+        return avatar;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -88,4 +100,9 @@ public class User implements Serializable {
     public void setPhone( String phone ) {
         this.phone = phone;
     }
+
+    public void setAvatar( Bitmap avatar ) {
+        this.avatar = avatar;
+    }
+
 }

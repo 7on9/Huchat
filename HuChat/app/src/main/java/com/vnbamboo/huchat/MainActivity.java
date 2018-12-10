@@ -15,6 +15,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
