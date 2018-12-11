@@ -9,13 +9,12 @@ public class User implements Serializable {
     private String fullName;
     private String email;
     private String phone;
-    private String avatarPath;
     private Long dob;
     private Boolean gender;
     private transient Bitmap avatar;
 
     public User(){
-        userName = email = phone = avatarPath = "";
+        userName = email = phone = "";
         gender = null;
         dob = null;
     }
@@ -25,18 +24,16 @@ public class User implements Serializable {
         this.fullName = a.fullName;
         this.email = a.email;
         this.phone = a.phone;
-        this.avatarPath = a.avatarPath;
         this.dob = a.dob;
         this.gender = a.gender;
         this.avatar = a.avatar;
     }
 
-    public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone, String avatarPath){
+    public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone){
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-        this.avatarPath = avatarPath;
         this.dob = dob;
         this.gender = gender;
     }
@@ -55,14 +52,6 @@ public class User implements Serializable {
 
     public void setFullName( String fullName ) {
         this.fullName = fullName;
-    }
-
-    public String getAvatarPath() {
-        return avatarPath;
-    }
-
-    public void setAvatarPath( String avatarPath ) {
-        this.avatarPath = avatarPath;
     }
 
     public Boolean getGender() {

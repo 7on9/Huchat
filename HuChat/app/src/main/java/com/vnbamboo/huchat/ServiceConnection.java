@@ -80,8 +80,6 @@ public class ServiceConnection extends Service {
 
 //                            Long t = (Long) jsonUser.get("DOB");
 //                            thisUser.setDob(t);
-                            tmp = (String) jsonUser.get("AVATAR_PATH");
-                            thisUser.setAvatarPath(tmp);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

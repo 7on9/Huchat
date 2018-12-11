@@ -127,6 +127,7 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
+	
 	socket.on("getListRoomOfUser", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {

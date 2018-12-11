@@ -41,6 +41,14 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(thisUser.getAvatar() != null)
+            imgAvatar.setImageBitmap(thisUser.getAvatar());
+        else imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
