@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 
 import com.vnbamboo.huchat.object.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -29,9 +30,13 @@ public class Utility {
     public static final String LOGIN = "login";
     public static final String RESULT = "result";
     public static final String LOGOUT = "logout";
-    public static final String SERVER_SEND_IMAGE = "severSendImage";
-    public static final String CLIENT_SEND_IMAGE = "clientSendImage";
+    public static final String SERVER_SEND_IMAGE_USER = "severSendImageUser";
+    public static final String SERVER_SEND_IMAGE_ROOM = "severSendImageRoom";
+    public static final String CLIENT_SEND_IMAGE_USER = "clientSendImageUser";
+    public static final String CLIENT_SEND_IMAGE_ROOM = "clientSendImageRoom";
     public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
+    public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
+    public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
     public static final String CLIENT_GET_HISTORY_CHAT_ROOM = "clientGetHistoryChatRoom";
     public static final String SEVER_RETURN_HISTORY_CHAT_ROOM = "severReturnHistoryChatRoom";
     public static final String JOINROOM = "joinRoom";
@@ -47,6 +52,7 @@ public class Utility {
         intent.putExtra("User", (Serializable) user);
         context.startActivity(intent);
     }
+
     public static void startLoginActivity(Context context){
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
@@ -66,7 +72,7 @@ public class Utility {
 
     public static String getLocalHost(){
         //set match sever ip
-        return "http://192.168.1.73:2409/";
+        return "http://20.0.16.128:2409/";
     }
 
     public static String toSHA256(String input)
@@ -138,23 +144,24 @@ public class Utility {
         }
     }
 
-    public byte[] getByteArrayFromLocalFile(String path){
-        File file = new File(path);
-        int size = (int) file.length();
-        byte[] bytes = new byte[size];
-        try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return bytes;
-    }
+//    Using to save sound file // use for later
+//    public byte[] getByteArrayFromLocalFile(String path){
+//        File file = new File(path);
+//        int size = (int) file.length();
+//        byte[] bytes = new byte[size];
+//        try {
+//            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+//            buf.read(bytes, 0, bytes.length);
+//            buf.close();
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return bytes;
+//    } .
 
     public static JSONObject objectToJSONObject( Object object){
         Object json = null;
@@ -168,6 +175,20 @@ public class Utility {
             jsonObject = (JSONObject) json;
         }
         return jsonObject;
+    }
+
+    public static JSONArray objectToJSONArray(Object object){
+        Object json = null;
+        JSONArray jsonArray = null;
+        try {
+            json = new JSONTokener(object.toString()).nextValue();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (json instanceof JSONArray) {
+            jsonArray = (JSONArray) json;
+        }
+        return jsonArray;
     }
 
 }

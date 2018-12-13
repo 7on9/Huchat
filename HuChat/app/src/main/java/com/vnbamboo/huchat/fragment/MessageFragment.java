@@ -16,6 +16,7 @@ import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.ViewAdapter.MessageRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ public class MessageFragment extends Fragment {
 
     public int size = 40;
 //    private List<User> listTempData = new ArrayList<>();
-    private List<User> listData = new ArrayList<>();
+//    private List<User> listData = new ArrayList<>();
+    private List<Room> listData = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private User tempUser;
@@ -48,7 +50,8 @@ public class MessageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);

@@ -11,30 +11,28 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="5dp"
-        android:layout_gravity="center"
         android:text="Chỉnh ảnh đại diện"
-        android:fontFamily="@font/notosan_regular"
-        android:textAllCaps="true"
-        android:textSize="25dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        android:layout_gravity="center"
         android:gravity="center"
-        />
+        android:textSize="30dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/white"
+        android:paddingTop="15dp"
+        android:layout_marginBottom="15dp"/>
     <ImageView
         android:id="@+id/imgViewAvatar"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-
-        android:background="@drawable/shape_button_login"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
         android:src="@mipmap/squareiconhuchat"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center">
         <Button
@@ -42,10 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="5dp"
             android:background="@drawable/shape_button_signup"
             android:drawableLeft="@mipmap/picture"
-            android:text="Chọn"
-            android:layout_margin="5dp"/>
+            android:text="Chọn" />
         <Button
             android:id="@+id/btnTakeImage"
             android:drawableLeft="@mipmap/take_picture"

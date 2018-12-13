@@ -27,7 +27,6 @@ fs.readdir("img/", function (err, files) {
 io.on("connection", function (socket) {
 	socket.emit("result", "connection", true);
 	console.log("One user connected " + socket.id);
-
 	// socket.on("user",async (userName) => {
 	// 	let check = await account.checkExistUserName(userName);
 	// 	console.log("have account -> ", check);
@@ -36,24 +35,58 @@ io.on("connection", function (socket) {
 	// 	mail.sendMail(u)
 	// });
 	// mail.sendMail("tamdaulong207@gmail.com");
-	socket.on("clientSendImage", function (data) {
-		console.log("SERVER SAVED A NEW IMAGE");
-		var filename = getFilenameImageUser(socket.id);
-		arrayImage.push(filename);
-		fs.writeFile(filename, data);
+	socket.on("clientSendImageUser", function (data) {
+		try {
+			console.log("SERVER SAVED A NEW IMAGE");
+			var filename = getFilenameImageUser(socket.id);
+			arrayImage.push(filename);
+			fs.writeFile(filename, data);
+			socket.emit("result", "clientSendImageUser", true);
+		} catch (ex) {
+			socket.emit("result", "clientSendImageUser", false);
+		}
 	});
-	console.log(arrayImage);
+
+	socket.on("clientSendImageRoom", function (roomCode,data) {
+		try {
+			console.log("SERVER SAVED A NEW IMAGE");
+			var filename = getFilenameImageRoom(roomCode);
+			arrayImage.push(filename);
+			fs.writeFile(filename, data);
+			socket.emit("result", "clientSendImageRoom", true);
+		} catch (ex) {
+			socket.emit("result", "clientSendImageRoom", false);
+		}
+	});
+
+	socket.on("clientRequestImageRoom", function (roomCode) {
+		let dir = getFilenameImageRoom(roomCode);
+		let index = arrayImage.indexOf(dir);
+		let filename = index == -1 ? "" : arrayImage[index];
+		fs.readFile(filename, function (err, data) {
+			if (!err) {
+				socket.emit("result",'severSendImageRoom', true, data);
+				//socket.emit("result", "clientSendRequestImage",true);
+				console.log("SEND TO CLIENT A FILE: " + filename);
+			} else {
+				socket.emit("result",'severSendImageRoom', false);
+				console.log('THAT BAI: ' + filename);
+			}
+		});
+	});
+
+	// console.log(arrayImage);
 	socket.on('clientRequestImageUser', function (userName) {
 		let dir = getFilenameImageUser(userName);
 		let index = arrayImage.indexOf(dir);
 		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit("result",'severSendImage', true, data);
+				socket.emit("result",'severSendImageUser', true, data);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
-				socket.emit("result",'severSendImage', false);
+				socket.emit("result",'severSendImageUser', false);
 				console.log('THAT BAI: ' + filename);
 			}
 		});
@@ -98,9 +131,8 @@ io.on("connection", function (socket) {
 			else {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true, rows[0][0]);
-					console.log(rows);
 					socket.id = rows[0][0].USER_NAME;
-					console.log(socket.id);
+					console.log("User " +socket.id+ " connected!");
 				}
 				else {
 					//console.log("emited");
@@ -118,6 +150,7 @@ io.on("connection", function (socket) {
 			}
 			else {
 				if (rows.affectedRows > 0) {
+					console.log("account "+ socket.id +" logout");
 					//console.log("account created " + userName);
 					socket.emit("result", "logout", true);
 				}
@@ -127,13 +160,21 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
-	
-	socket.on("getListRoomOfUser", (userName) => {
+
+	socket.on("clientRequestListRoom", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
-				socket.emit("result", "getListRoomOfUser", false);
+				socket.emit("result", "clientRequestListRoom", false);
 			}
-			socket.emit
+			else
+			{	
+				socket.emit("result", "clientRequestListRoom", true, rows[0]);
+				console.log(rows[0]);
+				for(i in rows[0]){
+					console.log(rows[0][i].ROOM_CODE);
+					socket.join(rows[0][i].ROOM_CODE);
+				}
+			}
 		})
 	});
 	//chat
@@ -158,7 +199,7 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on("disconnect", () => {
-		console.log("User disconnected " + socket.id);
+		console.log("User disconnected!");
 	})
 });
 

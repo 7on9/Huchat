@@ -3,6 +3,7 @@ package com.vnbamboo.huchat.object;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private String userName;
@@ -12,6 +13,7 @@ public class User implements Serializable {
     private Long dob;
     private Boolean gender;
     private transient Bitmap avatar;
+    private List<Room> roomList;
 
     public User(){
         userName = email = phone = "";
@@ -94,4 +96,28 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
+    public void setRoomList( List<Room> roomList ) {
+        this.roomList = roomList;
+    }
+
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+
+    public void addRoom(Room room){
+        this.roomList.add(room);
+    }
+
+    public Room getRoomAt(int i){
+        return this.roomList.get(i);
+    }
+
+    public int getIndexRoomCode(String code){
+        for (int i = 0;i < roomList.size(); i++) {
+            if(roomList.get(i).getRoomCode().equals(code)){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

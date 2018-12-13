@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.fragment.MessageFragment;
+import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
@@ -28,13 +30,13 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public static final int TYPE_LOAD = 0;
     public static final int TYPE_CARD = 1;
 
-    private List<User> data = new ArrayList<>();
+    private List<Room> data = new ArrayList<>();
     OnLoadMoreListener loadMore;
     boolean isLoading;
     int visibleThreshold = 5;
     int lastVisibleItem, totalItemCount;
 
-    public MessageRecyclerViewAdapter( RecyclerView recyclerView, MessageFragment mContext, List<User> data) {
+    public MessageRecyclerViewAdapter( RecyclerView recyclerView, MessageFragment mContext, List<Room> data) {
         this.mContext = mContext;
         this.data = data;
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -59,7 +61,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public int getItemViewType(int position) {
         if (data.get(position) == null)
             return TYPE_LOAD;
-        return data.get(position) instanceof User ? TYPE_CARD : TYPE_LOAD;
+        return data.get(position) instanceof Room ? TYPE_CARD : TYPE_LOAD;
     }
 
     @Override
@@ -84,8 +86,8 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CardMessageViewHolder) {
             CardMessageViewHolder temp = (CardMessageViewHolder) holder;
-            User user = (User) data.get(position);
-            temp.bindData(user.getFullName(), user.getPhone());
+            Room room = (Room) data.get(position);
+            temp.bindData(room);
         } else {
             LoadingViewHolder temp = (LoadingViewHolder) holder;
             temp.progressBar.setIndeterminate(true);
@@ -106,14 +108,16 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public class CardMessageViewHolder extends RecyclerView.ViewHolder {
-        TextView phone, userName;
+        TextView lastMessage, userName;
+        ImageView imgAvatar;
         LinearLayout line;
 
         public CardMessageViewHolder(View itemView) {
             super(itemView);
 
+            imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
             userName = itemView.findViewById(R.id.txtCardName);
-            phone = itemView.findViewById(R.id.txtLastMessage);
+            lastMessage = itemView.findViewById(R.id.txtLastMessage);
             line = itemView.findViewById(R.id.line);
 
             line.setOnClickListener(new View.OnClickListener() {
@@ -125,9 +129,10 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             });
         }
 
-        void bindData(String userName, String phoneNumber) {
-            this.userName.setText(userName);
-            this.phone.setText(phoneNumber);
+        void bindData(Room room) {
+            this.userName.setText(room.getName());
+            this.lastMessage.setText(room.getRoomCode());
+            this.imgAvatar.setImageBitmap(room.getAvatar());
         }
 
     }

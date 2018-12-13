@@ -9,6 +9,7 @@
     android:layout_marginTop="1dp">
 
     <ImageView
+        android:id="@+id/imgViewAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/circle"

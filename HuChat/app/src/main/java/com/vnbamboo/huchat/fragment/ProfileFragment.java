@@ -20,7 +20,7 @@ import static com.vnbamboo.huchat.Utility.LOGOUT;
 public class ProfileFragment extends Fragment {
 
     Button btnLogout, btnEditProfile;
-    TextView txtUserName, txtFullName, txtEmail, txtPhone;
+    TextView txtUserName, txtFullName, txtEmail;
     CircleImageView imgAvatar;
     View v;
 
@@ -54,9 +54,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_profile, container, false);
 
-
         setControl();
-
         addEvent();
 
         return v;
@@ -67,6 +65,8 @@ public class ProfileFragment extends Fragment {
         btnEditProfile = (Button) v.findViewById(R.id.btnEditProfile);
         txtFullName = (TextView) v.findViewById(R.id.txtFullName);
         txtFullName.setText(thisUser.getUserName());
+        txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+        txtEmail.setText(thisUser.getEmail());
         imgAvatar = (CircleImageView) v.findViewById(R.id.imgViewAvatar);
         if(thisUser.getAvatar() != null)
             imgAvatar.setImageBitmap(thisUser.getAvatar());

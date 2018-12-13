@@ -1,11 +1,14 @@
 package com.vnbamboo.huchat;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -15,13 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_SEND_IMAGE;
+import static com.vnbamboo.huchat.Utility.CLIENT_SEND_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.REQUEST_CHOOSE_PHOTO;
 import static com.vnbamboo.huchat.Utility.REQUEST_TAKE_PHOTO;
 import static com.vnbamboo.huchat.Utility.getByteArrayFromBitmap;
@@ -33,6 +38,7 @@ public class EditProfileActivity extends AppCompatActivity {
     Bitmap img = null;
     LayoutInflater inflater;
     ImageView imgAvatemp;
+    Context thisContex = this;
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -88,13 +94,27 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onClick( View v ) {
                         if(img != null) {
                             byte[] bytes = getByteArrayFromBitmap(img);
-                            mSocket.emit(CLIENT_SEND_IMAGE, bytes);
-                            thisUser.setAvatar(img);
-                            imgAvatar.setImageBitmap(img);
+                            mSocket.emit(CLIENT_SEND_IMAGE_USER, bytes);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(resultFromSever.event.equals(CLIENT_SEND_IMAGE_USER))
+                                    {
+                                        if(resultFromSever.success){
+                                            thisUser.setAvatar(img);
+                                            imgAvatar.setImageBitmap(img);
+                                            Toast.makeText(thisContex, "Cập nhật ảnh đại diện thành công!", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else Toast.makeText(thisContex, "Có lỗi khi cập nhật ảnh đại diện!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }, 1000);
+
                         }
                     }
                 });
                 dialogBuilder.setView(dialogView);
+//                dialogBuilder.setTitle("Chỉnh ảnh đại diện");
                 AlertDialog b = dialogBuilder.create();
                 b.show();
 //                choosePicture();

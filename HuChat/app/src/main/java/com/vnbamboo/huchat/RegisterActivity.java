@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
@@ -122,6 +123,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 return false;
             }
+        });
+        txtUserName.setFilters(new InputFilter[] {
+                new RegexInputFilter("[A-Za-z0-9]+"),
+                new InputFilter.LengthFilter(20)
         });
     }
 

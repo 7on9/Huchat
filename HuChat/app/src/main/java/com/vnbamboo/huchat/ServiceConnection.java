@@ -2,24 +2,29 @@ package com.vnbamboo.huchat;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
 import static com.vnbamboo.huchat.Utility.RESULT;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.byteArrayToBimap;
+import static com.vnbamboo.huchat.Utility.objectToJSONArray;
 import static com.vnbamboo.huchat.Utility.objectToJSONObject;
 
 public class ServiceConnection extends Service {
@@ -30,7 +35,7 @@ public class ServiceConnection extends Service {
     public static Emitter.Listener onNewImage, onResultFromSever;
     public static Boolean statusConnecttion = false;
     public static User thisUser = new User();
-
+    public static Bitmap tempImage = null;
     public ServiceConnection() {
     }
 
@@ -77,30 +82,38 @@ public class ServiceConnection extends Service {
                             thisUser.setFullName(tmp);
                             tmp = (String) jsonUser.get("EMAIL");
                             thisUser.setEmail(tmp);
-
 //                            Long t = (Long) jsonUser.get("DOB");
 //                            thisUser.setDob(t);
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-//                        try {
-////                            thisUser = new User(
-////                                    (String) jsonUser.get("USER_NAME"),
-////                                     ,
-////                                    ,
-////                                    (Boolean) jsonUser.get("GENDER"),
-////                                    (String) jsonUser.get("EMAIL"),
-////                                    (String) jsonUser.get("PHONE"),
-////                                    );
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
                     }
                     break;
-                    case SERVER_SEND_IMAGE :
+                    case SERVER_SEND_IMAGE_USER :
                         if(resultFromSever.success)
                             thisUser.setAvatar(byteArrayToBimap((byte[]) args[2]));
                     break;
+                    case SERVER_SEND_IMAGE_ROOM :
+                        if(resultFromSever.success)
+
+                        break;
+                    case CLIENT_REQUEST_LIST_ROOM :
+                        if(resultFromSever.success){
+                            JSONArray jsonRoomArr = objectToJSONArray(args[2]);
+                            try{
+                                Room room = new Room();
+                                for (int i = 0; i < jsonRoomArr.length(); i++) {
+                                    JSONObject jsonobject = null;
+                                    jsonobject = jsonRoomArr.getJSONObject(i);
+                                    room.setRoomCode(jsonobject.getString("ROOM_CODE"));
+                                    room.setName(jsonobject.getString("ROOM_NAME"));
+                                    thisUser.addRoom(room);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
                 }
             }
         };
