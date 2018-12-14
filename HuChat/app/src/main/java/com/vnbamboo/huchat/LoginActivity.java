@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
@@ -28,11 +31,12 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
     Button btnLogin, btnRegister;
+    TextView btnForgot;
     TextView txtUserName;
     TextView txtPassword, txtConnectionState;
     CheckBox cbxRememberPass;
     Context thisContext = this;
-    Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -42,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
+        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
         if(!ServiceConnection.isConnected)
             this.stopService(intent);
         this.startService(intent);
@@ -65,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setControl(){
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnForgot = (TextView) findViewById(R.id.btnForgot);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtPassword = (TextView) findViewById(R.id.txtPassword);
         txtConnectionState = (TextView) findViewById(R.id.txtConnectionState);
@@ -83,6 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
                 else
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_red, 0);
+
+                if(txtUserName.length()*txtPassword.length() == 0){
+                    Toast.makeText(view.getContext(), "Các ô không được để trống!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (!statusConnecttion) {
                     Toast.makeText(view.getContext(), "Không thể kết nối đến sever! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
                     return;
@@ -93,17 +105,29 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setTitle("Đang đăng nhập...");
                 dialog.setContentView(R.layout.loading_layout);
                 dialog.show();
-                while (!resultFromSever.event.equals(LOGIN)){
-                };
-                dialog.cancel();
-                if (resultFromSever.event.equals(LOGIN) && resultFromSever.success) {
-                    savingPreferences();
-                    startMainActivity();
-                } else
-                    Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+//                dialog.cancel();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (resultFromSever.event.equals(LOGIN) && resultFromSever.success) {
+                            savingPreferences();
+                            dialog.cancel();
+                            startMainActivity();
+                        } else {
+                            dialog.cancel();
+                            Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, 1000);
             }
         });
 
+        btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                startMainActivity();
+            }
+        });
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -126,6 +150,11 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged( Editable s ) {
 
             }
+        });
+
+        txtUserName.setFilters(new InputFilter[] {
+                new RegexInputFilter("[A-Za-z0-9]+"),
+                new InputFilter.LengthFilter(20)
         });
 
         txtPassword.setOnTouchListener(new View.OnTouchListener() {
@@ -211,9 +240,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!ServiceConnection.isConnected)
-            this.stopService(intent);
-        this.startService(intent);
+//        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+//        if(!ServiceConnection.isConnected)
+//            this.stopService(intent);
+//        this.startService(intent);
         restoringPreferences();
     }
 

@@ -9,8 +9,8 @@ var transporter = nodemailer.createTransport({
 });
 var mailOptions = {
     from: 'hutechgooflow2018@gmail.com',
-    to: 'tamdaulong207@yahoo.com',
-    subject: 'Sending Email using Node.js',
+    to: 'EMAIL',
+    subject: '[NOREPLY] HUCHAT RECOVERY PASS',
     text: 'That was easy!'
 };
 

@@ -42,7 +42,13 @@ var account = {
         }
     },
     login: function (user_name, password, callback) {
-        return db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [user_name, password], callback);
+        db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [user_name, password], (err, rows)=>{
+            if(rows.length > 0){
+                db.query("CALL PROC_LOGIN_EVENT(?)", [user_name]);
+                return db.query("CALL PROC_GET_INFO_USER(?)", [user_name], callback);
+            }
+            else return db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [user_name, password],callback);
+        });
     },
     logout: function (user_name, callback) {
         return db.query("CALL PROC_LOGOUT_EVENT(?)", [user_name], callback);

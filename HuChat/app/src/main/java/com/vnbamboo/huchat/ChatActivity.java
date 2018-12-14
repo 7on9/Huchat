@@ -52,6 +52,7 @@ public class ChatActivity extends AppCompatActivity{
                 ChatMessage a = new ChatMessage("", txtMessage.getText().toString());
                 chatMessageListViewAdapter.add(a);
                 lstChatMessage.setSelection(lstChatMessage.getCount()-1);
+                txtMessage.setText("");
                 a = new ChatMessage("Rem","Welcome home! Master!");
                 chatMessageListViewAdapter.add(a);
                 lstChatMessage.setSelection(lstChatMessage.getCount()-1);

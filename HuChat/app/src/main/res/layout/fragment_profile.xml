@@ -15,29 +15,34 @@
         android:layout_marginBottom="50dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/imgViewAvatar"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:src="@mipmap/roundiconhuchat"
             android:layout_weight="1"
             app:civ_border_width="2dp"
             app:civ_border_color="#ffffff"
+            android:layout_marginTop="20dp"
             android:elevation="4dp"
             />
         <TextView
+            android:id="@+id/txtFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nguyễn Thành Long"
+            android:text="name"
             android:textSize="30dp"
             android:gravity="center"
+            android:layout_gravity="center"
             android:textStyle="bold"
             android:fontFamily="@font/time_new_roman"
             android:textColor="#535353"
             android:layout_margin="5dp"
             />
         <TextView
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tamdaulong207@gmail.com"
+            android:text="email"
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
@@ -45,17 +50,7 @@
             android:textColor="#535353"
             android:layout_margin="5dp"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0966988356"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="#535353"
-            android:fontFamily="@font/time_new_roman"
-            android:layout_margin="5dp"
-            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

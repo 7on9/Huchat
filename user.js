@@ -14,9 +14,6 @@ var user = {
     updateFullName : (user_name, fullName, callback) => {
         return db.query("UPDATE USERS SET FULL_NAME = ? WHERE USER_NAME = ?", [fullName], [user_name], callback);
     },
-    updateAvatarPath : (user_name, avatarPath, callback) => {
-        return db.query("UPDATE USERS SET AVATAR_PATH = ? WHERE USER_NAME = ?", [avatarPath], [user_name], callback);
-    },
     updateInfoUser : (aUser, callback) => {
         return db.query("CALL PROC_UPDATE_INFO_USER(?, ?, ?, ?, ?, ?, ?", [aUser.user_name], [aUser.fullName], [aUser.dob], [aUser.gender], [aUser.mail], [aUser.phone], [aUser.avatarPath], callback);
     }

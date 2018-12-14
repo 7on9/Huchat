@@ -1,38 +1,47 @@
 package com.vnbamboo.huchat.object;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
     private String userName;
     private String fullName;
     private String email;
     private String phone;
-    private String avatarPath;
     private Long dob;
     private Boolean gender;
+    private transient Bitmap avatar;
+    private List<Room> roomList;
+
     public User(){
-        userName = email = phone = avatarPath = "";
+        userName = email = phone = "";
         gender = null;
         dob = null;
+        roomList = new ArrayList<>();
     }
+
     public User(User a){
         this.userName = a.userName;
         this.fullName = a.fullName;
         this.email = a.email;
         this.phone = a.phone;
-        this.avatarPath = a.avatarPath;
         this.dob = a.dob;
         this.gender = a.gender;
+        this.avatar = a.avatar;
     }
-    public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone, String avatarPath){
+
+    public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone){
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-        this.avatarPath = avatarPath;
         this.dob = dob;
         this.gender = gender;
     }
+
     public void setUserName( String userName ) {
         this.userName = userName;
     }
@@ -49,20 +58,16 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getAvatarPath() {
-        return avatarPath;
-    }
-
-    public void setAvatarPath( String avatarPath ) {
-        this.avatarPath = avatarPath;
-    }
-
     public Boolean getGender() {
         return gender;
     }
 
     public Long getDob() {
         return dob;
+    }
+
+    public Bitmap getAvatar() {
+        return avatar;
     }
 
     public String getEmail() {
@@ -87,5 +92,34 @@ public class User implements Serializable {
 
     public void setPhone( String phone ) {
         this.phone = phone;
+    }
+
+    public void setAvatar( Bitmap avatar ) {
+        this.avatar = avatar;
+    }
+
+    public void setRoomList( List<Room> roomList ) {
+        this.roomList = roomList;
+    }
+
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+
+    public void addRoom(Room room){
+        this.roomList.add(room);
+    }
+
+    public Room getRoomAt(int i){
+        return this.roomList.get(i);
+    }
+
+    public int getIndexRoomCode(String code){
+        for (int i = 0;i < roomList.size(); i++) {
+            if(roomList.get(i).getRoomCode().equals(code)){
+                return i;
+            }
+        }
+        return -1;
     }
 }
