@@ -61,6 +61,5 @@ var account = {
     deleteAccount: function (user_name, callback) {
         return db.query("CALL PROC_DELETE_ACCOUNT (?)", [user_name], callback);
     }
-
 }
 module.exports = account;
