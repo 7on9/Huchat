@@ -70,7 +70,7 @@ io.on("connection", function (socket) {
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
 				socket.emit("result",'severSendImageRoom', false);
-				console.log('THAT BAI: ' + filename);
+				console.log('THAT BAI:'+ err + " " + filename);
 			}
 		});
 	});

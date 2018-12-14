@@ -95,7 +95,7 @@ public class ServiceConnection extends Service {
                     break;
                     case SERVER_SEND_IMAGE_ROOM :
                         if(resultFromSever.success)
-
+                            tempImage = byteArrayToBimap((byte[]) args[2]);
                         break;
                     case CLIENT_REQUEST_LIST_ROOM :
                         if(resultFromSever.success){

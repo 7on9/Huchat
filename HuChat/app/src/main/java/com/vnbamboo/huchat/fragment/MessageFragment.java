@@ -22,6 +22,8 @@ import com.vnbamboo.huchat.object.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+
 public class MessageFragment extends Fragment {
 
     public MessageFragment() {
@@ -82,12 +84,15 @@ public class MessageFragment extends Fragment {
 //        listTempData.add(null);
 //
 //        createRandom10User();
+        listData.removeAll(listData);
+        listData.addAll(thisUser.getRoomList());
 
         final MessageRecyclerViewAdapter recyclerViewAdapter = new MessageRecyclerViewAdapter(recyclerView,this, listData);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                size = thisUser.getRoomList().size() + 7;
                 if(listData.size() <= size){
                     listData.add(null); //if listData[i] == null -> loading view
                     recyclerViewAdapter.notifyItemInserted(listData.size()-1);

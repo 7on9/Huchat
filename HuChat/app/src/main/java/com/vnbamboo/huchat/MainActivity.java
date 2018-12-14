@@ -43,18 +43,23 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
         mSocket.emit(CLIENT_REQUEST_LIST_ROOM, thisUser.getUserName());
-        for (final Room room:thisUser.getRoomList()){
-            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, room.getRoomCode());
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(resultFromSever.event.equals(SERVER_SEND_IMAGE_ROOM)){
-                        if(tempImage != null)
-                            thisUser.getRoomAt(thisUser.getIndexRoomCode(room.getRoomCode())).setAvatar(tempImage);
-                    }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (final Room room : thisUser.getRoomList()) {
+                    mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, room.getRoomCode());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (resultFromSever.event.equals(SERVER_SEND_IMAGE_ROOM)) {
+                                if (tempImage != null)
+                                    thisUser.getRoomAt(thisUser.getIndexRoomCode(room.getRoomCode())).setAvatar(tempImage);
+                            }
+                        }
+                    }, 300);
                 }
-            },300);
-        }
+            }
+        }, 300);
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());

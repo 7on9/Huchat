@@ -64,15 +64,14 @@ public class Utility {
         mContext.startActivity(intent);
     }
 
-    public static void startEditProfileActivity(Context mContext, User user){
+    public static void startEditProfileActivity(Context mContext){
         Intent intent = new Intent(mContext, EditProfileActivity.class);
-        intent.putExtra("User", (Serializable) user);
         mContext.startActivity(intent);
     }
 
     public static String getLocalHost(){
         //set match sever ip
-        return "http://20.0.16.128:2409/";
+        return "http://192.168.1.73:2409/";
     }
 
     public static String toSHA256(String input)

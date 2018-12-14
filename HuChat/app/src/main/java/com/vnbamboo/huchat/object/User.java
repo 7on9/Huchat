@@ -3,6 +3,7 @@ package com.vnbamboo.huchat.object;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
@@ -19,6 +20,7 @@ public class User implements Serializable {
         userName = email = phone = "";
         gender = null;
         dob = null;
+        roomList = new ArrayList<>();
     }
 
     public User(User a){

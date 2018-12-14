@@ -23,6 +23,8 @@ import com.vnbamboo.huchat.object.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private MessageFragment mContext;
@@ -109,7 +111,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public class CardMessageViewHolder extends RecyclerView.ViewHolder {
         TextView lastMessage, userName;
-        ImageView imgAvatar;
+        CircleImageView imgAvatar;
         LinearLayout line;
 
         public CardMessageViewHolder(View itemView) {
