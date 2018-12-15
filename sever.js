@@ -25,6 +25,8 @@ fs.readdir("img/", function (err, files) {
 });
 
 io.on("connection", function (socket) {
+	var roomOfUser = [];
+	socket.leave(socket.id);
 	socket.emit("result", "connection", true);
 	console.log("One user connected " + socket.id);
 	// socket.on("user",async (userName) => {
@@ -65,7 +67,7 @@ io.on("connection", function (socket) {
 		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit("result",'severSendImageRoom', true, data);
+				socket.emit("result",'severSendImageRoom', true, data, roomCode);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
@@ -91,6 +93,7 @@ io.on("connection", function (socket) {
 			}
 		});
 	});
+
 	socket.on("register", async (userName, password, email) => {
 		//console.log(password);
 		let existUserName = await account.checkExistUserName(userName);
@@ -131,7 +134,7 @@ io.on("connection", function (socket) {
 			else {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true, rows[0][0]);
-					socket.id = rows[0][0].USER_NAME;
+					socket.userName = rows[0][0].USER_NAME;
 					console.log("User " +socket.id+ " connected!");
 				}
 				else {
@@ -150,13 +153,19 @@ io.on("connection", function (socket) {
 			}
 			else {
 				if (rows.affectedRows > 0) {
-					console.log("account "+ socket.id +" logout");
+					console.log("account "+ userName +" logout");
 					//console.log("account created " + userName);
 					socket.emit("result", "logout", true);
+					for(let i in roomOfUser){
+						socket.leave(i);
+					}
+					roomOfUser = [];
 				}
 				else {
 					socket.emit("result", "logout", false);
 				}
+				// socket.disconnect();
+				// socket.removeAllListeners();
 			}
 		})
 	});
@@ -164,42 +173,66 @@ io.on("connection", function (socket) {
 	socket.on("clientRequestListRoom", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
-				socket.emit("result", "clientRequestListRoom", false);
+				socket.emit("result", "severSendListRoom", false);
 			}
 			else
 			{	
-				socket.emit("result", "clientRequestListRoom", true, rows[0]);
-				console.log(rows[0]);
+				socket.emit("result", "severSendListRoom", true, rows[0]);
+				//console.log(rows[0]);
 				for(i in rows[0]){
-					console.log(rows[0][i].ROOM_CODE);
+					// console.log(socket);
+					roomOfUser.push(rows[0][i].ROOM_CODE);
 					socket.join(rows[0][i].ROOM_CODE);
+					console.log(socket.adapter.rooms);
 				}
 			}
+			console.log(socket.adapter.rooms);
 		})
 	});
 	//chat
-	socket.on("joinRoom", (room) => {
+	socket.on("joinRoom", (roomCode) => {
 		//find room if exist
-		socket.join(room);
+		socket.join(roomCode);
 	});
 
-	socket.on("leaveRoom", (room) => {
+	socket.on("leaveRoom", (roomCode) => {
 		//remove from list room
-		socket.leave(room);
+		socket.leave(roomCode);
 	});
 
-	socket.on("clientGetHistoryChatRoom", (room) => {
-		//do some fucking thing sever
-		socket.emit("severReturnHistoryChatRoom");
+	socket.on("clientRequestHistoryChatRoom", (roomCode) => {
+		room.getHistoryOfChatRoom(roomCode, (err, rows) =>{
+			if(!err && rows.length > 0){
+				// console.log(rows[0]);
+				socket.emit("result", "severSendHistoryChatRoom", true, rows[0], roomCode);
+			}
+			else{
+				socket.emit("result", "severSendHistoryChatRoom", false);
+			}
+		})
+		
 	});
 
-	socket.on("messageFromClient", async (room, message) => {
-		io.to(room).emit("messageFromSever", message);
-		//console.log(message);
+	socket.on("clientSendMessage", (roomCode, userName, content) => {
+		// console.log(roomCode, userName, content);
+		socket.join(roomCode);
+		// console.log(socket.adapter.rooms);
+		
+		room.userChat(roomCode, userName, content, (err, rows) => {
+			io.to(roomCode).emit("severSendMessage",roomCode, userName, content);
+			// socket.broadcast.to(roomCode).emit("severSendMessage",roomCode, userName, content);
+			// io.sockets.to(roomCode).emit("severSendMessage",roomCode, userName, content);
+
+		});
 	});
 
 	socket.on("disconnect", () => {
 		console.log("User disconnected!");
+		for(let i in roomOfUser){
+			socket.leave(i);
+		}
+		roomOfUser = [];
+		// console.log(socket.adapter.rooms);
 	})
 });
 

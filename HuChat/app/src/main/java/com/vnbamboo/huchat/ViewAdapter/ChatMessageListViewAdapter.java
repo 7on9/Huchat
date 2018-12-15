@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
@@ -59,9 +58,10 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
     public View getView( int position, View convertView, ViewGroup parent ) {
         ChatMessage chatMessage = listData.get(position);
         MessageViewHolder messageListViewHolder = new MessageViewHolder();
-        if (chatMessage.getFromUser() == "") {
+        if (chatMessage.getUserNameSender().equals(thisUser.getUserName())) {
             convertView = layoutInflater.inflate(R.layout.my_message, null);
             messageListViewHolder.message = (TextView) convertView.findViewById(R.id.txtMyMessage);
+
             convertView.setTag(messageListViewHolder);
             messageListViewHolder.message.setText(chatMessage.getContent());
         } else {
@@ -72,7 +72,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
 
             messageListViewHolder.avatar.setImageBitmap(thisUser.getAvatar());
             messageListViewHolder.message.setText(chatMessage.getContent());
-            messageListViewHolder.user.setText(chatMessage.getFromUser());
+            messageListViewHolder.user.setText(chatMessage.getUserNameSender());
             convertView.setTag(messageListViewHolder);
 
         }

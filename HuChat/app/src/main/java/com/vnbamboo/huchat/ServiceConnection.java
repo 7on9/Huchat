@@ -4,25 +4,31 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.IBinder;
-import android.util.Log;
 
+import com.vnbamboo.huchat.object.ChatMessage;
+import com.vnbamboo.huchat.object.ResultFromSever;
 import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
 import static com.vnbamboo.huchat.Utility.RESULT;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
+import static com.vnbamboo.huchat.Utility.SEVER_SEND_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.Utility.SEVER_SEND_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.SEVER_SEND_MESSAGE;
 import static com.vnbamboo.huchat.Utility.byteArrayToBimap;
 import static com.vnbamboo.huchat.Utility.objectToJSONArray;
 import static com.vnbamboo.huchat.Utility.objectToJSONObject;
@@ -32,10 +38,11 @@ public class ServiceConnection extends Service {
     public static Socket mSocket;
     public static ResultFromSever resultFromSever;
     public static Boolean isConnected = false;
-    public static Emitter.Listener onNewImage, onResultFromSever;
+    public static Emitter.Listener onResultFromSever;
     public static Boolean statusConnecttion = false;
     public static User thisUser = new User();
     public static Bitmap tempImage = null;
+    public static List<ChatMessage> tmpListChat = new ArrayList<>();
     public ServiceConnection() {
     }
 
@@ -65,18 +72,19 @@ public class ServiceConnection extends Service {
         {
 
         }
-        onResultFromSever = new Emitter.Listener(){
+        onResultFromSever = new Emitter.Listener() {
             @Override
             public void call( Object... args ) {
                 resultFromSever = new ResultFromSever((String) args[0], (Boolean) args[1]);
                 switch (resultFromSever.event) {
-                    case CONNECTION : statusConnecttion = resultFromSever.success;
-                    break;
-                    case LOGIN : {
-                        if(!resultFromSever.success.booleanValue()) break;
+                    case CONNECTION:
+                        statusConnecttion = resultFromSever.success;
+                        break;
+                    case LOGIN:
+                        if (!resultFromSever.success.booleanValue()) break;
                         JSONObject jsonUser = objectToJSONObject(args[2]);
                         try {
-                            String tmp = (String)jsonUser.get("USER_NAME");
+                            String tmp = (String) jsonUser.get("USER_NAME");
                             thisUser.setUserName(tmp);
                             tmp = (String) jsonUser.get("FULL_NAME");
                             thisUser.setFullName(tmp);
@@ -87,22 +95,21 @@ public class ServiceConnection extends Service {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }
-                    break;
-                    case SERVER_SEND_IMAGE_USER :
-                        if(resultFromSever.success)
-                            thisUser.setAvatar(byteArrayToBimap((byte[]) args[2]));
-                    break;
-                    case SERVER_SEND_IMAGE_ROOM :
-                        if(resultFromSever.success)
-                            tempImage = byteArrayToBimap((byte[]) args[2]);
                         break;
-                    case CLIENT_REQUEST_LIST_ROOM :
-                        if(resultFromSever.success){
+                    case SERVER_SEND_IMAGE_USER:
+                        if (resultFromSever.success)
+                            thisUser.setAvatar(byteArrayToBimap((byte[]) args[2]));
+                        break;
+                    case SERVER_SEND_IMAGE_ROOM:
+                        if (resultFromSever.success)
+                            thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[3])).setAvatar(byteArrayToBimap((byte[]) args[2]));
+                        break;
+                    case SEVER_SEND_LIST_ROOM:
+                        if (resultFromSever.success) {
                             JSONArray jsonRoomArr = objectToJSONArray(args[2]);
-                            try{
-                                Room room = new Room();
+                            try {
                                 for (int i = 0; i < jsonRoomArr.length(); i++) {
+                                    Room room = new Room();
                                     JSONObject jsonobject = null;
                                     jsonobject = jsonRoomArr.getJSONObject(i);
                                     room.setRoomCode(jsonobject.getString("ROOM_CODE"));
@@ -114,13 +121,27 @@ public class ServiceConnection extends Service {
                             }
                         }
                         break;
+                    case SEVER_SEND_HISTORY_CHAT_ROOM :
+                        if(resultFromSever.success){
+                            JSONArray jsonRoomArr = objectToJSONArray(args[2]);
+                            try {
+                                tmpListChat = new ArrayList<>();
+                                for (int i = 0; i < jsonRoomArr.length(); i++) {
+                                    ChatMessage chatMessage = new ChatMessage();
+                                    JSONObject jsonobject = null;
+                                    jsonobject = jsonRoomArr.getJSONObject(i);
+                                    chatMessage.setContent(jsonobject.getString("CONTENT"));
+                                    chatMessage.setUserNameSender(jsonobject.getString("USER_NAME"));
+                                    chatMessage.setTime(jsonobject.getLong("TIME"));
+                                    tmpListChat.add(chatMessage);
+                                }
+                                thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[3])).setChatHistory(tmpListChat);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
                 }
-            }
-        };
-        onNewImage = new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-
             }
         };
 
@@ -130,28 +151,16 @@ public class ServiceConnection extends Service {
         return START_STICKY;
     }
 
+    public void reconnect(){
+//        mSocket.io().reconnection();
+    }
     @Override
     public void onDestroy() {
         isConnected = false;
+        statusConnecttion = false;
         mSocket.emit(LOGOUT, thisUser.getUserName());
         mSocket.disconnect();
         super.onDestroy();
-    }
-
-    public void disConnect(){
-        mSocket.disconnect();
-    }
-}
-class ResultFromSever{
-    public String event;
-    public Boolean success;
-    public ResultFromSever(String event, Boolean success){
-        this.event = event;
-        this.success = success;
-    }
-    public ResultFromSever(){
-        event = "";
-        success = true;
     }
 }
 

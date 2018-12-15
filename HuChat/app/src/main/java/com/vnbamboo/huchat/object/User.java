@@ -31,6 +31,7 @@ public class User implements Serializable {
         this.dob = a.dob;
         this.gender = a.gender;
         this.avatar = a.avatar;
+        this.roomList = a.roomList;
     }
 
     public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone){
@@ -116,7 +117,7 @@ public class User implements Serializable {
 
     public int getIndexRoomCode(String code){
         for (int i = 0;i < roomList.size(); i++) {
-            if(roomList.get(i).getRoomCode().equals(code)){
+            if(roomList.get(i).getRoomCode().toLowerCase().equals(code.toLowerCase())){
                 return i;
             }
         }

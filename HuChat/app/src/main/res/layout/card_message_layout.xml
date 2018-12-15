@@ -10,8 +10,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgViewAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/circle"
         android:src="@mipmap/roundiconhuchat"
         android:layout_gravity="center"

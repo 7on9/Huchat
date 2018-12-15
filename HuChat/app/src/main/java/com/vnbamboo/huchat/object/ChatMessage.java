@@ -1,28 +1,28 @@
 package com.vnbamboo.huchat.object;
 
 public class ChatMessage{
-    private String fromUser;
+    private String userNameSender;
     private String content;
     private long time;
-    private String toUser;
-    ChatMessage()
+    private String roomCodeReceive;
+    public ChatMessage()
     {
-        fromUser = "";
+        userNameSender = "";
         content = "";
-        toUser = "";
+        roomCodeReceive = "";
         time = 0;
     }
-    public ChatMessage( String fromUser, String content ){
-        this.fromUser = fromUser;
+    public ChatMessage( String userNameSender, String content ){
+        this.userNameSender = userNameSender;
         this.content = content;
     }
 
-    public String getFromUser() {
-        return fromUser;
+    public String getUserNameSender() {
+        return userNameSender;
     }
 
-    public String getToUser() {
-        return toUser;
+    public String getRoomCodeReceive() {
+        return roomCodeReceive;
     }
 
     public long getTime() {
@@ -33,12 +33,12 @@ public class ChatMessage{
         return content;
     }
 
-    public void setToUser( String toUser ) {
-        this.toUser = toUser;
+    public void setRoomCodeReceive( String roomCodeReceive ) {
+        this.roomCodeReceive = roomCodeReceive;
     }
 
-    public void setFromUser( String fromUser ) {
-        this.fromUser = fromUser;
+    public void setUserNameSender( String userNameSender ) {
+        this.userNameSender = userNameSender;
     }
 
     public void setContent( String content ) {

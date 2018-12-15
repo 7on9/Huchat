@@ -19,11 +19,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vnbamboo.huchat.object.ResultFromSever;
+
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox cbxRememberPass;
     Context thisContext = this;
 
-
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+
         if(!ServiceConnection.isConnected)
             this.stopService(intent);
         this.startService(intent);
@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 startMainActivity();
             }
         });
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -194,6 +195,7 @@ public class LoginActivity extends AppCompatActivity {
         String user = txtUserName.getText().toString();
         String pwd = txtPassword.getText().toString();
         boolean bchk = cbxRememberPass.isChecked();
+
         if(!bchk)
         {
             //xóa mọi lưu trữ trước đó

@@ -8,15 +8,30 @@ import java.util.List;
 public class Room {
     private String roomCode;
     private String name;
+    private List<ChatMessage> chatHistory;
     private List<User> listMember;
     private transient Bitmap avatar;
 
-    public List<User> getListMember() {
-        return listMember;
+    public Room( String roomCode, String name){
+        this.roomCode = roomCode;
+        this.name = name;
+    }
+    public Room(){
+        roomCode = name = null;
+        listMember = new ArrayList<>();
+        chatHistory = new ArrayList<>();
     }
 
-    public User getUserAt(int i){
-        return listMember.get(i);
+
+    public Room(Room a){
+        this.roomCode = a.getRoomCode();
+        this.listMember.addAll(a.getListMember());
+        this.avatar = a.getAvatar();
+    }
+
+
+    public void setRoomCode( String roomCode ) {
+        this.roomCode = roomCode;
     }
 
     public String getRoomCode() {
@@ -31,27 +46,36 @@ public class Room {
         this.name = name;
     }
 
+    public List<ChatMessage> getChatHistory() {
+        return chatHistory;
+    }
+
+    public void setChatHistory( List<ChatMessage> chatHistory ) {
+        this.chatHistory = chatHistory;
+    }
+
+    public ChatMessage getChatMessageAt(int i){
+        return chatHistory.get(i);
+    }
+
+    public List<User> getListMember() {
+        return listMember;
+    }
+
     public void setListMember( List<User> listMember ) {
-        this.listMember = listMember;
+        this.listMember.addAll(listMember);
     }
 
-    public void setRoomCode( String roomCode ) {
-        this.roomCode = roomCode;
-    }
-
-    public Room( String roomCode, String name){
-        this.roomCode = roomCode;
-        this.name = name;
-    }
-    public Room(){
-        roomCode = name = null;
-        listMember = new ArrayList<>();
+    public User getUserAt(int i){
+        return listMember.get(i);
     }
 
     public Bitmap getAvatar() {
         return avatar;
     }
-
+    public void addMessage(ChatMessage chatMessage){
+        this.chatHistory.add(chatMessage);
+    }
     public void setAvatar( Bitmap avatar ) {
         this.avatar = avatar;
     }

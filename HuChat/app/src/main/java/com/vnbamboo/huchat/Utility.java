@@ -37,12 +37,13 @@ public class Utility {
     public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
     public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
     public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
-    public static final String CLIENT_GET_HISTORY_CHAT_ROOM = "clientGetHistoryChatRoom";
-    public static final String SEVER_RETURN_HISTORY_CHAT_ROOM = "severReturnHistoryChatRoom";
+    public static final String SEVER_SEND_LIST_ROOM = "severSendListRoom";
+    public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
+    public static final String SEVER_SEND_HISTORY_CHAT_ROOM = "severSendHistoryChatRoom";
     public static final String JOINROOM = "joinRoom";
     public static final String LEAVEROOM = "leaveRoom";
-    public static final String MESSAGE_FROM_CLIENT = "messageFromClient";
-    public static final String MESSAGE_FROM_SEVER = "messageFromSever";
+    public static final String CLIENT_SEND_MESSAGE = "clientSendMessage";
+    public static final String SEVER_SEND_MESSAGE = "severSendMessage";
     public static final byte REQUEST_TAKE_PHOTO = 24;
     public static final byte REQUEST_CHOOSE_PHOTO = 9;
 
@@ -58,9 +59,10 @@ public class Utility {
         context.startActivity(intent);
     }
 
-    public static void startChatActivity(Context mContext,String userName){
+    public static void startChatActivity(Context mContext,String roomName, String roomCode){
         Intent intent = new Intent(mContext, ChatActivity.class);
-        intent.putExtra("UserName", userName);
+        intent.putExtra("RoomName", roomName);
+        intent.putExtra("RoomCode", roomCode);
         mContext.startActivity(intent);
     }
 

@@ -110,36 +110,41 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public class CardMessageViewHolder extends RecyclerView.ViewHolder {
-        TextView lastMessage, userName;
+        TextView lastMessage, roomName;
         CircleImageView imgAvatar;
         LinearLayout line;
+        String roomCode;
 
         public CardMessageViewHolder(View itemView) {
             super(itemView);
 
             imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
-            userName = itemView.findViewById(R.id.txtCardName);
+            roomName = itemView.findViewById(R.id.txtCardName);
             lastMessage = itemView.findViewById(R.id.txtLastMessage);
             line = itemView.findViewById(R.id.line);
 
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Utility.startChatActivity(v.getContext(),(String) userName.getText());
+                    Utility.startChatActivity(v.getContext(),(String) roomName.getText(), (String) lastMessage.getText() );
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
         }
 
         void bindData(Room room) {
-            this.userName.setText(room.getName());
+            this.roomName.setText(room.getName());
             this.lastMessage.setText(room.getRoomCode());
-            this.imgAvatar.setImageBitmap(room.getAvatar());
+            if(room.getAvatar() == null)
+                this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
+            else
+                this.imgAvatar.setImageBitmap(room.getAvatar());
+            this.roomCode = room.getRoomCode();
         }
 
     }
 
-    class LoadingViewHolder extends RecyclerView.ViewHolder {
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {

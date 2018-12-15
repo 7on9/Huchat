@@ -1,5 +1,6 @@
 package com.vnbamboo.huchat.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,13 +9,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.ServiceConnection;
+import com.vnbamboo.huchat.object.ResultFromSever;
 import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.object.User;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
 
 public class ProfileFragment extends Fragment {
@@ -77,10 +86,16 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick( View v ) {
                 mSocket.emit(LOGOUT, thisUser.getUserName());
+                thisUser = new User();
+                resultFromSever = new ResultFromSever();
+                tmpListChat = new ArrayList<>();
+                Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);
+                ProfileFragment.super.getActivity().stopService(intent);
+//                mSocket.disconnect();
+//                mSocket.io().reconnection();
                 Utility.startLoginActivity(v.getContext());
             }
         });
-
 
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override

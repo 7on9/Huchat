@@ -57,7 +57,9 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
+
         recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
+
         FloatingActionButton btnCreateNewMessage = (FloatingActionButton) v.findViewById(R.id.btnCreateNewMessage);
         btnCreateNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,25 +67,16 @@ public class MessageFragment extends Fragment {
                 Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
              }
         });
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+
         bounData();
+
         return v;
     }
 
     public void bounData(){
-//        tempUser = new User("Rem", "Rem", (long) 12344,true, "6996", "Bồ@gmail.com", "Xào rau muống");
-//        listTempData.add(tempUser);
-//        tempUser = new User("Ram", "Ram", (long) 12344,true, "9699", "Arg","Luộc trứng");
-//        listTempData.add(tempUser);
-//        tempUser = new User("Songoku", "Goku", (long) 12344,true, "9669966", "Bra","Trứng vịt lộn");
-//        listTempData.add(tempUser);
-//        tempUser = new User("Luffy", "Monkey D Luffy", (long) 12344,true, "000010", "MU","Đậu chiên");
-//
-//        listTempData.add(tempUser);
-//        listTempData.add(null);
-//
-//        createRandom10User();
         listData.removeAll(listData);
         listData.addAll(thisUser.getRoomList());
 

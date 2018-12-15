@@ -7,6 +7,8 @@ import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
 import com.vnbamboo.huchat.object.Room;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,24 +17,32 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+
+import java.util.List;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
 import static com.vnbamboo.huchat.ServiceConnection.tempImage;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
+import static com.vnbamboo.huchat.Utility.SEVER_SEND_HISTORY_CHAT_ROOM;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    Room tmp = new Room();
     @Override
     public void onBackPressed() {
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,25 +51,64 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
-        mSocket.emit(CLIENT_REQUEST_LIST_ROOM, thisUser.getUserName());
-        new Handler().postDelayed(new Runnable() {
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                for (final Room room : thisUser.getRoomList()) {
-                    mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, room.getRoomCode());
-                    new Handler().postDelayed(new Runnable() {
+                mSocket.emit(CLIENT_REQUEST_LIST_ROOM, thisUser.getUserName());
+            }
+        }).start();
+
+//        for (int z = 0; z < 5;  z++) {
+        try {
+            new Thread().sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < thisUser.getRoomList().size(); i++) {
+                    final int a = i;
+                    new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            if (resultFromSever.event.equals(SERVER_SEND_IMAGE_ROOM)) {
-                                if (tempImage != null)
-                                    thisUser.getRoomAt(thisUser.getIndexRoomCode(room.getRoomCode())).setAvatar(tempImage);
-                            }
+                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(a).getRoomCode());
                         }
-                    }, 300);
+                    }).start();
                 }
             }
-        }, 300);
+        }).start();
+        try {
+            new Thread().sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        }
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0 ; i < thisUser.getRoomList().size(); i++) {
+//                    final int a = i;
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(a).getRoomCode());
+//                        }
+//                    }).start();
+//                }
+//            }
+//        },1000);
+
+//        mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(0).getRoomCode());
+
+//        mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(1).getRoomCode());
+        //            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, room.getRoomCode());
+
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
@@ -103,8 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Intent intent = new Intent(MainActivity.this, ServiceConnection.class);
-        this.stopService(intent);
+//        Intent intent = new Intent(MainActivity.this, ServiceConnection.class);
+//        this.stopService(intent);
         super.onDestroy();
     }
 }
+
+

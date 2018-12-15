@@ -34,7 +34,7 @@
             android:textSize="18dp"
             android:fontFamily="@font/notosan_regular"
             android:paddingRight="10dp"
-            android:paddingLeft="45dp"/>
+            android:paddingLeft="20dp"/>
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"
@@ -70,6 +70,6 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:layout_margin="10dp"
-            android:background="@drawable/icon_send"/>
+            android:background="@mipmap/send"/>
     </LinearLayout>
 </LinearLayout>
