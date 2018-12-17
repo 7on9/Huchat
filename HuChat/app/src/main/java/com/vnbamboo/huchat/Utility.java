@@ -30,20 +30,22 @@ public class Utility {
     public static final String LOGIN = "login";
     public static final String RESULT = "result";
     public static final String LOGOUT = "logout";
-    public static final String SERVER_SEND_IMAGE_USER = "severSendImageUser";
-    public static final String SERVER_SEND_IMAGE_ROOM = "severSendImageRoom";
+    public static final String SERVER_SEND_IMAGE_USER = "serverSendImageUser";
+    public static final String SERVER_SEND_IMAGE_ROOM = "serverSendImageRoom";
     public static final String CLIENT_SEND_IMAGE_USER = "clientSendImageUser";
     public static final String CLIENT_SEND_IMAGE_ROOM = "clientSendImageRoom";
     public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
     public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
     public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
-    public static final String SEVER_SEND_LIST_ROOM = "severSendListRoom";
+    public static final String SERVER_SEND_LIST_ROOM = "serverSendListRoom";
     public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
-    public static final String SEVER_SEND_HISTORY_CHAT_ROOM = "severSendHistoryChatRoom";
-    public static final String JOINROOM = "joinRoom";
-    public static final String LEAVEROOM = "leaveRoom";
+    public static final String SERVER_SEND_HISTORY_CHAT_ROOM = "serverSendHistoryChatRoom";
+    public static final String CLIENT_REQUEST_PUBLIC_INFO_USER = "clientRequestPublicInfoUser";
+    public static final String SERVER_SEND_LIST_USER = "serverSendListPublicInfoUser";
+    public static final String JOIN_ROOM = "joinRoom";
+    public static final String LEAVE_ROOM = "leaveRoom";
     public static final String CLIENT_SEND_MESSAGE = "clientSendMessage";
-    public static final String SEVER_SEND_MESSAGE = "severSendMessage";
+    public static final String SERVER_SEND_MESSAGE = "serverSendMessage";
     public static final byte REQUEST_TAKE_PHOTO = 24;
     public static final byte REQUEST_CHOOSE_PHOTO = 9;
 
@@ -72,7 +74,7 @@ public class Utility {
     }
 
     public static String getLocalHost(){
-        //set match sever ip
+        //set match server ip
         return "http://192.168.1.73:2409/";
     }
 

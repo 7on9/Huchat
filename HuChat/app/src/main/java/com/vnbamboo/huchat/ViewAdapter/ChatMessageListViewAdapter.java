@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.object.ChatMessage;
+import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.ServiceConnection.userList;
 
 public class ChatMessageListViewAdapter extends BaseAdapter{
 
@@ -70,7 +72,10 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             messageListViewHolder.user = (TextView) convertView.findViewById(R.id.txtTheirName);
             messageListViewHolder.avatar = (CircleImageView) convertView.findViewById(R.id.imgViewAvatar);
 
-            messageListViewHolder.avatar.setImageBitmap(thisUser.getAvatar());
+            for(User u : userList){
+                if(u.getUserName().equals(chatMessage.getUserNameSender()))
+                    messageListViewHolder.avatar.setImageBitmap(u.getAvatar());
+            }
             messageListViewHolder.message.setText(chatMessage.getContent());
             messageListViewHolder.user.setText(chatMessage.getUserNameSender());
             convertView.setTag(messageListViewHolder);

@@ -16,6 +16,9 @@ var user = {
     },
     updateInfoUser : (aUser, callback) => {
         return db.query("CALL PROC_UPDATE_INFO_USER(?, ?, ?, ?, ?, ?, ?", [aUser.user_name], [aUser.fullName], [aUser.dob], [aUser.gender], [aUser.mail], [aUser.phone], [aUser.avatarPath], callback);
+    },
+    getPublicInfoUser : (callback) => {
+        return db.query("CAll PROC_GET_ALL_PUBLIC_INFO_USER()", callback);
     }
 };
 module.exports = user;

@@ -22,7 +22,7 @@ import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_MESSAGE;
-import static com.vnbamboo.huchat.Utility.SEVER_SEND_MESSAGE;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_MESSAGE;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -46,10 +46,12 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         ChatMessage chatMessage = new ChatMessage();
+
                         chatMessage.setRoomCodeReceive((String) args[0]);
                         chatMessage.setUserNameSender((String) args[1]);
                         chatMessage.setContent((String) args[2]);
                         chatMessage.setTime(System.currentTimeMillis());
+
                         thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[0])).addMessage(chatMessage);
                         chatMessageListViewAdapter = new ChatMessageListViewAdapter(context, thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[0])).getChatHistory());
                         lstChatMessage.setAdapter(chatMessageListViewAdapter);
@@ -83,7 +85,7 @@ public class ChatActivity extends AppCompatActivity {
             new Thread().sleep(500);
         }catch (Exception e){};
 
-        mSocket.on(SEVER_SEND_MESSAGE, onNewMessage);
+        mSocket.on(SERVER_SEND_MESSAGE, onNewMessage);
         setControl();
         addEvent();
     }

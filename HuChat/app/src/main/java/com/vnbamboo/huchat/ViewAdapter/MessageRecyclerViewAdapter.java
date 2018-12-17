@@ -25,6 +25,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.Utility.JOIN_ROOM;
+
 public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private MessageFragment mContext;
@@ -126,6 +129,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mSocket.emit(JOIN_ROOM, roomCode);
                     Utility.startChatActivity(v.getContext(),(String) roomName.getText(), (String) lastMessage.getText() );
                     // line.setBackgroundColor(R.color.colorAccent);
                 }

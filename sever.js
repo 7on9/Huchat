@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
-var sever = require("http").Server(app);
-var io = require("socket.io").listen(sever);
+var server = require("http").Server(app);
+var io = require("socket.io").listen(server);
 var fs = require("fs");
 
 //var routes = require("./routes");
@@ -40,7 +40,7 @@ io.on("connection", function (socket) {
 	socket.on("clientSendImageUser", function (data) {
 		try {
 			console.log("SERVER SAVED A NEW IMAGE");
-			var filename = getFilenameImageUser(socket.id);
+			var filename = getFilenameImageUser(socket.userName);
 			arrayImage.push(filename);
 			fs.writeFile(filename, data);
 			socket.emit("result", "clientSendImageUser", true);
@@ -49,7 +49,7 @@ io.on("connection", function (socket) {
 		}
 	});
 
-	socket.on("clientSendImageRoom", function (roomCode,data) {
+	socket.on("clientSendImageRoom", function (roomCode, data) {
 		try {
 			console.log("SERVER SAVED A NEW IMAGE");
 			var filename = getFilenameImageRoom(roomCode);
@@ -64,15 +64,17 @@ io.on("connection", function (socket) {
 	socket.on("clientRequestImageRoom", function (roomCode) {
 		let dir = getFilenameImageRoom(roomCode);
 		let index = arrayImage.indexOf(dir);
-		let filename = index == -1 ? "" : arrayImage[index];
+		let filename = index == -1 ? "img/default.png" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit("result",'severSendImageRoom', true, data, roomCode);
+				//console.log(data.toJSON(data));
+				socket.emit("result", 'serverSendImageRoom', true, data, roomCode);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
-				socket.emit("result",'severSendImageRoom', false);
-				console.log('THAT BAI:'+ err + " " + filename);
+				// console.log(filename);
+				socket.emit("result", 'serverSendImageRoom', false);
+				console.log('THAT BAI:' + err + " " + filename);
 			}
 		});
 	});
@@ -81,14 +83,14 @@ io.on("connection", function (socket) {
 	socket.on('clientRequestImageUser', function (userName) {
 		let dir = getFilenameImageUser(userName);
 		let index = arrayImage.indexOf(dir);
-		let filename = index == -1 ? "" : arrayImage[index];
+		let filename = index == -1 ? "img/default.png" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit("result",'severSendImageUser', true, data);
+				socket.emit("result", 'serverSendImageUser', true, data);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
-				socket.emit("result",'severSendImageUser', false);
+				socket.emit("result", 'serverSendImageUser', false);
 				console.log('THAT BAI: ' + filename);
 			}
 		});
@@ -135,13 +137,61 @@ io.on("connection", function (socket) {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true, rows[0][0]);
 					socket.userName = rows[0][0].USER_NAME;
-					console.log("User " +socket.id+ " connected!");
+					console.log("User " + socket.id + " connected!");
 				}
 				else {
 					//console.log("emited");
 					socket.emit("result", "login", false);
 				}
 			}
+		})
+	});
+
+	socket.on("clientRequestPublicInfoUser", () => {
+		let returnPack;
+		let listImg = [];
+		user.getPublicInfoUser(async (err, rows) => {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				/*
+				// let p = Promise.resolve()
+				// .then(async () => {
+				// 	console.log("1");
+				// 	let newRows = [];
+				// 	for(let i = 0; i < rows[0].length; i++){
+				// 		newRows.push(rows[0][i]);
+				// 		await getImageUser(rows[0][i].USER_NAME)
+				// 			.then((data) => {
+				// 				//Object.defineProperty(newRows[i], "AVATAR", {value : data});
+				// 				// newRows[i]["AVATAR"] = JSON.stringify(data);
+				// 				listImg.push(data);
+				// 				// console.log();
+				// 				//console.log(Object.getOwnPropertyNames(rows[0][i]));
+				// 				// console.log(newRows[i]);
+				// 			})
+				// 			.catch((err) => console.error(err));
+				// 	}
+				// 	console.log("2");
+				// 	// console.log(newRows);
+				// 	return newRows;
+				// })
+				// .then((newRows) => {
+				// 	console.log("3");
+				// 	returnPack = newRows;
+				// 	// console.log(Object.getOwnPropertyNames(newRows[0]));
+				// })
+				// .catch(err => console.log(err));
+				// await p;
+				// console.log("4");
+				// // console.log(listImg);
+				socket.emit("serverSendListPublicInfoUser", returnPack);
+				// console.log(Object.getOwnPropertyNames(rows[0][i]));
+				// Object.defineProperty(rows[0][i], "AVATAR", {value : data});
+			}
+			*/
+		}
 		})
 	});
 
@@ -153,10 +203,10 @@ io.on("connection", function (socket) {
 			}
 			else {
 				if (rows.affectedRows > 0) {
-					console.log("account "+ userName +" logout");
+					console.log("account " + userName + " logout");
 					//console.log("account created " + userName);
 					socket.emit("result", "logout", true);
-					for(let i in roomOfUser){
+					for (let i in roomOfUser) {
 						socket.leave(i);
 					}
 					roomOfUser = [];
@@ -173,22 +223,22 @@ io.on("connection", function (socket) {
 	socket.on("clientRequestListRoom", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
-				socket.emit("result", "severSendListRoom", false);
+				socket.emit("result", "serverSendListRoom", false);
 			}
-			else
-			{	
-				socket.emit("result", "severSendListRoom", true, rows[0]);
+			else {
+				socket.emit("result", "serverSendListRoom", true, rows[0]);
 				//console.log(rows[0]);
-				for(i in rows[0]){
+				for (i in rows[0]) {
 					// console.log(socket);
 					roomOfUser.push(rows[0][i].ROOM_CODE);
 					socket.join(rows[0][i].ROOM_CODE);
-					console.log(socket.adapter.rooms);
+					// console.log(socket.adapter.rooms);
 				}
 			}
-			console.log(socket.adapter.rooms);
+		//	console.log(socket.adapter.rooms);
 		})
 	});
+
 	//chat
 	socket.on("joinRoom", (roomCode) => {
 		//find room if exist
@@ -201,34 +251,32 @@ io.on("connection", function (socket) {
 	});
 
 	socket.on("clientRequestHistoryChatRoom", (roomCode) => {
-		room.getHistoryOfChatRoom(roomCode, (err, rows) =>{
-			if(!err && rows.length > 0){
+		room.getHistoryOfChatRoom(roomCode, (err, rows) => {
+			if (!err && rows.length > 0) {
 				// console.log(rows[0]);
-				socket.emit("result", "severSendHistoryChatRoom", true, rows[0], roomCode);
+				socket.emit("result", "serverSendHistoryChatRoom", true, rows[0], roomCode);
 			}
-			else{
-				socket.emit("result", "severSendHistoryChatRoom", false);
+			else {
+				socket.emit("result", "serverSendHistoryChatRoom", false);
 			}
 		})
-		
 	});
 
 	socket.on("clientSendMessage", (roomCode, userName, content) => {
 		// console.log(roomCode, userName, content);
 		socket.join(roomCode);
-		// console.log(socket.adapter.rooms);
-		
-		room.userChat(roomCode, userName, content, (err, rows) => {
-			io.to(roomCode).emit("severSendMessage",roomCode, userName, content);
-			// socket.broadcast.to(roomCode).emit("severSendMessage",roomCode, userName, content);
-			// io.sockets.to(roomCode).emit("severSendMessage",roomCode, userName, content);
+		// console.log(socket.adapter.rooms); 
 
+		room.userChat(roomCode, userName, content, (err, rows) => {
+			io.to(roomCode).emit("serverSendMessage", roomCode, userName, content);
+			// socket.broadcast.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
+			// io.sockets.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
 		});
 	});
 
 	socket.on("disconnect", () => {
 		console.log("User disconnected!");
-		for(let i in roomOfUser){
+		for (let i in roomOfUser) {
 			socket.leave(i);
 		}
 		roomOfUser = [];
@@ -240,8 +288,8 @@ app.get("/", function (req, res) {
 	res.sendFile(__dirname + "/index.html");
 });
 
-sever.listen(2409, () => {
-	console.log("Sever is online!");
+server.listen(2409, () => {
+	console.log("Server is online!");
 });
 //app.use("/", routes);
 
@@ -255,13 +303,26 @@ function getFilenameImageRoom(id) {
 	return "img/" + name + ".png";
 }
 
+var getImageUser = (userName) => {
+	return new Promise(function (resolve, reject) {
+		let dir = getFilenameImageUser(userName);
+		let index = arrayImage.indexOf(dir);
+		let filename = index == -1 ? "img/default.png" : arrayImage[index];
+		fs.readFile(filename, function (err, data) {
+			if (err) {
+				reject(err);
+			}
+			// console.log("2.1");
+			resolve(data);
+		});
+	})
+};
 function getMilis() {
 	var date = new Date();
 	var milis = date.getTime();
 	return milis;
 }
 
-
-module.exports = sever;
+module.exports = server;
 
 

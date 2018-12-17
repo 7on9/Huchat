@@ -19,10 +19,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vnbamboo.huchat.object.ResultFromSever;
+import com.vnbamboo.huchat.object.ResultFromServer;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.toSHA256;
@@ -50,8 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         if(!ServiceConnection.isConnected)
             this.stopService(intent);
         this.startService(intent);
-        if(resultFromSever == null)
-            resultFromSever = new ResultFromSever();
+        if(resultFromServer == null)
+            resultFromServer = new ResultFromServer();
 
         setControl();
         addEvent();
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(resultFromSever.success)
+                if(resultFromServer.success)
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_green, 0);
                 else
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_red, 0);
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void addEvent(){
-//        if(resultFromSever.success)
+//        if(resultFromServer.success)
 //            txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_green, 0);
 //        else
 //            txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_red, 0);
@@ -96,10 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if (!statusConnecttion) {
-                    Toast.makeText(view.getContext(), "Không thể kết nối đến sever! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Không thể kết nối đến server! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                resultFromSever.event = "";
+                resultFromServer.event = "";
                 mSocket.emit(LOGIN, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()));
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
                 dialog.setTitle("Đang đăng nhập...");
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (resultFromSever.event.equals(LOGIN) && resultFromSever.success) {
+                        if (resultFromServer.event.equals(LOGIN) && resultFromServer.success) {
                             savingPreferences();
                             dialog.cancel();
                             startMainActivity();
@@ -164,11 +164,11 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onTouch( View v, MotionEvent event ) {
                 switch ( event.getAction() ) {
                     case MotionEvent.ACTION_UP:
-                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_black_24dp, 0);
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_black_24dp, 0, R.drawable.ic_visibility_off_black_24dp, 0);
                         txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         break;
                     case MotionEvent.ACTION_DOWN:
-                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_black_24dp, 0);
+                        txtPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_black_24dp, 0, R.drawable.ic_visibility_black_24dp, 0);
                         txtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 return false;

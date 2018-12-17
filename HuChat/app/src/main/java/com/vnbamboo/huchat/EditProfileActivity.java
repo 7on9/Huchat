@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.REQUEST_CHOOSE_PHOTO;
@@ -98,9 +98,9 @@ public class EditProfileActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(resultFromSever.event.equals(CLIENT_SEND_IMAGE_USER))
+                                    if(resultFromServer.event.equals(CLIENT_SEND_IMAGE_USER))
                                     {
-                                        if(resultFromSever.success){
+                                        if(resultFromServer.success){
                                             thisUser.setAvatar(img);
                                             imgAvatar.setImageBitmap(img);
                                             Toast.makeText(thisContex, "Cập nhật ảnh đại diện thành công!", Toast.LENGTH_SHORT).show();

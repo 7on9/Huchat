@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.ServiceConnection;
-import com.vnbamboo.huchat.object.ResultFromSever;
+import com.vnbamboo.huchat.object.ResultFromServer;
 import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.object.User;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
@@ -87,7 +87,7 @@ public class ProfileFragment extends Fragment {
             public void onClick( View v ) {
                 mSocket.emit(LOGOUT, thisUser.getUserName());
                 thisUser = new User();
-                resultFromSever = new ResultFromSever();
+                resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);
                 ProfileFragment.super.getActivity().stopService(intent);

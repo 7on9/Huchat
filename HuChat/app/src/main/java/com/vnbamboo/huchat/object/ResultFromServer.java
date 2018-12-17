@@ -1,13 +1,13 @@
 package com.vnbamboo.huchat.object;
 
-public class ResultFromSever{
+public class ResultFromServer{
     public String event;
     public Boolean success;
-    public ResultFromSever(String event, Boolean success){
+    public ResultFromServer(String event, Boolean success){
         this.event = event;
         this.success = success;
     }
-    public ResultFromSever(){
+    public ResultFromServer(){
         event = "";
         success = true;
     }

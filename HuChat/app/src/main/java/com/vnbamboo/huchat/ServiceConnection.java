@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.os.IBinder;
 
 import com.vnbamboo.huchat.object.ChatMessage;
-import com.vnbamboo.huchat.object.ResultFromSever;
+import com.vnbamboo.huchat.object.ResultFromServer;
 import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
@@ -26,29 +26,29 @@ import static com.vnbamboo.huchat.Utility.LOGOUT;
 import static com.vnbamboo.huchat.Utility.RESULT;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
-import static com.vnbamboo.huchat.Utility.SEVER_SEND_HISTORY_CHAT_ROOM;
-import static com.vnbamboo.huchat.Utility.SEVER_SEND_LIST_ROOM;
-import static com.vnbamboo.huchat.Utility.SEVER_SEND_MESSAGE;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_USER;
 import static com.vnbamboo.huchat.Utility.byteArrayToBimap;
 import static com.vnbamboo.huchat.Utility.objectToJSONArray;
 import static com.vnbamboo.huchat.Utility.objectToJSONObject;
 
 public class ServiceConnection extends Service {
 
-    public static Socket mSocket;
-    public static ResultFromSever resultFromSever;
-    public static Boolean isConnected = false;
-    public static Emitter.Listener onResultFromSever;
-    public static Boolean statusConnecttion = false;
-    public static User thisUser = new User();
     public static Bitmap tempImage = null;
+    public static Boolean isConnected = false;
+    public static Boolean statusConnecttion = false;
+    public static Emitter.Listener onResultFromServer, onListUserFromServer;
     public static List<ChatMessage> tmpListChat = new ArrayList<>();
+    public static ResultFromServer resultFromServer;
+    public static Socket mSocket;
+    public static User thisUser = new User();
+    public static List<User> userList = new ArrayList<>();
     public ServiceConnection() {
     }
 
     @Override
     public IBinder onBind( Intent intent ) {
-
 
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
@@ -72,16 +72,16 @@ public class ServiceConnection extends Service {
         {
 
         }
-        onResultFromSever = new Emitter.Listener() {
+        onResultFromServer = new Emitter.Listener() {
             @Override
             public void call( Object... args ) {
-                resultFromSever = new ResultFromSever((String) args[0], (Boolean) args[1]);
-                switch (resultFromSever.event) {
+                resultFromServer = new ResultFromServer((String) args[0], (Boolean) args[1]);
+                switch (resultFromServer.event) {
                     case CONNECTION:
-                        statusConnecttion = resultFromSever.success;
+                        statusConnecttion = resultFromServer.success;
                         break;
                     case LOGIN:
-                        if (!resultFromSever.success.booleanValue()) break;
+                        if (!resultFromServer.success.booleanValue()) break;
                         JSONObject jsonUser = objectToJSONObject(args[2]);
                         try {
                             String tmp = (String) jsonUser.get("USER_NAME");
@@ -96,16 +96,19 @@ public class ServiceConnection extends Service {
                             e.printStackTrace();
                         }
                         break;
+
                     case SERVER_SEND_IMAGE_USER:
-                        if (resultFromSever.success)
+                        if (resultFromServer.success)
                             thisUser.setAvatar(byteArrayToBimap((byte[]) args[2]));
                         break;
+
                     case SERVER_SEND_IMAGE_ROOM:
-                        if (resultFromSever.success)
+                        if (resultFromServer.success)
                             thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[3])).setAvatar(byteArrayToBimap((byte[]) args[2]));
                         break;
-                    case SEVER_SEND_LIST_ROOM:
-                        if (resultFromSever.success) {
+
+                    case SERVER_SEND_LIST_ROOM:
+                        if (resultFromServer.success) {
                             JSONArray jsonRoomArr = objectToJSONArray(args[2]);
                             try {
                                 for (int i = 0; i < jsonRoomArr.length(); i++) {
@@ -121,8 +124,9 @@ public class ServiceConnection extends Service {
                             }
                         }
                         break;
-                    case SEVER_SEND_HISTORY_CHAT_ROOM :
-                        if(resultFromSever.success){
+
+                    case SERVER_SEND_HISTORY_CHAT_ROOM :
+                        if(resultFromServer.success){
                             JSONArray jsonRoomArr = objectToJSONArray(args[2]);
                             try {
                                 tmpListChat = new ArrayList<>();
@@ -144,16 +148,33 @@ public class ServiceConnection extends Service {
                 }
             }
         };
-
+        onListUserFromServer = new Emitter.Listener() {
+            @Override
+            public void call( Object... args ) {
+                try {
+                    JSONArray jsonArray = objectToJSONArray(args[0]);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        User tmpUser = new User();
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        tmpUser.setUserName(jsonObject.getString("USER_NAME"));
+                        tmpUser.setFullName(jsonObject.getString("FULL_NAME"));
+                        userList.add(tmpUser);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
         mSocket.connect();
         //Add listen event
-        mSocket.on(RESULT, onResultFromSever);
+        mSocket.on(RESULT, onResultFromServer);
+        mSocket.on(SERVER_SEND_LIST_USER, onListUserFromServer);
         return START_STICKY;
     }
 
-    public void reconnect(){
-//        mSocket.io().reconnection();
-    }
+//    public void reconnect(){
+////        mSocket.io().reconnection();
+//    }
     @Override
     public void onDestroy() {
         isConnected = false;

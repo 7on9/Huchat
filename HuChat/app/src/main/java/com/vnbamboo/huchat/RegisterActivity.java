@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.Utility.REGISTER;
 import static com.vnbamboo.huchat.Utility.startLoginActivity;
 import static com.vnbamboo.huchat.Utility.toSHA256;
@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (resultFromSever.event.equals(REGISTER) && resultFromSever.success) {
+                        if (resultFromServer.event.equals(REGISTER) && resultFromServer.success) {
                             resetText();
                             Toast.makeText(thisContext, "Đăng ký thành công! Sẽ chuyển đến màn hình đăng nhập", Toast.LENGTH_SHORT).show();
                             new Handler().postDelayed(new Runnable() {

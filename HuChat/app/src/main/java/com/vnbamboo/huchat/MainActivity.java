@@ -23,7 +23,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromSever;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.tempImage;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
@@ -31,8 +31,9 @@ import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
-import static com.vnbamboo.huchat.Utility.SEVER_SEND_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-//        for (int z = 0; z < 5;  z++) {
         try {
             new Thread().sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -81,33 +82,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
         try {
             new Thread().sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-//        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
+            }
+        }).start();
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i = 0 ; i < thisUser.getRoomList().size(); i++) {
-//                    final int a = i;
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(a).getRoomCode());
-//                        }
-//                    }).start();
-//                }
-//            }
-//        },1000);
+        try {
+            new Thread().sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-//        mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(0).getRoomCode());
+//        for (int z = 0; z < 5;  z++) {
 
-//        mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(1).getRoomCode());
-        //            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, room.getRoomCode());
+
 
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();

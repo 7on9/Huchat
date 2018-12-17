@@ -43,6 +43,13 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public User(String userName, String fullName, boolean gender, Bitmap avatar){
+        this.userName = userName;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.avatar = avatar;
+    }
+
     public void setUserName( String userName ) {
         this.userName = userName;
     }
