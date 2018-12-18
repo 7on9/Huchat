@@ -178,7 +178,9 @@ public class ServiceConnection extends Service {
     public void onDestroy() {
         isConnected = false;
         statusConnecttion = false;
-        mSocket.emit(LOGOUT, thisUser.getUserName());
+        if(thisUser.getUserName().length() > 0) {
+            mSocket.emit(LOGOUT, thisUser.getUserName());
+        }
         mSocket.disconnect();
         super.onDestroy();
     }

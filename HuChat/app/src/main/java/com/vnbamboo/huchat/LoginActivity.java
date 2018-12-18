@@ -243,8 +243,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
-        if(!ServiceConnection.isConnected)
+        if(ServiceConnection.isConnected) {
+//            mSocket.off();
             this.stopService(intent);
+        }
         this.startService(intent);
         restoringPreferences();
     }

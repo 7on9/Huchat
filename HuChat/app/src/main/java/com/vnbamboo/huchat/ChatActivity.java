@@ -109,6 +109,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         mSocket.off(SERVER_SEND_MESSAGE, onNewMessage);
+
         super.onBackPressed();
     }
 
@@ -117,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                mSocket.off(SERVER_SEND_MESSAGE, onNewMessage);
 //                mSocket.emit(LEAVE_ROOM, roomCode);
                 ChatActivity.super.onBackPressed();
 
