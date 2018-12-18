@@ -248,6 +248,7 @@ io.on("connection", function (socket) {
 	socket.on("leaveRoom", (roomCode) => {
 		//remove from list room
 		socket.leave(roomCode);
+		socket.removeListener(clearInterval);
 	});
 
 	socket.on("clientRequestHistoryChatRoom", (roomCode) => {
@@ -264,10 +265,14 @@ io.on("connection", function (socket) {
 
 	socket.on("clientSendMessage", (roomCode, userName, content) => {
 		// console.log(roomCode, userName, content);
+		
 		socket.join(roomCode);
-		// console.log(socket.adapter.rooms); 
+		console.log("dd");
+		
+		console.log(socket.adapter.rooms); 
 
 		room.userChat(roomCode, userName, content, (err, rows) => {
+
 			io.to(roomCode).emit("serverSendMessage", roomCode, userName, content);
 			// socket.broadcast.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
 			// io.sockets.to(roomCode).emit("serverSendMessage",roomCode, userName, content);

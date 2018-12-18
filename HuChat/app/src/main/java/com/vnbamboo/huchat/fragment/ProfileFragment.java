@@ -90,6 +90,7 @@ public class ProfileFragment extends Fragment {
                 resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);
+//                mSocket.close();
                 ProfileFragment.super.getActivity().stopService(intent);
 //                mSocket.disconnect();
 //                mSocket.io().reconnection();

@@ -22,6 +22,7 @@ import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_MESSAGE;
+import static com.vnbamboo.huchat.Utility.LEAVE_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_MESSAGE;
 
 public class ChatActivity extends AppCompatActivity {
@@ -57,6 +58,8 @@ public class ChatActivity extends AppCompatActivity {
                         lstChatMessage.setAdapter(chatMessageListViewAdapter);
 //                        if(!chatMessage.getUserNameSender().toLowerCase().equals(thisUser.getUserName().toLowerCase()))
 //                        chatMessageListViewAdapter.add(chatMessage);
+                        chatMessageListViewAdapter.notifyDataSetChanged();
+                      //  mSocket.once(SERVER_SEND_MESSAGE, onNewMessage);
                         lstChatMessage.setSelection(lstChatMessage.getCount() - 1);
                     }
                 });
@@ -82,7 +85,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }).start();
         try {
-            new Thread().sleep(500);
+            new Thread().sleep(1000);
         }catch (Exception e){};
 
         mSocket.on(SERVER_SEND_MESSAGE, onNewMessage);
@@ -103,12 +106,20 @@ public class ChatActivity extends AppCompatActivity {
         btnSendMessage = (ImageButton) findViewById(R.id.btnSendMessage);
     }
 
+    @Override
+    public void onBackPressed() {
+        mSocket.off(SERVER_SEND_MESSAGE, onNewMessage);
+        super.onBackPressed();
+    }
+
     protected void addEvent() {
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+//                mSocket.emit(LEAVE_ROOM, roomCode);
                 ChatActivity.super.onBackPressed();
+
             }
         });
 

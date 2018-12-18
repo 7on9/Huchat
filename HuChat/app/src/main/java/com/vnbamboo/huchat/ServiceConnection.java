@@ -63,11 +63,10 @@ public class ServiceConnection extends Service {
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
-        isConnected = true;
+        isConnected = statusConnecttion  =  true;
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
-
         }catch (Exception e)
         {
 

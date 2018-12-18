@@ -242,10 +242,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
-//        if(!ServiceConnection.isConnected)
-//            this.stopService(intent);
-//        this.startService(intent);
+        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+        if(!ServiceConnection.isConnected)
+            this.stopService(intent);
+        this.startService(intent);
         restoringPreferences();
     }
 
