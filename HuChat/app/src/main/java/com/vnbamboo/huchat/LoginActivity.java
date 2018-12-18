@@ -24,6 +24,7 @@ import com.vnbamboo.huchat.object.ResultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
@@ -47,14 +48,27 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
 
-        if(!ServiceConnection.isConnected)
+        if(ServiceConnection.isConnected)
             this.stopService(intent);
+
         this.startService(intent);
         if(resultFromServer == null)
             resultFromServer = new ResultFromServer();
 
         setControl();
         addEvent();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
+                    }
+                });
+            }
+        }).start();
 
         new Handler().postDelayed(new Runnable() {
             @Override

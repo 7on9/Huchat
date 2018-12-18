@@ -64,6 +64,7 @@ public class ServiceConnection extends Service {
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
         isConnected = statusConnecttion  =  true;
+        mSocket = null;
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
@@ -97,8 +98,17 @@ public class ServiceConnection extends Service {
                         break;
 
                     case SERVER_SEND_IMAGE_USER:
-                        if (resultFromServer.success)
-                            thisUser.setAvatar(byteArrayToBimap((byte[]) args[2]));
+                        if (resultFromServer.success) {
+                            for (User user: userList){
+                                if(user.getUserName().equals((String) args[3])){
+                                    user.setAvatar(byteArrayToBimap((byte[]) args[2]));
+                                }
+                                if(user.getUserName().equals(thisUser.getUserName())){
+                                    thisUser.setAvatar(user.getAvatar());
+                                }
+                            }
+
+                        }
                         break;
 
                     case SERVER_SEND_IMAGE_ROOM:
@@ -178,6 +188,8 @@ public class ServiceConnection extends Service {
     public void onDestroy() {
         isConnected = false;
         statusConnecttion = false;
+        mSocket.off(RESULT, onResultFromServer);
+        mSocket.off(SERVER_SEND_LIST_USER, onListUserFromServer);
         if(thisUser.getUserName().length() > 0) {
             mSocket.emit(LOGOUT, thisUser.getUserName());
         }

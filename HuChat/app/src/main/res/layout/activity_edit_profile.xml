@@ -43,6 +43,7 @@
             android:elevation="@dimen/mediumlv1High"
             android:clickable="true"/>
         <TextView
+            android:id="@+id/txtFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nguyễn Thành Long"
@@ -62,6 +63,7 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/btnChangeFullName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lineHigh"
             android:paddingRight="10dp"
@@ -77,6 +79,7 @@
             android:gravity="center|left"/>
 
         <Button
+            android:id="@+id/btnChangeMail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lineHigh"
             android:layout_marginTop="@dimen/singleLine"
@@ -94,6 +97,7 @@
             android:fontFamily="@font/roboto_regular"
             android:gravity="center|left"/>
         <Button
+            android:id="@+id/btnChangePhone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lineHigh"
             android:paddingRight="10dp"
@@ -109,6 +113,7 @@
             android:gravity="center|left"/>
 
         <Button
+            android:id="@+id/btnChangePassword"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lineHigh"
             android:layout_marginTop="@dimen/singleLine"
@@ -127,6 +132,7 @@
             android:gravity="center|left"/>
 
         <Button
+            android:id="@+id/btnChangeGender"
             android:layout_height="@dimen/lineHigh"
             android:layout_width="match_parent"
             android:textAllCaps="false"
@@ -143,6 +149,7 @@
             android:gravity="center|left"/>
 
         <Button
+            android:id="@+id/btnChangeDob"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lineHigh"
             android:layout_marginTop="@dimen/singleLine"
@@ -161,6 +168,7 @@
             android:gravity="center|left"/>
     </LinearLayout>
     <Button
+        android:id="@+id/btnDeleteAccount"
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="@dimen/lineHigh"

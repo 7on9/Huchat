@@ -86,7 +86,7 @@ io.on("connection", function (socket) {
 		let filename = index == -1 ? "img/default.png" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
-				socket.emit("result", 'serverSendImageUser', true, data);
+				socket.emit("result", 'serverSendImageUser', true, data, userName);
 				//socket.emit("result", "clientSendRequestImage",true);
 				console.log("SEND TO CLIENT A FILE: " + filename);
 			} else {
@@ -155,6 +155,7 @@ io.on("connection", function (socket) {
 				console.log(err);
 			}
 			else {
+				socket.emit("serverSendListPublicInfoUser" ,rows[0]);
 				/*
 				// let p = Promise.resolve()
 				// .then(async () => {
@@ -265,14 +266,9 @@ io.on("connection", function (socket) {
 
 	socket.on("clientSendMessage", (roomCode, userName, content) => {
 		// console.log(roomCode, userName, content);
-		
 		socket.join(roomCode);
-		console.log("dd");
-		
-		console.log(socket.adapter.rooms); 
-
-		room.userChat(roomCode, userName, content, (err, rows) => {
-
+		// console.log(socket.adapter.rooms); 
+		room.userChat(roomCode, userName, content, () => {
 			io.to(roomCode).emit("serverSendMessage", roomCode, userName, content);
 			// socket.broadcast.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
 			// io.sockets.to(roomCode).emit("serverSendMessage",roomCode, userName, content);

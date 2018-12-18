@@ -1,24 +1,20 @@
 package com.vnbamboo.huchat.ViewAdapter;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 
-import com.vnbamboo.huchat.ChatActivity;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.object.Room;
-import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;

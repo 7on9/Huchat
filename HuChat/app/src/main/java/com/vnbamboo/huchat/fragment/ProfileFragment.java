@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.vnbamboo.huchat.LoginActivity;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.ServiceConnection;
 import com.vnbamboo.huchat.object.ResultFromServer;
@@ -76,7 +75,9 @@ public class ProfileFragment extends Fragment {
         txtFullName.setText(thisUser.getUserName());
         txtEmail = (TextView) v.findViewById(R.id.txtEmail);
         txtEmail.setText(thisUser.getEmail());
+
         imgAvatar = (CircleImageView) v.findViewById(R.id.imgViewAvatar);
+
         if(thisUser.getAvatar() != null)
             imgAvatar.setImageBitmap(thisUser.getAvatar());
         else imgAvatar.setImageResource(R.mipmap.squareiconhuchat);

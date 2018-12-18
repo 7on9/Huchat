@@ -27,6 +27,7 @@ import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.tempImage;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
+import static com.vnbamboo.huchat.ServiceConnection.userList;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
@@ -38,7 +39,6 @@ import static com.vnbamboo.huchat.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
 
 public class MainActivity extends AppCompatActivity {
 
-    Room tmp = new Room();
     @Override
     public void onBackPressed() {
 
@@ -54,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < userList.size(); i++) {
+                    final int a = i;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSocket.emit(CLIENT_REQUEST_IMAGE_USER, userList.get(a).getUserName());
+                        }
+                    }).start();
+                }
+            }
+        }).start();
 
         new Thread(new Runnable() {
             @Override
@@ -89,22 +104,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
-            }
-        }).start();
 
-        try {
-            new Thread().sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-//        for (int z = 0; z < 5;  z++) {
-
-
+//        try {
+//            new Thread().sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();

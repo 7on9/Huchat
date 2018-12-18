@@ -22,6 +22,7 @@ import com.vnbamboo.huchat.object.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 
 public class MessageFragment extends Fragment {
@@ -49,6 +50,11 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -39,6 +40,8 @@ public class EditProfileActivity extends AppCompatActivity {
     LayoutInflater inflater;
     ImageView imgAvatemp;
     Context thisContex = this;
+    TextView txtFullName;
+
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -48,12 +51,14 @@ public class EditProfileActivity extends AppCompatActivity {
         inflater = this.getLayoutInflater();
         addControl();
         addEvent();
-
     }
+
     private void addControl(){
         btnBack = (Button) findViewById(R.id.btnBack);
         imgAvatar = (ImageView) findViewById(R.id.imgViewAvatar);
+        txtFullName = (TextView) findViewById(R.id.txtFullName);
         imgAvatar.setImageBitmap(thisUser.getAvatar());
+        txtFullName.setText(thisUser.getFullName());
     }
 
     private void addEvent(){
