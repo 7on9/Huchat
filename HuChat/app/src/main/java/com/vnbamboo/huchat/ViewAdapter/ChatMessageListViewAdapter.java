@@ -2,16 +2,20 @@ package com.vnbamboo.huchat.ViewAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.object.ChatMessage;
 import com.vnbamboo.huchat.object.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,8 +40,8 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
         listData = chatMessageList;
     }
 
-    public void add(ChatMessage message) {
-        this.listData.add(message);
+    public void add(ChatMessage txtMessage) {
+        this.listData.add(txtMessage);
         notifyDataSetChanged(); // to render the list we need to notify
     }
 
@@ -59,34 +63,66 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
     @Override
     public View getView( int position, View convertView, ViewGroup parent ) {
         ChatMessage chatMessage = listData.get(position);
-        MessageViewHolder messageListViewHolder = new MessageViewHolder();
+        final MessageViewHolder messageListViewHolder = new MessageViewHolder();
+
+        Date date = new Date(chatMessage.getTime() * 1000); // convert seconds to milliseconds
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss"); // the format of your date
+        String formattedDate = dateFormat.format(date);
+
+
         if (chatMessage.getUserNameSender().equals(thisUser.getUserName())) {
             convertView = layoutInflater.inflate(R.layout.my_message, null);
-            messageListViewHolder.message = (TextView) convertView.findViewById(R.id.txtMyMessage);
-
+            messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtMyMessage);
+            messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
+            messageListViewHolder.line = convertView.findViewById(R.id.line);
             convertView.setTag(messageListViewHolder);
-            messageListViewHolder.message.setText(chatMessage.getContent());
+            messageListViewHolder.txtMessage.setText(chatMessage.getContent());
+
+
+            messageListViewHolder.txtTime.setText(formattedDate);
         } else {
             convertView = layoutInflater.inflate(R.layout.their_message, null);
-            messageListViewHolder.message = (TextView) convertView.findViewById(R.id.txtTheirMessage);
-            messageListViewHolder.user = (TextView) convertView.findViewById(R.id.txtTheirName);
-            messageListViewHolder.avatar = (CircleImageView) convertView.findViewById(R.id.imgViewAvatar);
+            messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtTheirMessage);
+            messageListViewHolder.txtUser = (TextView) convertView.findViewById(R.id.txtTheirName);
+            messageListViewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.imgViewAvatar);
+            messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
+            messageListViewHolder.line = convertView.findViewById(R.id.line);
 
             for(User u : userList){
                 if(u.getUserName().equals(chatMessage.getUserNameSender()))
-                    messageListViewHolder.avatar.setImageBitmap(u.getAvatar());
+                    messageListViewHolder.imgAvatar.setImageBitmap(u.getAvatar());
             }
-            messageListViewHolder.message.setText(chatMessage.getContent());
-            messageListViewHolder.user.setText(chatMessage.getUserNameSender());
+            messageListViewHolder.txtMessage.setText(chatMessage.getContent());
+            messageListViewHolder.txtUser.setText(chatMessage.getUserNameSender());
+            messageListViewHolder.txtTime.setText(formattedDate);
             convertView.setTag(messageListViewHolder);
-
         }
+
+        messageListViewHolder.txtMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                if(messageListViewHolder.txtTime.getVisibility() == View.INVISIBLE)
+                    messageListViewHolder.txtTime.setVisibility(View.VISIBLE);
+                else messageListViewHolder.txtTime.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        messageListViewHolder.line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                if(messageListViewHolder.txtTime.getVisibility() == View.INVISIBLE)
+                    messageListViewHolder.txtTime.setVisibility(View.VISIBLE);
+                else messageListViewHolder.txtTime.setVisibility(View.INVISIBLE);
+            }
+        });
         return convertView;
     }
 }
 
 class MessageViewHolder{
-    TextView message;
-    TextView user;
-    CircleImageView avatar;
+    TextView txtMessage;
+    TextView txtUser;
+    TextView txtTime;
+    CircleImageView imgAvatar;
+    RelativeLayout line;
 }

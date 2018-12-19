@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="5dp"
+    android:paddingVertical="3dp"
     android:paddingRight="15dp"
     android:paddingLeft="60dp"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:id="@+id/line">
 
     <TextView
         android:id="@+id/txtMyMessage"
@@ -15,9 +16,20 @@
         android:padding="10dp"
         android:elevation="2dp"
         android:textSize="18dp"
+        android:textIsSelectable="true"
         android:layout_alignParentRight="true"
         android:text="Placeholder message"
         android:background="@drawable/my_message_content"
         />
+    <TextView
+        android:id="@+id/txtTime"
+        android:textSize="10dp"
+        android:layout_toLeftOf="@id/txtMyMessage"
+        android:layout_alignBaseline="@id/txtMyMessage"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="0:0:0"/>
 
 </RelativeLayout>
