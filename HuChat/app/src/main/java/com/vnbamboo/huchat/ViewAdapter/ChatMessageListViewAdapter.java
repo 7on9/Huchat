@@ -116,12 +116,13 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
         });
         return convertView;
     }
+    class MessageViewHolder{
+        TextView txtMessage;
+        TextView txtUser;
+        TextView txtTime;
+        CircleImageView imgAvatar;
+        RelativeLayout line;
+    }
 }
 
-class MessageViewHolder{
-    TextView txtMessage;
-    TextView txtUser;
-    TextView txtTime;
-    CircleImageView imgAvatar;
-    RelativeLayout line;
-}
+

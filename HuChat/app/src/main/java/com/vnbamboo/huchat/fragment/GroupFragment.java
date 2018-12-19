@@ -7,15 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.object.User;
 
-public class FriendFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    public FriendFragment() {
+import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
+
+public class GroupFragment extends Fragment {
+    List<String> listNameUser = new ArrayList<>();
+    public GroupFragment() {
         // Required empty public constructor
     }
 
-    public static FriendFragment newInstance(String param1, String param2) {
-        FriendFragment fragment = new FriendFragment();
+    public static GroupFragment newInstance(String param1, String param2) {
+        GroupFragment fragment = new GroupFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -30,6 +36,10 @@ public class FriendFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friend, container, false);
+        for(User user: LIST_ALL_USER){
+             listNameUser.add(user.getUserName());
+        }
+
+        return inflater.inflate(R.layout.fragment_group, container, false);
     }
 }

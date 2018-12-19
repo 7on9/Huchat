@@ -30,11 +30,12 @@ import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.REQUEST_CHOOSE_PHOTO;
 import static com.vnbamboo.huchat.Utility.REQUEST_TAKE_PHOTO;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 import static com.vnbamboo.huchat.Utility.getByteArrayFromBitmap;
 import static com.vnbamboo.huchat.Utility.resize;
 
 public class EditProfileActivity extends AppCompatActivity {
-    Button btnBack;
+    Button btnBack, btnChangeFullName;
     ImageView imgAvatar;
     Bitmap img = null;
     LayoutInflater inflater;
@@ -59,6 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
         txtFullName = (TextView) findViewById(R.id.txtFullName);
         imgAvatar.setImageBitmap(thisUser.getAvatar());
         txtFullName.setText(thisUser.getFullName());
+        btnChangeFullName = findViewById(R.id.btnChangeFullName);
     }
 
     private void addEvent(){
@@ -114,7 +116,6 @@ public class EditProfileActivity extends AppCompatActivity {
                                     }
                                 }
                             }, TIME_WAIT_MEDIUM);
-
                         }
                     }
                 });
@@ -123,6 +124,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 AlertDialog b = dialogBuilder.create();
                 b.show();
 //                choosePicture();
+            }
+        });
+        btnChangeFullName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent intent = new Intent(thisContex, EditProfileSubActivity.class);
+                intent.putExtra("Edit property", "Full name");
+                EditProfileActivity.super.startActivity(intent);
             }
         });
     }

@@ -24,6 +24,8 @@
         <activity android:name=".CreateNewMessageActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileSubActivity">
+        </activity>
         <service
             android:name=".ServiceConnection"
             android:enabled="true"

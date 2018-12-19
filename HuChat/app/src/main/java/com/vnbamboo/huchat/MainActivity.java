@@ -1,6 +1,6 @@
 package com.vnbamboo.huchat;
 
-import com.vnbamboo.huchat.fragment.FriendFragment;
+import com.vnbamboo.huchat.fragment.GroupFragment;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.fragment.ProfileFragment;
 import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_cart:
-                    fragment = new FriendFragment();
+                    fragment = new GroupFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_profile:

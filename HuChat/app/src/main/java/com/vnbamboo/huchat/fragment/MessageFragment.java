@@ -24,6 +24,7 @@ import java.util.List;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
 public class MessageFragment extends Fragment {
 

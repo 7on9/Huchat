@@ -23,12 +23,13 @@
             android:layout_gravity="center"
             android:background="@drawable/back_arrow"/>
         <TextView
-            android:id="@+id/txtUserName"
+            android:id="@+id/txtEditProperty"
             android:layout_gravity="center"
             android:gravity="left|center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Edit item"
+            android:textAllCaps="true"
             android:textColor="#232628"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -106,6 +107,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/txtReType"
+                android:textCursorDrawable="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -113,7 +115,7 @@
                 android:textIsSelectable="true"
                 android:fontFamily="@font/notosan_regular"
                 android:maxLength="10"
-                android:hint="Nhập lại "
+                android:hint="Nhập lại"
                 />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
