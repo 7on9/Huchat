@@ -24,6 +24,7 @@ import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_MESSAGE;
 import static com.vnbamboo.huchat.Utility.LEAVE_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_MESSAGE;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -85,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }).start();
         try {
-            new Thread().sleep(1000);
+            new Thread().sleep(TIME_WAIT_MEDIUM);
         }catch (Exception e){};
 
         mSocket.on(SERVER_SEND_MESSAGE, onNewMessage);

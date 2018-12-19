@@ -106,7 +106,7 @@ public class MessageFragment extends Fragment {
                             recyclerViewAdapter.notifyDataSetChanged();
                             recyclerViewAdapter.setLoaded();
                         }
-                    },1000);
+                    },TIME_WAIT_MEDIUM);
                 }else{
                     Toast.makeText(getContext(), "Đã tải hết các liên hệ gần đây!", Toast.LENGTH_SHORT).show();
                 }

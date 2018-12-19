@@ -48,9 +48,9 @@ public class FriendListViewAdapter extends BaseAdapter {
     @Override
     public View getView( int position, View convertView, ViewGroup parent ) {
         User user = listData.get(position);
-        FriendViewHolder userListViewHolder = new FriendViewHolder();
-        userListViewHolder.avatar = convertView.findViewById(R.id.imgViewAvatar);
-        userListViewHolder.user = convertView.findViewById(R.id.txtUserName);
+        FriendViewHolder LIST_ALL_USERViewHolder = new FriendViewHolder();
+        LIST_ALL_USERViewHolder.avatar = convertView.findViewById(R.id.imgViewAvatar);
+        LIST_ALL_USERViewHolder.user = convertView.findViewById(R.id.txtUserName);
         return convertView;
     }
 }

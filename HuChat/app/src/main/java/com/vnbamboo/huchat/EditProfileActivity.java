@@ -113,7 +113,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                         else Toast.makeText(thisContex, "Có lỗi khi cập nhật ảnh đại diện!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            }, 1000);
+                            }, TIME_WAIT_MEDIUM);
 
                         }
                     }

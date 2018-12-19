@@ -4,6 +4,7 @@ import com.vnbamboo.huchat.fragment.FriendFragment;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.fragment.ProfileFragment;
 import com.vnbamboo.huchat.helper.BottomNavigationBehavior;
+import com.vnbamboo.huchat.object.User;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,10 +18,11 @@ import android.view.MenuItem;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.ServiceConnection.userList;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,22 +40,31 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < userList.size(); i++) {
-                    final int a = i;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mSocket.emit(CLIENT_REQUEST_IMAGE_USER, userList.get(a).getUserName());
-                        }
-                    }).start();
+//        mSocket.emit(CLIENT_REQUEST_IMAGE_USER, thisUser.getUserName());
+        if(LIST_ALL_USER.get(0).getAvatar() == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < LIST_ALL_USER.size(); i++) {
+                        final int a = i;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSocket.emit(CLIENT_REQUEST_IMAGE_USER, LIST_ALL_USER.get(a).getUserName());
+                            }
+                        }).start();
+                    }
+                }
+            }).start();
+        }
+        else {
+            for (User u : LIST_ALL_USER){
+                if(u.getUserName().equals(thisUser.getUserName())){
+                    thisUser.setAvatar(u.getAvatar());
+                    break;
                 }
             }
-        }).start();
+        }
 
         new Thread(new Runnable() {
             @Override
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
         try {
-            new Thread().sleep(500);
+            new Thread().sleep(TIME_WAIT_SHORT);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -84,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
         try {
-            new Thread().sleep(500);
+            new Thread().sleep(TIME_WAIT_SHORT);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
 //        try {
-//            new Thread().sleep(1000);
+//            new Thread().sleep(TIME_WAIT_MEDIUM);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }

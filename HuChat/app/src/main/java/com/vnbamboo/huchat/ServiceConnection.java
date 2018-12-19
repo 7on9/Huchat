@@ -21,6 +21,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import static com.vnbamboo.huchat.Utility.CONNECTION;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
 import static com.vnbamboo.huchat.Utility.RESULT;
@@ -43,7 +44,7 @@ public class ServiceConnection extends Service {
     public static ResultFromServer resultFromServer;
     public static Socket mSocket;
     public static User thisUser = new User();
-    public static List<User> userList = new ArrayList<>();
+
     public ServiceConnection() {
     }
 
@@ -63,7 +64,8 @@ public class ServiceConnection extends Service {
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
-        isConnected = statusConnecttion  =  true;
+        isConnected = true;
+        statusConnecttion  =  false;
         mSocket = null;
         try
         {
@@ -82,13 +84,15 @@ public class ServiceConnection extends Service {
                         break;
                     case LOGIN:
                         if (!resultFromServer.success.booleanValue()) break;
+
                         JSONObject jsonUser = objectToJSONObject(args[2]);
+
                         try {
                             String tmp = (String) jsonUser.get("USER_NAME");
                             thisUser.setUserName(tmp);
                             tmp = (String) jsonUser.get("FULL_NAME");
                             thisUser.setFullName(tmp);
-                            tmp = (String) jsonUser.get("EMAIL");
+                            tmp = (String) jsonUser.get("MAIL");
                             thisUser.setEmail(tmp);
 //                            Long t = (Long) jsonUser.get("DOB");
 //                            thisUser.setDob(t);
@@ -99,7 +103,7 @@ public class ServiceConnection extends Service {
 
                     case SERVER_SEND_IMAGE_USER:
                         if (resultFromServer.success) {
-                            for (User user: userList){
+                            for (User user: LIST_ALL_USER){
                                 if(user.getUserName().equals((String) args[3])){
                                     user.setAvatar(byteArrayToBimap((byte[]) args[2]));
                                 }
@@ -107,7 +111,6 @@ public class ServiceConnection extends Service {
                                     thisUser.setAvatar(user.getAvatar());
                                 }
                             }
-
                         }
                         break;
 
@@ -167,7 +170,7 @@ public class ServiceConnection extends Service {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         tmpUser.setUserName(jsonObject.getString("USER_NAME"));
                         tmpUser.setFullName(jsonObject.getString("FULL_NAME"));
-                        userList.add(tmpUser);
+                        LIST_ALL_USER.add(tmpUser);
                     }
                 }catch (Exception e) {
                     e.printStackTrace();

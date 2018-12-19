@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utility {
 
@@ -48,6 +50,12 @@ public class Utility {
     public static final String SERVER_SEND_MESSAGE = "serverSendMessage";
     public static final byte REQUEST_TAKE_PHOTO = 24;
     public static final byte REQUEST_CHOOSE_PHOTO = 9;
+    public static final int TIME_WAIT_SHORT = 750;
+    public static final int TIME_WAIT_MEDIUM = 1000;
+    public static final int TIME_WAIT_LONG = 2000;
+
+
+    public static List<User> LIST_ALL_USER = new ArrayList<>();
 
     public static void startCreateNewMessageActivity( Context context, String userName, User user ){
         Intent intent = new Intent(context, CreateNewMessageActivity.class);

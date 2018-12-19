@@ -19,6 +19,8 @@ import android.widget.Toast;
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.Utility.REGISTER;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 import static com.vnbamboo.huchat.Utility.startLoginActivity;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
@@ -49,15 +51,21 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
+
+        if(txtUserName.getText().length() <= 5){
+            txtUserName.setError("Tên tài khoản phải từ 6 - 20 ký tự");
+            return;
+        }
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                if(!txtPassword.getText().toString().equals(txtRetypePassword.getText().toString())){
-                    Toast.makeText(thisContext, "Mật khẩu gõ lại không trùng khớp!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if(txtPassword.length()*txtEmail.length()*txtUserName.length()*txtRetypePassword.length() == 0){
                     Toast.makeText(thisContext, "Hãy điền hết tất cả các trường!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!txtPassword.getText().toString().equals(txtRetypePassword.getText().toString())){
+                    Toast.makeText(thisContext, "Mật khẩu gõ lại không trùng khớp!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mSocket.emit(REGISTER, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
@@ -76,12 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void run() {
                                     startLoginActivity(thisContext);
                                 }
-                            }, 2000);
+                            }, TIME_WAIT_LONG);
                         } else
                             Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                     }
-                }, 1000);
+                }, TIME_WAIT_MEDIUM);
             }
         });
 
@@ -125,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         txtUserName.setFilters(new InputFilter[] {
-                new RegexInputFilter("[A-Za-z0-9]+"),
+                new RegexInputFilter("^[a-zA-Z0-9_]+"),
                 new InputFilter.LengthFilter(20)
         });
     }

@@ -2,7 +2,6 @@ package com.vnbamboo.huchat.ViewAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,7 +20,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.ServiceConnection.userList;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 
 public class ChatMessageListViewAdapter extends BaseAdapter{
 
@@ -66,7 +65,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
         final MessageViewHolder messageListViewHolder = new MessageViewHolder();
 
         Date date = new Date(chatMessage.getTime() * 1000); // convert seconds to milliseconds
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss"); // the format of your date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM "); // the format of your date
         String formattedDate = dateFormat.format(date);
 
 
@@ -88,7 +87,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
             messageListViewHolder.line = convertView.findViewById(R.id.line);
 
-            for(User u : userList){
+            for(User u : LIST_ALL_USER){
                 if(u.getUserName().equals(chatMessage.getUserNameSender()))
                     messageListViewHolder.imgAvatar.setImageBitmap(u.getAvatar());
             }

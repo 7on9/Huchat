@@ -26,6 +26,9 @@ import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
 import static com.vnbamboo.huchat.Utility.toSHA256;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,10 +51,10 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
 
-        if(ServiceConnection.isConnected)
-            this.stopService(intent);
-
-        this.startService(intent);
+//        if(ServiceConnection.isConnected)
+//            this.stopService(intent);
+        if(!ServiceConnection.isConnected)
+            this.startService(intent);
         if(resultFromServer == null)
             resultFromServer = new ResultFromServer();
 
@@ -78,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 else
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_red, 0);
             }
-        }, 500);
+        }, TIME_WAIT_SHORT);
     }
 
     private void setControl(){
@@ -132,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, 1000);
+                }, TIME_WAIT_MEDIUM);
             }
         });
 
@@ -168,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         txtUserName.setFilters(new InputFilter[] {
-                new RegexInputFilter("[A-Za-z0-9]+"),
+                new RegexInputFilter("^[a-zA-Z0-9_]+"),
                 new InputFilter.LengthFilter(20)
         });
 
@@ -250,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, TIME_WAIT_LONG);
     }
 
     @Override
@@ -261,7 +264,8 @@ public class LoginActivity extends AppCompatActivity {
 //            mSocket.off();
             this.stopService(intent);
         }
-        this.startService(intent);
+        if(!ServiceConnection.isConnected)
+            this.startService(intent);
         restoringPreferences();
     }
 
