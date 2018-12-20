@@ -66,7 +66,7 @@ public class ServiceConnection extends Service {
         if(isConnected) return START_STICKY;
         isConnected = true;
         statusConnecttion  =  false;
-        mSocket = null;
+        //mSocket = null;
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
@@ -165,6 +165,7 @@ public class ServiceConnection extends Service {
             public void call( Object... args ) {
                 try {
                     JSONArray jsonArray = objectToJSONArray(args[0]);
+                    LIST_ALL_USER.removeAll(LIST_ALL_USER);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         User tmpUser = new User();
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -193,6 +194,13 @@ public class ServiceConnection extends Service {
         statusConnecttion = false;
         mSocket.off(RESULT, onResultFromServer);
         mSocket.off(SERVER_SEND_LIST_USER, onListUserFromServer);
+        try
+        {
+            mSocket = IO.socket(Utility.getLocalHost());
+        }catch (Exception e)
+        {
+
+        }
         if(thisUser.getUserName().length() > 0) {
             mSocket.emit(LOGOUT, thisUser.getUserName());
         }

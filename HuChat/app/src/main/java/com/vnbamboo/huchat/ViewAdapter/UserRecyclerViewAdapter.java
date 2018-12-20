@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 
-public class UserRecyclerViewAdapter extends RecyclerView.Adapter {
+public class UserRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 //    private List<User> listData = new ArrayList<User>();
     private Context context;
@@ -40,7 +40,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view;
 
-        view = inflater.inflate(R.layout.card_message_layout, viewGroup, false);
+        view = inflater.inflate(R.layout.card_user_layout, viewGroup, false);
         return new UserViewHolder(view);
     }
 
@@ -48,8 +48,12 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder( @NonNull RecyclerView.ViewHolder viewHolder, int i ) {
         UserViewHolder userViewHolder = (UserViewHolder) viewHolder;
         User user = LIST_ALL_USER.get(i);
-        if(user.getAvatar() == null)
+        if(user.getAvatar() != null)
             userViewHolder.imgAvatar.setImageBitmap(user.getAvatar());
+        else {
+            userViewHolder.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
+        }
+        userViewHolder.txtUserName.setText(user.getUserName());
     }
 
     @Override

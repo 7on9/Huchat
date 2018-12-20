@@ -13,7 +13,8 @@ var mail = require("./mail");
 var room = require("./room");
 
 
-var arrayImage = new Array();
+var arrayImage = [];
+var recoveryCode = [];
 
 fs.readdir("img/", function (err, files) {
 	if (err) {
@@ -33,10 +34,31 @@ io.on("connection", function (socket) {
 	// 	let check = await account.checkExistUserName(userName);
 	// 	console.log("have account -> ", check);
 	// // });
-	// socket.on("recoveryPassword", (userName, email) =>{
-	// 	mail.sendMail(u)
-	// });
-	// mail.sendMail("tamdaulong207@gmail.com");
+	
+	
+	socket.on("recoveryPassword",async (userName, email) =>{
+		let existUserName = await account.checkExistUserName(userName);
+		if (!existUserName) {
+			socket.emit("result", "recoveryPassword", false);
+			return;
+		}
+		let existEmail = await account.checkExistEmail(email);
+		if (!existEmail) {
+			socket.emit("result", "recoveryPassword", false);
+			return;
+		}
+
+		let code = ((getMilis() * 2 * 3.14*3.14)*100).toString().substr(9, 6);
+
+		recoveryCode.push({
+			"key" : userName,
+			"code" : code
+		});
+		
+		mail.sendMail();		
+
+	});
+	
 	socket.on("clientSendImageUser", function (data) {
 		try {
 			console.log("SERVER SAVED A NEW IMAGE");

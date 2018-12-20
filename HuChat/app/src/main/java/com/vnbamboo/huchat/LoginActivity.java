@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+
                 if (statusConnecttion)
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
                 else

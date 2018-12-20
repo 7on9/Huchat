@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -52,10 +53,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void addEvent() {
 
-        if(txtUserName.getText().length() <= 5){
-            txtUserName.setError("Tên tài khoản phải từ 6 - 20 ký tự");
-            return;
-        }
+        txtUserName.setFilters(new InputFilter[] {
+                new RegexInputFilter("^[a-zA-Z0-9_]+"),
+                new InputFilter.LengthFilter(20)
+        });
+
+        txtUserName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction( TextView v, int actionId, KeyEvent event ) {
+                if (txtUserName.getText().length() <= 5) {
+                    txtUserName.setError("Tên tài khoản phải từ 6 - 20 ký tự");
+                }
+                return false;
+            }
+        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,10 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return false;
             }
         });
-        txtUserName.setFilters(new InputFilter[] {
-                new RegexInputFilter("^[a-zA-Z0-9_]+"),
-                new InputFilter.LengthFilter(20)
-        });
+
     }
 
     private void resetText(){

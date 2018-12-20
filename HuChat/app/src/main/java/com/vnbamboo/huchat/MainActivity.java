@@ -22,6 +22,7 @@ import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
 
 public class MainActivity extends AppCompatActivity {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
         try {
-            new Thread().sleep(TIME_WAIT_SHORT);
+            new Thread().sleep(TIME_WAIT_MEDIUM);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

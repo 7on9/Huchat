@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:background="@color/grayColor"
     android:id="@+id/friendLine"
-    android:padding="1sp">
+    android:layout_marginBottom="1sp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgViewAvatar"
