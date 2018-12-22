@@ -28,7 +28,7 @@ import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
 public class ChatActivity extends AppCompatActivity {
 
-    String userName;
+    String roomName;
     String roomCode;
     Intent intent;
     Button btnBack;
@@ -76,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
 //        ChatMessage a = new ChatMessage("", "");
 //        messageList.add(a);
         intent = getIntent();
-        userName = intent.getStringExtra("RoomName");
+        roomName = intent.getStringExtra("RoomName");
         roomCode = intent.getStringExtra("RoomCode");
 
         new Thread(new Runnable() {
@@ -97,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void setControl() {
         btnBack = (Button) findViewById(R.id.btnBack);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
-        txtUserName.setText(userName);
+        txtUserName.setText(roomName);
 
         chatMessageListViewAdapter = new ChatMessageListViewAdapter( context, thisUser.getRoomAt(thisUser.getIndexRoomCode(roomCode)).getChatHistory());
         lstChatMessage = (ListView) findViewById(R.id.lstChatMessage);

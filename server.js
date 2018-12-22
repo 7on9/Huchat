@@ -246,11 +246,12 @@ io.on("connection", function (socket) {
 	socket.on("clientRequestListRoom", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
+				console.log(err);
 				socket.emit("result", "serverSendListRoom", false);
 			}
 			else {
 				socket.emit("result", "serverSendListRoom", true, rows[0]);
-				//console.log(rows[0]);
+				console.log(rows[0]);
 				for (i in rows[0]) {
 					// console.log(socket);
 					roomOfUser.push(rows[0][i].ROOM_CODE);
@@ -263,7 +264,75 @@ io.on("connection", function (socket) {
 	});
 
 	//chat
+
+	socket.on("checkExistRoom", (roomCode) => {
+		let res = room.checkExistRoom(roomCode);
+		if(res){
+			socket.emit("result", "checkExistRoom", true);
+		}else{
+			socket.emit("result", "checkExistRoom", false);
+		}
+	});
+
 	socket.on("joinRoom", (roomCode) => {
+		socket.join(roomCode);
+	});
+
+	socket.on("joinExistRoom", async (roomCode, userName, password) => {
+		let isExist =  await room.checkExistRoom(roomCode);
+		if(!isExist){
+			socket.emit("result", "joinExistRoom", false, "roomNotExit");
+		}
+		room.joinExistRoom(roomCode, userName, password, (err, rows) => {
+			if(err || rows.affectedRows == 0){
+				socket.emit("result", "joinExistRoom", false, "wrongPassword");
+			}else{
+				socket.emit("result", "joinExistRoom", true);
+				socket.join(roomCode);
+			}	
+		});
+	});
+
+	socket.on("joinDualRoom", async (userName, userName2) => {
+		let roomCode = (userName.toLowerCase() < userName2.toLowerCase()) ? 
+						userName.toLowerCase().concat("#" , userName2.toLowerCase()) :
+						userName2.toLowerCase().concat("#" , userName.toLowerCase());
+		let isExist =  await room.checkExistRoom(roomCode);
+		console.log(isExist);
+		if(!isExist){
+			room.createDualRoom(userName, userName2, roomCode, (err, rows) => {
+					if(err || rows.affectedRows == 0){
+						console.log(err);
+					}else{
+						room.getPublicInfoOfRoom(roomCode, (err,rows)=>{
+							if(err){
+								console.log(err);
+							}else{
+								console.log(rows[0]);
+								
+								socket.emit("result", "newRoom", true, rows[0][0]);
+							}
+						});
+					}
+				});
+			}
+		// 	}
+		// 	else{
+		// 		room.createDualRoom(userName2, userName, roomCode, (err, rows) => {
+		// 			if(err || rows.affectedRows == 0){
+		// 				console.log(err);
+		// 			}else{
+		// 				room.getPublicInfoOfRoom(roomCode, (err,rows)=>{
+		// 					if(!err)
+		// 						socket.emit("newRoom", rows[0]);
+		// 				});
+		// 			}
+		// 		});
+		socket.join(roomCode);
+	});
+
+
+	socket.on("joinDualRoom", (roomCode) => {
 		//find room if exist
 		socket.join(roomCode);
 	});

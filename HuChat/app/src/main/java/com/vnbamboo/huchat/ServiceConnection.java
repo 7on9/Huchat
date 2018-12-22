@@ -24,6 +24,7 @@ import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
+import static com.vnbamboo.huchat.Utility.NEW_ROOM;
 import static com.vnbamboo.huchat.Utility.RESULT;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
@@ -129,6 +130,7 @@ public class ServiceConnection extends Service {
                                     jsonobject = jsonRoomArr.getJSONObject(i);
                                     room.setRoomCode(jsonobject.getString("ROOM_CODE"));
                                     room.setName(jsonobject.getString("ROOM_NAME"));
+                                    room.setDual(jsonobject.getInt("IS_DUAL") == 1 ? true : false);
                                     thisUser.addRoom(room);
                                 }
                             } catch (Exception e) {
@@ -136,7 +138,19 @@ public class ServiceConnection extends Service {
                             }
                         }
                         break;
-
+                    case NEW_ROOM :
+                        Room room = new Room();
+                        try {
+                            JSONObject jsonObject = objectToJSONObject(args[2]);
+                            room.setRoomCode(jsonObject.getString("ROOM_CODE"));
+                            room.setName(jsonObject.getString("ROOM_NAME"));
+                            room.setDual(jsonObject.getInt("IS_DUAL") == 1 ? true : false);
+                            thisUser.getRoomList().add(room);
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        };
+                        break;
                     case SERVER_SEND_HISTORY_CHAT_ROOM :
                         if(resultFromServer.success){
                             JSONArray jsonRoomArr = objectToJSONArray(args[2]);

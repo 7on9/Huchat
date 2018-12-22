@@ -10,6 +10,7 @@ public class Room {
     private String name;
     private List<ChatMessage> chatHistory;
     private List<User> listMember;
+    private boolean isDual;
     private transient Bitmap avatar;
 
     public Room( String roomCode, String name){
@@ -17,7 +18,8 @@ public class Room {
         this.name = name;
     }
     public Room(){
-        roomCode = name = null;
+        roomCode = name = "";
+        isDual = false;
         listMember = new ArrayList<>();
         chatHistory = new ArrayList<>();
     }
@@ -27,6 +29,11 @@ public class Room {
         this.roomCode = a.getRoomCode();
         this.listMember.addAll(a.getListMember());
         this.avatar = a.getAvatar();
+        this.isDual = a.isDual;
+        this.chatHistory = new ArrayList<>();
+        this.chatHistory.addAll(a.chatHistory);
+        this.listMember = new ArrayList<>();
+        this.listMember.addAll(a.listMember);
     }
 
 
@@ -44,6 +51,14 @@ public class Room {
 
     public void setName( String name ) {
         this.name = name;
+    }
+
+    public boolean isDual() {
+        return isDual;
+    }
+
+    public void setDual( boolean dual ) {
+        isDual = dual;
     }
 
     public List<ChatMessage> getChatHistory() {

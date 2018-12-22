@@ -40,6 +40,8 @@ public class Utility {
     public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
     public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
     public static final String SERVER_SEND_LIST_ROOM = "serverSendListRoom";
+    public static final String NEW_ROOM = "newRoom";
+    public static final String JOIN_DUAL_ROOM = "joinDualRoom";
     public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
     public static final String SERVER_SEND_HISTORY_CHAT_ROOM = "serverSendHistoryChatRoom";
     public static final String CLIENT_REQUEST_PUBLIC_INFO_USER = "clientRequestPublicInfoUser";

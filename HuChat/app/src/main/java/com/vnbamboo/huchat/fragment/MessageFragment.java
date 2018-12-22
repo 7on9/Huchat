@@ -1,6 +1,5 @@
 package com.vnbamboo.huchat.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vnbamboo.huchat.Utility;
-import com.vnbamboo.huchat.ViewAdapter.MessageRecyclerViewAdapter;
+import com.vnbamboo.huchat.ViewAdapter.RoomRecyclerViewAdapter;
 import com.vnbamboo.huchat.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.object.Room;
@@ -22,7 +21,6 @@ import com.vnbamboo.huchat.object.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
@@ -87,7 +85,7 @@ public class MessageFragment extends Fragment {
         listData.removeAll(listData);
         listData.addAll(thisUser.getRoomList());
 
-        final MessageRecyclerViewAdapter recyclerViewAdapter = new MessageRecyclerViewAdapter(recyclerView,this, listData);
+        final RoomRecyclerViewAdapter recyclerViewAdapter = new RoomRecyclerViewAdapter(recyclerView,this, listData);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

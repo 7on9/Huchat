@@ -24,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.Utility.JOIN_ROOM;
 
-public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private MessageFragment mContext;
 
@@ -37,7 +37,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     int visibleThreshold = 5;
     int lastVisibleItem, totalItemCount;
 
-    public MessageRecyclerViewAdapter( RecyclerView recyclerView, MessageFragment mContext, List<Room> data) {
+    public RoomRecyclerViewAdapter( RecyclerView recyclerView, MessageFragment mContext, List<Room> data) {
         this.mContext = mContext;
         this.data = data;
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -74,7 +74,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         // switch case -> connect to layout
         switch (viewType) {
             case TYPE_CARD:
-                view = inflater.inflate(R.layout.card_message_layout, parent, false);
+                view = inflater.inflate(R.layout.card_room_layout, parent, false);
                 return new CardMessageViewHolder(view);
             default:
                 view = inflater.inflate(R.layout.loading_layout, parent, false);
@@ -109,7 +109,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public class CardMessageViewHolder extends RecyclerView.ViewHolder {
-        TextView lastMessage, roomName;
+        TextView txtRoomCode, roomName;
         CircleImageView imgAvatar;
         LinearLayout line;
         String roomCode;
@@ -119,26 +119,32 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
             imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
             roomName = itemView.findViewById(R.id.txtCardName);
-            lastMessage = itemView.findViewById(R.id.txtLastMessage);
+            txtRoomCode = itemView.findViewById(R.id.txtLastMessage);
             line = itemView.findViewById(R.id.line);
 
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mSocket.emit(JOIN_ROOM, roomCode);
-                    Utility.startChatActivity(v.getContext(),(String) roomName.getText(), (String) lastMessage.getText() );
+                    Utility.startChatActivity(v.getContext(),(String) roomName.getText(), roomCode);
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
         }
 
         void bindData(Room room) {
-            this.roomName.setText(room.getName());
-            this.lastMessage.setText(room.getRoomCode());
-            if(room.getAvatar() == null)
-                this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
-            else
-                this.imgAvatar.setImageBitmap(room.getAvatar());
+            this.txtRoomCode.setText("Mã phòng : " + room.getRoomCode());
+            if(!room.isDual()) {
+                if (room.getAvatar() == null) {
+                    this.roomName.setText(room.getName());
+                    this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
+                }
+                else
+                    this.imgAvatar.setImageBitmap(room.getAvatar());
+            }
+            else {
+
+            }
             this.roomCode = room.getRoomCode();
         }
 
