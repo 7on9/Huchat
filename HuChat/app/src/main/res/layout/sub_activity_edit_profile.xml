@@ -89,7 +89,7 @@
                 android:inputType="textPassword"
                 android:textIsSelectable="true"
                 android:fontFamily="@font/notosan_regular"
-                android:maxLength="10"
+                android:maxLength="20"
                 android:hint="Nhập "
                 />
 
@@ -114,7 +114,7 @@
                 android:inputType="textPassword"
                 android:textIsSelectable="true"
                 android:fontFamily="@font/notosan_regular"
-                android:maxLength="10"
+                android:maxLength="20"
                 android:hint="Nhập lại"
                 />
         </android.support.design.widget.TextInputLayout>

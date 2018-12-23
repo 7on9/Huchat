@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User implements Serializable {
     private String userName;
@@ -13,14 +15,15 @@ public class User implements Serializable {
     private String phone;
     private Long dob;
     private Boolean gender;
+    private String password;
     private transient Bitmap avatar;
-    private List<Room> roomList;
+    private Map<String, Room> mapRoom;
 
     public User(){
         userName = email = phone = "";
         gender = null;
         dob = null;
-        roomList = new ArrayList<>();
+        mapRoom = new HashMap<>();
     }
 
     public User(User a){
@@ -31,7 +34,8 @@ public class User implements Serializable {
         this.dob = a.dob;
         this.gender = a.gender;
         this.avatar = a.avatar;
-        this.roomList = a.roomList;
+        this.mapRoom.clear();
+        this.mapRoom.putAll(a.mapRoom);
     }
 
     public User(String userName, String fullName, Long dob, Boolean gender, String email, String phone){
@@ -106,28 +110,11 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public void setRoomList( List<Room> roomList ) {
-        this.roomList = roomList;
+    public String getPassword() {
+        return password;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
-    }
-
-    public void addRoom(Room room){
-        this.roomList.add(room);
-    }
-
-    public Room getRoomAt(int i){
-        return this.roomList.get(i);
-    }
-
-    public int getIndexRoomCode(String code){
-        for (int i = 0;i < roomList.size(); i++) {
-            if(roomList.get(i).getRoomCode().toLowerCase().equals(code.toLowerCase())){
-                return i;
-            }
-        }
-        return -1;
+    public void setPassword( String password ) {
+        this.password = password;
     }
 }

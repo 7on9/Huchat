@@ -1,8 +1,10 @@
 package com.vnbamboo.huchat.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,31 @@ public class ProfileFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                showAlertDialog();
+            }
+        });
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Utility.startEditProfileActivity(v.getContext());
+            }
+        });
+    }
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Huchat");
+        builder.setMessage("Bạn có muốn đăng xuất không?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
                 mSocket.emit(LOGOUT, thisUser.getUserName());
                 thisUser = new User();
                 resultFromServer = new ResultFromServer();
@@ -98,13 +125,9 @@ public class ProfileFragment extends Fragment {
                 Utility.startLoginActivity(v.getContext());
             }
         });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                Utility.startEditProfileActivity(v.getContext());
-            }
-        });
     }
 }
 

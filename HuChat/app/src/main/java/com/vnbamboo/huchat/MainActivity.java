@@ -18,10 +18,12 @@ import android.view.MenuItem;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
 
@@ -83,12 +85,13 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < thisUser.getRoomList().size(); i++) {
+                for (int i = 0; i < LIST_ROOM.size(); i++) {
                     final int a = i;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, thisUser.getRoomAt(a).getRoomCode());
+                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, LIST_ROOM.get(a).getRoomCode());
+                            mSocket.emit(CLIENT_REQUEST_LIST_MEMBER_OF_ROOM, LIST_ROOM.get(a).getRoomCode());
                         }
                     }).start();
                 }

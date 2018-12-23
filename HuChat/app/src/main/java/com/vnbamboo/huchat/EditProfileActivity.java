@@ -35,7 +35,10 @@ import static com.vnbamboo.huchat.Utility.getByteArrayFromBitmap;
 import static com.vnbamboo.huchat.Utility.resize;
 
 public class EditProfileActivity extends AppCompatActivity {
-    Button btnBack, btnChangeFullName;
+    Button btnBack, btnChangeFullName,
+            btnChangeMail, btnChangeGender,
+            btnChangeDob, btnChangePassword,
+            btnChangePhone, btnChange;
     ImageView imgAvatar;
     Bitmap img = null;
     LayoutInflater inflater;
@@ -61,6 +64,11 @@ public class EditProfileActivity extends AppCompatActivity {
         imgAvatar.setImageBitmap(thisUser.getAvatar());
         txtFullName.setText(thisUser.getFullName());
         btnChangeFullName = findViewById(R.id.btnChangeFullName);
+        btnChangeDob = findViewById(R.id.btnChangeDob);
+        btnChangeGender = findViewById(R.id.btnChangeGender);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangeMail = findViewById(R.id.btnChangeMail);
+        btnChangePhone = findViewById(R.id.btnChangePhone);
     }
 
     private void addEvent(){
@@ -129,9 +137,25 @@ public class EditProfileActivity extends AppCompatActivity {
         btnChangeFullName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                Intent intent = new Intent(thisContex, EditProfileSubActivity.class);
-                intent.putExtra("Edit property", "Full name");
-                EditProfileActivity.super.startActivity(intent);
+               gotoEditProfile("Full name");
+            }
+        });
+        btnChangePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                gotoEditProfile("Phone");
+            }
+        });
+        btnChangeMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                gotoEditProfile("Mail");
+            }
+        });
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                gotoEditProfile("Password");
             }
         });
     }
@@ -169,5 +193,10 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CHOOSE_PHOTO);
+    }
+    private void gotoEditProfile(String property){
+        Intent intent = new Intent(thisContex, EditProfileSubActivity.class);
+        intent.putExtra("Edit property", property);
+        EditProfileActivity.super.startActivity(intent);
     }
 }

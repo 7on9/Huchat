@@ -24,6 +24,7 @@ import com.vnbamboo.huchat.object.ResultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
@@ -128,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (resultFromServer.event.equals(LOGIN) && resultFromServer.success) {
+                            thisUser.setPassword( toSHA256(txtPassword.getText().toString()));
                             savingPreferences();
                             dialog.cancel();
                             startMainActivity();
@@ -273,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
-        this.stopService(intent);
+        //this.stopService(intent);
         super.onDestroy();
     }
 }

@@ -287,6 +287,13 @@ BEGIN
 END; $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE PROC_GET_LIST_MEMBER_OF_ROOM(
+    IN N_ROOM_CODE VARCHAR(41))
+BEGIN
+    SELECT USER_NAME_MEMBER FROM `ROOM_MEMBER` WHERE ROOM_CODE LIKE N_ROOM_CODE;
+END; $$
+DELIMITER ;
 -- -------------------------------ROOM----------------------------------------
 
 -- -------------------------------CHAT----------------------------------------
@@ -342,9 +349,10 @@ CALL PROC_UPDATE_INFO_USER("karlMarx", "Karl Marx", 1544854215, true, "communist
 CALL PROC_CREATE_ROOM("KarlMarx", "","Lớp chính trị", FALSE, FALSE);
 CALL PROC_SEND_MESSAGE("1544854215Bamboo", "Bamboo", "aaaaA");
 CALL PROC_GET_HISTORY_OF_CHAT_ROOM("1544854215Bamboo");
-CALL PROC_GET_PUBLIC_INFO_OF_ROOM("bamboo#tttt");
+CALL PROC_GET_LIST_MEMBER_OF_ROOM("bamboo#karlmarx");
 
 -- CALL PROC_JOIN_ROOM("-- 1544663293TTTT", "Bamboo", "-");
+
 CALL PROC_JOIN_ROOM("1544854215Bamboo", "a","-");
 SELECT * FROM ROOMS WHERE ROOM_CODE LIKE "1544854215Bamboo" AND ROOMS.PASSWORD = "-";
 CALL PROC_FIND_USER("t");

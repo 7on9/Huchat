@@ -23,6 +23,8 @@ import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_SEND_MESSAGE;
 import static com.vnbamboo.huchat.Utility.LEAVE_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.MAP_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_MESSAGE;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
@@ -54,8 +56,8 @@ public class ChatActivity extends AppCompatActivity {
                         chatMessage.setContent((String) args[2]);
                         chatMessage.setTime(System.currentTimeMillis());
 
-                        thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[0])).addMessage(chatMessage);
-                        chatMessageListViewAdapter = new ChatMessageListViewAdapter(context, thisUser.getRoomAt(thisUser.getIndexRoomCode((String) args[0])).getChatHistory());
+                        MAP_ROOM.get((String) args[0]).addMessage(chatMessage);
+                        chatMessageListViewAdapter = new ChatMessageListViewAdapter(context, MAP_ROOM.get((String) args[0]).getChatHistory());
                         lstChatMessage.setAdapter(chatMessageListViewAdapter);
 //                        if(!chatMessage.getUserNameSender().toLowerCase().equals(thisUser.getUserName().toLowerCase()))
 //                        chatMessageListViewAdapter.add(chatMessage);
@@ -99,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtUserName.setText(roomName);
 
-        chatMessageListViewAdapter = new ChatMessageListViewAdapter( context, thisUser.getRoomAt(thisUser.getIndexRoomCode(roomCode)).getChatHistory());
+        chatMessageListViewAdapter = new ChatMessageListViewAdapter( context, MAP_ROOM.get(roomCode).getChatHistory());
         lstChatMessage = (ListView) findViewById(R.id.lstChatMessage);
         lstChatMessage.setAdapter(chatMessageListViewAdapter);
         lstChatMessage.setSelection(lstChatMessage.getCount()-1);

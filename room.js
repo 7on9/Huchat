@@ -16,6 +16,9 @@ var  room = {
     getListRoomOfUser : (userName, callback) =>{
         return db.query("CALL PROC_GET_LIST_ROOM_OF_USER(?)", [userName], callback);
     },
+    getListMemberOfRoom : (roomCode, callback) =>{
+        return db.query("CALL PROC_GET_LIST_MEMBER_OF_ROOM(?)", [roomCode], callback);
+    },
     getPublicInfoOfRoom : (roomCode, callback) =>{
         return db.query("CALL PROC_GET_PUBLIC_INFO_OF_ROOM(?)", [roomCode], callback);
     },

@@ -251,7 +251,7 @@ io.on("connection", function (socket) {
 			}
 			else {
 				socket.emit("result", "serverSendListRoom", true, rows[0]);
-				console.log(rows[0]);
+				// console.log(rows[0]);
 				for (i in rows[0]) {
 					// console.log(socket);
 					roomOfUser.push(rows[0][i].ROOM_CODE);
@@ -263,6 +263,14 @@ io.on("connection", function (socket) {
 		})
 	});
 
+	socket.on("clientRequestListMemberOfRoom", (roomCode) => {
+		room.getListMemberOfRoom(roomCode, (err, rows) => {
+			if(!err){
+				socket.emit("result", "serverSendListMemberOfRoom", true, roomCode, rows[0]);
+			}
+			else console.log(err);
+		});
+	});
 	//chat
 
 	socket.on("checkExistRoom", (roomCode) => {

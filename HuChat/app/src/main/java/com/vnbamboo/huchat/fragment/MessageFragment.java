@@ -20,8 +20,10 @@ import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
 public class MessageFragment extends Fragment {
@@ -83,14 +85,14 @@ public class MessageFragment extends Fragment {
 
     public void bounData(){
         listData.removeAll(listData);
-        listData.addAll(thisUser.getRoomList());
+        listData.addAll(LIST_ROOM);
 
         final RoomRecyclerViewAdapter recyclerViewAdapter = new RoomRecyclerViewAdapter(recyclerView,this, listData);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                size = thisUser.getRoomList().size() + 7;
+                size = LIST_ROOM.size() + 7;
                 if(listData.size() <= size){
                     listData.add(null); //if listData[i] == null -> loading view
                     recyclerViewAdapter.notifyItemInserted(listData.size()-1);

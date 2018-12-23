@@ -87,7 +87,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CardMessageViewHolder) {
             CardMessageViewHolder temp = (CardMessageViewHolder) holder;
-            Room room = (Room) data.get(position);
+            Room room = data.get(position);
             temp.bindData(room);
         } else {
             LoadingViewHolder temp = (LoadingViewHolder) holder;

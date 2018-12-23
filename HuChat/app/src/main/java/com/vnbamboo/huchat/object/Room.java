@@ -3,13 +3,15 @@ package com.vnbamboo.huchat.object;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Room {
     private String roomCode;
     private String name;
     private List<ChatMessage> chatHistory;
-    private List<User> listMember;
+    private Map<String, User> listMember;
     private boolean isDual;
     private transient Bitmap avatar;
 
@@ -20,20 +22,19 @@ public class Room {
     public Room(){
         roomCode = name = "";
         isDual = false;
-        listMember = new ArrayList<>();
+        listMember = new HashMap<>();
         chatHistory = new ArrayList<>();
     }
 
 
     public Room(Room a){
         this.roomCode = a.getRoomCode();
-        this.listMember.addAll(a.getListMember());
         this.avatar = a.getAvatar();
         this.isDual = a.isDual;
         this.chatHistory = new ArrayList<>();
         this.chatHistory.addAll(a.chatHistory);
-        this.listMember = new ArrayList<>();
-        this.listMember.addAll(a.listMember);
+        this.listMember = new HashMap<String, User>();
+        this.listMember.putAll(a.listMember);
     }
 
 
@@ -73,12 +74,12 @@ public class Room {
         return chatHistory.get(i);
     }
 
-    public List<User> getListMember() {
+    public Map<String, User> getListMember() {
         return listMember;
     }
 
-    public void setListMember( List<User> listMember ) {
-        this.listMember.addAll(listMember);
+    public void setListMember( Map<String, User> listMember ) {
+        this.listMember.putAll(listMember);
     }
 
     public User getUserAt(int i){
