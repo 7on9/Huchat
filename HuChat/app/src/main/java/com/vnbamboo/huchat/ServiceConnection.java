@@ -21,13 +21,13 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
+import static com.vnbamboo.huchat.Utility.MAP_ROOM;
+import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM;
 import static com.vnbamboo.huchat.Utility.NEW_ROOM;
 import static com.vnbamboo.huchat.Utility.RESULT;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
@@ -64,13 +64,15 @@ public class ServiceConnection extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        { }
+        {
+
+        }
     }
 
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
-        isConnected = true;
+
         statusConnecttion  =  false;
         //mSocket = null;
         try
@@ -95,11 +97,11 @@ public class ServiceConnection extends Service {
 
                         try {
                             String tmp = (String) jsonUser.get("USER_NAME");
-                            thisUser.setUserName(tmp);
+                            thisUser.setUserName(tmp.toLowerCase());
                             tmp = (String) jsonUser.get("FULL_NAME");
                             thisUser.setFullName(tmp);
                             tmp = (String) jsonUser.get("MAIL");
-                            thisUser.setEmail(tmp);
+                            thisUser.setEmail(tmp.toLowerCase());
 //                            Long t = (Long) jsonUser.get("DOB");
 //                            thisUser.setDob(t);
                         } catch (Exception e) {
@@ -136,7 +138,6 @@ public class ServiceConnection extends Service {
                                     room.setRoomCode(jsonobject.getString("ROOM_CODE"));
                                     room.setName(jsonobject.getString("ROOM_NAME"));
                                     room.setDual(jsonobject.getInt("IS_DUAL") == 1 ? true : false);
-
                                     LIST_ROOM.add(room);
                                     MAP_ROOM.put(room.getRoomCode(), room);
                                 }
@@ -152,6 +153,10 @@ public class ServiceConnection extends Service {
                             room.setRoomCode(jsonObject.getString("ROOM_CODE"));
                             room.setName(jsonObject.getString("ROOM_NAME"));
                             room.setDual(jsonObject.getInt("IS_DUAL") == 1 ? true : false);
+                            String[] listUserName = room.getRoomCode().split("#");
+                            for (String userName : listUserName){
+                                room.getListMember().put(userName, MAP_ALL_USER.get(userName));
+                            }
                             MAP_ROOM.put(room.getRoomCode(), room);
                             LIST_ROOM.add(room);
                         }
@@ -169,7 +174,7 @@ public class ServiceConnection extends Service {
                                     JSONObject jsonobject = null;
                                     jsonobject = jsonRoomArr.getJSONObject(i);
                                     chatMessage.setContent(jsonobject.getString("CONTENT"));
-                                    chatMessage.setUserNameSender(jsonobject.getString("USER_NAME"));
+                                    chatMessage.setUserNameSender(jsonobject.getString("USER_NAME").toLowerCase());
                                     chatMessage.setTime(jsonobject.getLong("TIME"));
                                     tmpListChat.add(chatMessage);
                                 }
@@ -188,13 +193,13 @@ public class ServiceConnection extends Service {
                                     try {
                                         JSONObject jsonobject = null;
                                         jsonobject = jsonRoomArr.getJSONObject(i);
-                                        String userName = jsonobject.getString("USER_NAME_MEMBER");
-                                        MAP_ROOM.get((String) args[2]).getListMember().put(userName, MAP_ALL_USER.get(jsonobject.getString("USER_NAME_MEMBER")));
+                                        String userName = jsonobject.getString("USER_NAME_MEMBER").toLowerCase();
+                                        MAP_ROOM.get((String) args[2]).getListMember().put(userName, MAP_ALL_USER.get(userName));
                                     } catch (Exception ex){
                                         ex.printStackTrace();
                                     }
                                 }
-                                MAP_ROOM.get((String) args[3]).setChatHistory(tmpListChat);
+//                                MAP_ROOM.get((String) args[3]).setChatHistory(tmpListChat);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -213,7 +218,7 @@ public class ServiceConnection extends Service {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         User tmpUser = new User();
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        tmpUser.setUserName(jsonObject.getString("USER_NAME"));
+                        tmpUser.setUserName(jsonObject.getString("USER_NAME").toLowerCase());
                         tmpUser.setFullName(jsonObject.getString("FULL_NAME"));
                         LIST_ALL_USER.add(tmpUser);
                         MAP_ALL_USER.put(tmpUser.getUserName(), tmpUser);
@@ -225,6 +230,7 @@ public class ServiceConnection extends Service {
         };
         mSocket.connect();
         //Add listen event
+        isConnected = true;
         mSocket.on(RESULT, onResultFromServer);
         mSocket.on(SERVER_SEND_MAP_ALL_USER, onListUserFromServer);
         return START_STICKY;
@@ -238,7 +244,12 @@ public class ServiceConnection extends Service {
         isConnected = false;
         statusConnecttion = false;
         mSocket.off(RESULT, onResultFromServer);
+//        mSocket.on(RESULT, onResultFromServer);
         mSocket.off(SERVER_SEND_MAP_ALL_USER, onListUserFromServer);
+        if(thisUser.getUserName().length() > 0) {
+            mSocket.emit(LOGOUT, thisUser.getUserName());
+        }
+        mSocket.disconnect();
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
@@ -246,10 +257,7 @@ public class ServiceConnection extends Service {
         {
 
         }
-        if(thisUser.getUserName().length() > 0) {
-            mSocket.emit(LOGOUT, thisUser.getUserName());
-        }
-        mSocket.disconnect();
+        mSocket.on(RESULT, onResultFromServer);
         super.onDestroy();
     }
 }

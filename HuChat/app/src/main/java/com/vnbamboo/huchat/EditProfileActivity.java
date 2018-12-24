@@ -57,32 +57,34 @@ public class EditProfileActivity extends AppCompatActivity {
         addEvent();
     }
 
-    private void addControl(){
+    private void addControl() {
         btnBack = (Button) findViewById(R.id.btnBack);
         imgAvatar = (ImageView) findViewById(R.id.imgViewAvatar);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
-        imgAvatar.setImageBitmap(thisUser.getAvatar());
-        txtFullName.setText(thisUser.getFullName());
         btnChangeFullName = findViewById(R.id.btnChangeFullName);
         btnChangeDob = findViewById(R.id.btnChangeDob);
         btnChangeGender = findViewById(R.id.btnChangeGender);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnChangeMail = findViewById(R.id.btnChangeMail);
         btnChangePhone = findViewById(R.id.btnChangePhone);
+
+        imgAvatar.setImageBitmap(thisUser.getAvatar());
+        txtFullName.setText(thisUser.getFullName());
     }
 
-    private void addEvent(){
+    private void addEvent() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 onBackPressed();
             }
         });
+
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                AlertDialog.Builder dialogBuilder =	new AlertDialog.Builder(v.getContext());
-                @SuppressLint("ResourceType") View dialogView	= inflater.inflate(R.layout.dialog_edit_profile_image_layout, (ViewGroup)findViewById(R.layout.activity_edit_profile));
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
+                @SuppressLint("ResourceType") View dialogView = inflater.inflate(R.layout.dialog_edit_profile_image_layout, (ViewGroup) findViewById(R.layout.activity_edit_profile));
 
                 imgAvatemp = dialogView.findViewById(R.id.imgViewAvatar);
                 imgAvatemp.setImageBitmap(thisUser.getAvatar());
@@ -107,20 +109,19 @@ public class EditProfileActivity extends AppCompatActivity {
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
-                        if(img != null) {
+                        if (img != null) {
                             byte[] bytes = getByteArrayFromBitmap(img);
                             mSocket.emit(CLIENT_SEND_IMAGE_USER, bytes);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(resultFromServer.event.equals(CLIENT_SEND_IMAGE_USER))
-                                    {
-                                        if(resultFromServer.success){
+                                    if (resultFromServer.event.equals(CLIENT_SEND_IMAGE_USER)) {
+                                        if (resultFromServer.success) {
                                             thisUser.setAvatar(img);
                                             imgAvatar.setImageBitmap(img);
                                             Toast.makeText(thisContex, "Cập nhật ảnh đại diện thành công!", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else Toast.makeText(thisContex, "Có lỗi khi cập nhật ảnh đại diện!", Toast.LENGTH_SHORT).show();
+                                        } else
+                                            Toast.makeText(thisContex, "Có lỗi khi cập nhật ảnh đại diện!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }, TIME_WAIT_MEDIUM);
@@ -137,9 +138,10 @@ public class EditProfileActivity extends AppCompatActivity {
         btnChangeFullName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-               gotoEditProfile("Full name");
+                gotoEditProfile("Full name");
             }
         });
+
         btnChangePhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -161,9 +163,9 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
         Boolean success = false;
-        if(requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK) {
             try {
                 Uri imageURI = data.getData();
                 InputStream is = getContentResolver().openInputStream(imageURI);
@@ -174,7 +176,7 @@ public class EditProfileActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }else if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
+        } else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             bitmap = resize(bitmap, 300, 300);
             img = bitmap;
@@ -184,17 +186,18 @@ public class EditProfileActivity extends AppCompatActivity {
             imgAvatemp.setImageBitmap(img);
     }
 
-    private void takePicture(){
+    private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_TAKE_PHOTO);
     }
 
-    private void choosePicture(){
+    private void choosePicture() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CHOOSE_PHOTO);
     }
-    private void gotoEditProfile(String property){
+
+    private void gotoEditProfile( String property ) {
         Intent intent = new Intent(thisContex, EditProfileSubActivity.class);
         intent.putExtra("Edit property", property);
         EditProfileActivity.super.startActivity(intent);

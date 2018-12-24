@@ -103,7 +103,10 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-
+                if(!ServiceConnection.isConnected) {
+                    Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+                    LoginActivity.super.startService(intent);
+                }
                 if (statusConnecttion)
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
                 else

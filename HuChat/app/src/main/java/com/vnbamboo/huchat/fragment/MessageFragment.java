@@ -20,9 +20,7 @@ import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
 
@@ -38,7 +36,6 @@ public class MessageFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     public int size = 40;
 //    private List<User> listTempData = new ArrayList<>();

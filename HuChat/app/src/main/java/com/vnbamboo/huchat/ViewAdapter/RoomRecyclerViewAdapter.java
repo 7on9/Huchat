@@ -15,13 +15,16 @@ import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.Utility;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.object.Room;
+import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.JOIN_ROOM;
 
 public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -57,7 +60,6 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-
     @Override
     public int getItemViewType(int position) {
         if (data.get(position) == null)
@@ -75,7 +77,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         switch (viewType) {
             case TYPE_CARD:
                 view = inflater.inflate(R.layout.card_room_layout, parent, false);
-                return new CardMessageViewHolder(view);
+                return new CardRoomViewHolder(view);
             default:
                 view = inflater.inflate(R.layout.loading_layout, parent, false);
                 holder = new LoadingViewHolder(view);
@@ -85,8 +87,8 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CardMessageViewHolder) {
-            CardMessageViewHolder temp = (CardMessageViewHolder) holder;
+        if (holder instanceof CardRoomViewHolder) {
+            CardRoomViewHolder temp = (CardRoomViewHolder) holder;
             Room room = data.get(position);
             temp.bindData(room);
         } else {
@@ -108,13 +110,13 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.loadMore = mOnLoadMoreListener;
     }
 
-    public class CardMessageViewHolder extends RecyclerView.ViewHolder {
+    public class CardRoomViewHolder extends RecyclerView.ViewHolder {
         TextView txtRoomCode, roomName;
         CircleImageView imgAvatar;
         LinearLayout line;
         String roomCode;
 
-        public CardMessageViewHolder(View itemView) {
+        public CardRoomViewHolder( View itemView ) {
             super(itemView);
 
             imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
@@ -124,28 +126,36 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             line.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick( View v ) {
                     mSocket.emit(JOIN_ROOM, roomCode);
-                    Utility.startChatActivity(v.getContext(),(String) roomName.getText(), roomCode);
+                    Utility.startChatActivity(v.getContext(), (String) roomName.getText(), roomCode);
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
         }
 
-        void bindData(Room room) {
+        void bindData( Room room ) {
             this.txtRoomCode.setText("Mã phòng : " + room.getRoomCode());
-            if(!room.isDual()) {
-                if (room.getAvatar() == null) {
-                    this.roomName.setText(room.getName());
-                    this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
-                }
-                else
-                    this.imgAvatar.setImageBitmap(room.getAvatar());
-            }
-            else {
-
-            }
             this.roomCode = room.getRoomCode();
+            if (!room.isDual()) {
+                this.roomName.setText(room.getName());
+                if (room.getAvatar() == null)
+                    this.imgAvatar.setImageBitmap(room.getAvatar());
+                else
+                    this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);
+            } else {
+                for (Map.Entry<String, User> entry : room.getListMember().entrySet()) {
+                    if (!entry.getValue().getUserName().equals(thisUser.getUserName())) {
+                        this.roomName.setText(entry.getValue().getFullName());
+                        this.imgAvatar.setImageBitmap(entry.getValue().getAvatar());
+                    }
+                }
+            }
+            if(room.getRoomCode().equals((thisUser.getUserName().toLowerCase().concat("#"+ thisUser.getUserName().toLowerCase())))){
+                this.roomName.setText(thisUser.getFullName());
+                this.imgAvatar.setImageBitmap(thisUser.getAvatar());
+            }
+
         }
 
     }
