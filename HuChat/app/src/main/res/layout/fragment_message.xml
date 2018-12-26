@@ -30,7 +30,7 @@
             android:textSize="18dp"
             android:fontFamily="@font/notosan_regular"
             android:background="@color/grayColor"
-            android:elevation="@dimen/lowestHigh"/>
+            android:elevation="@dimen/high_2x1"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rclViewCardMessage"
             android:layout_width="match_parent"

@@ -59,7 +59,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void addControl() {
         btnBack = (Button) findViewById(R.id.btnBack);
-        imgAvatar = (ImageView) findViewById(R.id.imgViewAvatar);
+        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
         btnChangeFullName = findViewById(R.id.btnChangeFullName);
         btnChangeDob = findViewById(R.id.btnChangeDob);
@@ -86,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
                 @SuppressLint("ResourceType") View dialogView = inflater.inflate(R.layout.dialog_edit_profile_image_layout, (ViewGroup) findViewById(R.layout.activity_edit_profile));
 
-                imgAvatemp = dialogView.findViewById(R.id.imgViewAvatar);
+                imgAvatemp = dialogView.findViewById(R.id.imgAvatar);
                 imgAvatemp.setImageBitmap(thisUser.getAvatar());
 
                 Button btnChooseImage = dialogView.findViewById(R.id.btnChooseImage);
@@ -135,6 +135,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //                choosePicture();
             }
         });
+
         btnChangeFullName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -148,12 +149,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 gotoEditProfile("Phone");
             }
         });
+
         btnChangeMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
                 gotoEditProfile("Mail");
             }
         });
+
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {

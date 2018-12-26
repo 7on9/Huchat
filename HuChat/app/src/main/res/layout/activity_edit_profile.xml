@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/lightestGreenColor"
-        android:elevation="@dimen/mediumlv1High">
+        android:elevation="@dimen/high_2x3">
     <Button
         android:id="@+id/btnBack"
         android:layout_width="20dp"
@@ -28,19 +28,19 @@
         android:gravity="center"
         android:orientation="vertical"
         android:background="@color/lightestGreenColor"
-        android:elevation="@dimen/mediumlv1High"
+        android:elevation="@dimen/high_2x3"
         android:clipToPadding="false"
         android:layout_weight="3">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgViewAvatar"
+            android:id="@+id/imgAvatar"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:src="@mipmap/squareiconhuchat"
             app:civ_border_overlay="true"
-            app:civ_border_width="@dimen/lowestHigh"
+            app:civ_border_width="@dimen/high_2x1"
             app:civ_border_color="@color/grayColor"
-            android:elevation="@dimen/mediumlv1High"
+            android:elevation="@dimen/high_2x3"
             android:clickable="true"/>
         <TextView
             android:id="@+id/txtFullName"
@@ -90,7 +90,7 @@
             android:drawablePadding="20dp"
             android:paddingLeft="10dp"
             android:background="@color/white"
-            android:elevation="@dimen/lowestHigh"
+            android:elevation="@dimen/high_2x1"
             android:text="Địa chỉ email"
             android:textAllCaps="false"
             android:textColor="@color/blackTextColor"
@@ -125,7 +125,7 @@
             android:textAllCaps="false"
             android:paddingLeft="10dp"
             android:background="@color/white"
-            android:elevation="@dimen/lowestHigh"
+            android:elevation="@dimen/high_2x1"
             android:text="Mật khẩu"
             android:textColor="@color/blackTextColor"
             android:fontFamily="@font/roboto_regular"
@@ -161,7 +161,7 @@
             android:drawableLeft="@mipmap/dob"
             android:drawablePadding="20dp"
             android:background="@color/white"
-            android:elevation="@dimen/lowestHigh"
+            android:elevation="@dimen/high_2x1"
             android:text="Ngày tháng năm sinh"
             android:textColor="@color/blackTextColor"
             android:fontFamily="@font/roboto_regular"
@@ -173,7 +173,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/lineHigh"
         android:background="@color/red"
-        android:elevation="@dimen/lowestHigh"
+        android:elevation="@dimen/high_2x1"
         android:text="Xóa tài khoản"
         android:textColor="@color/blackTextColor"
         android:fontFamily="@font/roboto_bold"

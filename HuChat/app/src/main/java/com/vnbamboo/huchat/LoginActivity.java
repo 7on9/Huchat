@@ -23,7 +23,7 @@ import com.vnbamboo.huchat.object.ResultFromServer;
 
 import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.statusConnecttion;
+import static com.vnbamboo.huchat.ServiceConnection.statusConnection;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
                     LoginActivity.super.startService(intent);
                 }
-                if (statusConnecttion)
+                if (statusConnection)
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
                 else
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_red, 0);
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!statusConnecttion) {
+                if (!statusConnection) {
                     Toast.makeText(view.getContext(), "Không thể kết nối đến server! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
                     return;
                 }

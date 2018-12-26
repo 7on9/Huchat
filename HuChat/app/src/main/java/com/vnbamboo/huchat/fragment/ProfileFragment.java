@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
         txtEmail = (TextView) v.findViewById(R.id.txtEmail);
         txtEmail.setText(thisUser.getEmail());
 
-        imgAvatar = (CircleImageView) v.findViewById(R.id.imgViewAvatar);
+        imgAvatar = (CircleImageView) v.findViewById(R.id.imgAvatar);
 
         if(thisUser.getAvatar() != null)
             imgAvatar.setImageBitmap(thisUser.getAvatar());

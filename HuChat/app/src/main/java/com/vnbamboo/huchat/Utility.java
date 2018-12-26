@@ -19,11 +19,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Utility {
 
@@ -37,6 +35,9 @@ public class Utility {
     public static final String CLIENT_SEND_IMAGE_USER = "clientSendImageUser";
     public static final String CLIENT_SEND_IMAGE_ROOM = "clientSendImageRoom";
     public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
+    public static final String CLIENT_REQUEST_PUBLIC_INFO_USER = "clientRequestPublicInfoUser";
+    public static final String SERVER_SEND_MAP_ALL_USER = "serverSendListPublicInfoUser";
+
     public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
     public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
     public static final String CLIENT_REQUEST_LIST_MEMBER_OF_ROOM = "clientRequestListMemberOfRoom";
@@ -46,12 +47,19 @@ public class Utility {
     public static final String JOIN_DUAL_ROOM = "joinDualRoom";
     public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
     public static final String SERVER_SEND_HISTORY_CHAT_ROOM = "serverSendHistoryChatRoom";
-    public static final String CLIENT_REQUEST_PUBLIC_INFO_USER = "clientRequestPublicInfoUser";
-    public static final String SERVER_SEND_MAP_ALL_USER = "serverSendListPublicInfoUser";
     public static final String JOIN_ROOM = "joinRoom";
     public static final String LEAVE_ROOM = "leaveRoom";
+
     public static final String CLIENT_SEND_MESSAGE = "clientSendMessage";
     public static final String SERVER_SEND_MESSAGE = "serverSendMessage";
+
+    public static final String CHANGE_PASSWORD = "changePassword";
+    public static final String CHANGE_FULL_NAME = "changeFullName";
+    public static final String CHANGE_MAIL = "changeMail";
+    public static final String CHANGE_PHONE = "changePhone";
+    public static final String CHANGE_GENDER = "changeGender";
+    public static final String CHANGE_DOB = "changeDob";
+
     public static final byte REQUEST_TAKE_PHOTO = 24;
     public static final byte REQUEST_CHOOSE_PHOTO = 9;
     public static final int TIME_WAIT_SHORT = 750;
@@ -59,6 +67,7 @@ public class Utility {
     public static final int TIME_WAIT_LONG = 2000;
 
     public static List<User> LIST_ALL_USER = new ArrayList<>();
+    public static List<String> LIST_NAME_USER = new ArrayList<>();
     public static List<Room> LIST_ROOM = new ArrayList<>();
     public static Map <String, Room> MAP_ROOM = new HashMap<>();
     public static Map <String, User> MAP_ALL_USER = new HashMap<String, User>();
@@ -118,9 +127,7 @@ public class Utility {
 
         // For specifying wrong message digest algorithms
         catch (NoSuchAlgorithmException e) {
-            System.out.println("Exception thrown"
-                    + " for incorrect algorithm: " + e);
-
+            System.out.println("Exception thrown for incorrect algorithm: " + e);
             return null;
         }
     }

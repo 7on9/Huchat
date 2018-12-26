@@ -5,17 +5,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.object.User;
+import com.vnbamboo.huchat.ViewAdapter.GroupGridViewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
 
 public class GroupFragment extends Fragment {
-    List<String> listNameUser = new ArrayList<>();
+    GridView grdViewGroup;
     public GroupFragment() {
         // Required empty public constructor
     }
@@ -36,10 +34,13 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        for(User user: LIST_ALL_USER){
-             listNameUser.add(user.getUserName());
-        }
+        View v = inflater.inflate(R.layout.fragment_group, container, false);
 
-        return inflater.inflate(R.layout.fragment_group, container, false);
+        grdViewGroup = v.findViewById(R.id.grdViewGroup);
+
+        GroupGridViewAdapter groupGridViewAdapter = new GroupGridViewAdapter(v.getContext());
+
+        grdViewGroup.setAdapter(groupGridViewAdapter);
+        return v;
     }
 }

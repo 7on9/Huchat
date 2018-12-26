@@ -1,8 +1,8 @@
 var db = require("./database");
 
-var getUsername = (user_name) => {
+var getUsername = (userName) => {
     return new Promise(function (resolve, reject) {
-        db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ?", [user_name], function (err, rows) {
+        db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ?", [userName], function (err, rows) {
             if (err) {
                 reject(() => console.log(err + ""));
             }
@@ -13,7 +13,7 @@ var getUsername = (user_name) => {
 
 var getEmail = (email) => {
     return new Promise(function (resolve, reject) {
-        db.query("SELECT MAIL FROM USERS WHERE MAIL LIKE ?", [email], function (err, rows) {
+        db.query("SELECT PHONE FROM USERS WHERE MAIL LIKE ?", [email], function (err, rows) {
             if (err) {
                 reject(() => console.log(err + ""));
             }
@@ -23,9 +23,9 @@ var getEmail = (email) => {
 };
 
 var account = {
-    checkExistUserName: async (user_name) => {
+    checkExistUserName: async (userName) => {
         try {
-            let result = await getUsername(user_name);
+            let result = await getUsername(userName);
             return (result.length > 0) ? true : false;
         } catch (ex) {
             console.log(ex);
@@ -41,31 +41,41 @@ var account = {
             return false;
         }
     },
-    login: function (user_name, password, callback) {
-        db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [user_name, password], (err, rows)=>{
+    login: function (userName, password, callback) {
+        db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [userName, password], (err, rows)=>{
             if(rows.length > 0){
-                db.query("CALL PROC_LOGIN_EVENT(?)", [user_name]);
-                return db.query("CALL PROC_GET_INFO_USER(?)", [user_name], callback);
+                db.query("CALL PROC_LOGIN_EVENT(?)", [userName]);
+                return db.query("CALL PROC_GET_INFO_USER(?)", [userName], callback);
             }
-            else return db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [user_name, password],callback);
+            else return db.query("SELECT USER_NAME FROM ACCOUNT WHERE USER_NAME LIKE ? AND PASSWORD = ?", [userName, password],callback);
         });
     },
-    logout: function (user_name, callback) {
-        return db.query("CALL PROC_LOGOUT_EVENT(?)", [user_name], callback);
+    logout: function (userName, callback) {
+        return db.query("CALL PROC_LOGOUT_EVENT(?)", [userName], callback);
     },
-    registerAccount: async function (user_name, password, email, callback) {
-        return db.query("CALL PROC_INSERT_ACCOUNT(?, ?, ?);", [user_name, password, email], callback);
+    registerAccount: async function (userName, password, email, callback) {
+        return db.query("CALL PROC_INSERT_ACCOUNT(?, ?, ?);", [userName, password, email], callback);
     },
-    updateAccountPass: async (user_name, password, callback) => {
-        try {
-            let result = await getUsername(user_name);
-            return db.query("CALL PROC_CHANGE_PASSWORD_ACCOUNT (?, ?)", [password, user_name], callback);
-        } catch (ex) {
-            return db.query("SELECT -1", callback);
-        }
+    changePassword: async (userName, password, callback) => {
+        return db.query("CALL PROC_CHANGE_PASSWORD_ACCOUNT (?, ?)", [password, userName], callback);
     },
-    deleteAccount: function (user_name, callback) {
-        return db.query("CALL PROC_DELETE_ACCOUNT (?)", [user_name], callback);
+    changeFullName : (userName, fullName, callback) => {
+        return db.query("CALL PROC_CHANGE_FULL_NAME(?, ?)", [userName, fullName], callback);
+    },
+    changeDoB : (userName, dob, callback) => {
+        return db.query("CALL PROC_CHANGE_DOB(?, ?)", [userName, dob], callback);
+    },
+    changeGender : (userName, gender, callback) => {
+        return db.query("CALL PROC_CHANGE_GENDER(?, ?)", [userName, gender], callback);
+    },
+    changeMail : (userName, mail, callback) => {
+        return db.query("CALL PROC_CHANGE_MAIL(?, ?)", [userName, mail], callback);
+    },
+    changePhone : (userName, phone, callback) => {
+        return db.query("CALL PROC_CHANGE_PHONE(?, ?)", [userName, phone], callback);
+    },
+    deleteAccount: function (userName, callback) {
+        return db.query("CALL PROC_DELETE_ACCOUNT (?)", [userName], callback);
     }
 }
 module.exports = account;

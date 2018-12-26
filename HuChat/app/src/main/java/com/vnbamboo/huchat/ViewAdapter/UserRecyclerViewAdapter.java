@@ -109,7 +109,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
             txtUserName = itemView.findViewById(R.id.txtUserName);
             txtFullName = itemView.findViewById(R.id.txtFullName);
-            imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
+            imgAvatar = itemView.findViewById(R.id.imgAvatar);
             line = itemView.findViewById(R.id.friendLine);
         }
 

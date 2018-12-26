@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="textNormal">20dp</dimen>
-    <dimen name="textTitle">18dp</dimen>
-    <dimen name="lowestHigh">2dp</dimen>
-    <dimen name="mediumlv0High">4dp</dimen>
-    <dimen name="mediumlv1High">6dp</dimen>
-    <dimen name="mediumlv2High">8dp</dimen>
-    <dimen name="highestHigh">12dp</dimen>
+    <dimen name="text_normal">20dp</dimen>
+    <dimen name="text_title">18dp</dimen>
+    <dimen name="high_2x1">2dp</dimen>
+    <dimen name="high_2x2">4dp</dimen>
+    <dimen name="high_2x3">6dp</dimen>
+    <dimen name="high_2x4">8dp</dimen>
+    <dimen name="high_2x6">12dp</dimen>
     <dimen name="singleLine">2px</dimen>
     <dimen name="lineHigh">40dp</dimen>
+    <dimen name="menu_bar_high">50dp</dimen>
 </resources>

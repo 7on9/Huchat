@@ -2,10 +2,8 @@ package com.vnbamboo.huchat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -13,8 +11,20 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.NumberFormat;
+import static android.widget.Toast.LENGTH_SHORT;
+import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.CHANGE_DOB;
+import static com.vnbamboo.huchat.Utility.CHANGE_FULL_NAME;
+import static com.vnbamboo.huchat.Utility.CHANGE_GENDER;
+import static com.vnbamboo.huchat.Utility.CHANGE_MAIL;
+import static com.vnbamboo.huchat.Utility.CHANGE_PASSWORD;
+import static com.vnbamboo.huchat.Utility.CHANGE_PHONE;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.Utility.toSHA256;
 
 public class EditProfileSubActivity extends AppCompatActivity {
     Button btnChange, btnBack;
@@ -38,6 +48,7 @@ public class EditProfileSubActivity extends AppCompatActivity {
 
         btnChange = findViewById(R.id.btnChange);
         btnBack = findViewById(R.id.btnBack);
+        txtPassword = findViewById(R.id.txtPassword);
         txtEditProperty = findViewById(R.id.txtEditProperty);
         txtChangeTo = findViewById(R.id.txtChangeTo);
         txtRetypeChange = findViewById(R.id.txtReType);
@@ -92,14 +103,12 @@ public class EditProfileSubActivity extends AppCompatActivity {
                 });
                 break;
         }
-
-
-
         //set basic view
         txtEditProperty.setText(property);
 
     }
     void addEvent(){
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -117,6 +126,7 @@ public class EditProfileSubActivity extends AppCompatActivity {
                 }
             }
         });
+
         txtRetypeChange.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange( View v, boolean hasFocus ) {
@@ -125,6 +135,101 @@ public class EditProfileSubActivity extends AppCompatActivity {
                 }
                 else {
                     txtRetypeChange.setHint("");
+                }
+            }
+        });
+
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                if(txtPassword.length() == 0){
+                    txtPassword.setError("Ô không được để trống!");
+                    return;
+                }
+                if(txtChangeTo.length() == 0){
+                    txtPassword.setError("Ô không được để trống!");
+                    return;
+                }
+                if(txtRetypeChange.length() == 0){
+                    txtPassword.setError("Ô không được để trống!");
+                    return;
+                }
+                if(!txtRetypeChange.getText().toString().equals(txtChangeTo.getText().toString())){
+                    txtRetypeChange.setError("Bạn cần nhập 2 ô thay đổi khớp với nhau ");
+                }
+                if(toSHA256(txtPassword.getText().toString()).equals(thisUser.getPassword())){
+                    switch (editProperty){
+                        case "Full name":
+                            mSocket.emit(CHANGE_FULL_NAME, thisUser.getUserName(), txtChangeTo.getText().toString());
+                            break;
+                        case "Mail":
+                            mSocket.emit(CHANGE_MAIL, thisUser.getUserName(), txtChangeTo.getText().toString());
+                            break;
+                        case "Phone":
+                            mSocket.emit(CHANGE_PHONE, thisUser.getUserName(), txtChangeTo.getText().toString());
+                            break;
+                        case "Password":
+                            mSocket.emit(CHANGE_PASSWORD, thisUser.getUserName(), toSHA256(txtChangeTo.getText().toString()));
+                            break;
+                    }
+                    try {
+                        new Thread().sleep(TIME_WAIT_MEDIUM);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    switch (resultFromServer.event){
+                        case CHANGE_MAIL:
+                            if(resultFromServer.success){
+                                thisUser.setEmail(txtChangeTo.getText().toString());
+                                Toast.makeText(v.getContext(),"Thay đổi thành công!", LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(v.getContext(),"Thay đổi thất bại!", LENGTH_SHORT).show();
+                            }
+                            break;
+                        case CHANGE_PASSWORD:
+                            if(resultFromServer.success){
+                                thisUser.setPassword(toSHA256(txtChangeTo.getText().toString()));
+                                Toast.makeText(v.getContext(),"Thay đổi thành công!", LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(v.getContext(),"Thay đổi thất bại!", LENGTH_SHORT).show();
+                            }
+                            break;
+                        case CHANGE_FULL_NAME:
+                            if(resultFromServer.success){
+                                thisUser.setFullName(txtChangeTo.getText().toString());
+                                Toast.makeText(v.getContext(),"Thay đổi thành công!", LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(v.getContext(),"Thay đổi thất bại!", LENGTH_SHORT).show();
+                            }
+                            break;
+                        case CHANGE_PHONE:
+                            if(resultFromServer.success){
+                                thisUser.setPhone(txtChangeTo.getText().toString());
+                                Toast.makeText(v.getContext(),"Thay đổi thành công!", LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(v.getContext(),"Thay đổi thất bại!", LENGTH_SHORT).show();
+                            }
+                            break;
+                        case CHANGE_GENDER:
+                        if(resultFromServer.success){
+                            }
+                            else {
+
+                            }
+                        break;
+                        case CHANGE_DOB:
+                            if(resultFromServer.success){
+
+                            }
+                            else {
+
+                            }
+                            break;
+                    }
                 }
             }
         });

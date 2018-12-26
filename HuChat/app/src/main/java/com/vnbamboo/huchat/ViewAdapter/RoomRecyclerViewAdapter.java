@@ -119,7 +119,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         public CardRoomViewHolder( View itemView ) {
             super(itemView);
 
-            imgAvatar = itemView.findViewById(R.id.imgViewAvatar);
+            imgAvatar = itemView.findViewById(R.id.imgAvatar);
             roomName = itemView.findViewById(R.id.txtCardName);
             txtRoomCode = itemView.findViewById(R.id.txtLastMessage);
             line = itemView.findViewById(R.id.line);
@@ -155,9 +155,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 this.roomName.setText(thisUser.getFullName());
                 this.imgAvatar.setImageBitmap(thisUser.getAvatar());
             }
-
         }
-
     }
 
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
@@ -169,14 +167,14 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public interface OnItemClickedListener {
-        void onItemClick(String username);
-    }
-
-    private OnItemClickedListener onItemClickedListener;
-
-    public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
-        this.onItemClickedListener = onItemClickedListener;
-    }
+//    public interface OnItemClickedListener {
+//        void onItemClick(String username);
+//    }
+//
+//    private OnItemClickedListener onItemClickedListener;
+//
+//    public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
+//        this.onItemClickedListener = onItemClickedListener;
+//    }
 
 }

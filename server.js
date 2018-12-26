@@ -102,6 +102,7 @@ io.on("connection", function (socket) {
 	});
 
 	// console.log(arrayImage);
+
 	socket.on('clientRequestImageUser', function (userName) {
 		let dir = getFilenameImageUser(userName);
 		let index = arrayImage.indexOf(dir);
@@ -271,6 +272,7 @@ io.on("connection", function (socket) {
 			else console.log(err);
 		});
 	});
+
 	//chat
 
 	socket.on("checkExistRoom", (roomCode) => {
@@ -339,7 +341,6 @@ io.on("connection", function (socket) {
 		socket.join(roomCode);
 	});
 
-
 	socket.on("joinDualRoom", (roomCode) => {
 		//find room if exist
 		socket.join(roomCode);
@@ -372,6 +373,104 @@ io.on("connection", function (socket) {
 			// socket.broadcast.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
 			// io.sockets.to(roomCode).emit("serverSendMessage",roomCode, userName, content);
 		});
+	});
+
+	//edit profile
+
+	socket.on("changePassword", (userName, password) => {
+		account.changePassword(userName, password, (err, rows) =>{
+			if(err){
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changePassword", true);
+				}
+				else {
+					socket.emit("result", "changePassword", false);
+				}
+			}
+		})
+	});
+
+	socket.on("changeFullName", (userName, fullName) => {
+		account.changeFullName(userName, fullName, (err, rows) =>{
+			if(err){
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changeFullName", true);
+				}
+				else {
+					socket.emit("result", "changeFullName", false);
+				}
+			}
+		})
+	});
+
+	socket.on("changeMail", async (userName, mail) => {
+		let existEmail = await account.checkExistEmail(mail);
+		if (existEmail) {
+			socket.emit("result", "changeMail", false, "duplicate");
+			return;
+		}
+		account.changeMail(userName, mail, (err, rows) =>{
+			if(err){
+				socket.emit("result", "changeMail", false, err);
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changeMail", true);
+				}
+				else {
+					socket.emit("result", "changeMail", false, "sever error");
+				}
+			}
+		});
+	});
+
+	socket.on("changePhone", (userName, phone) => {
+		account.changePhone(userName, phone, (err, rows) =>{
+			if(err){
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changePhone", true);
+				}
+				else {
+					socket.emit("result", "changePhone", false);
+				}
+			}
+		})
+	});
+
+	socket.on("changeGender", (userName, gender) => {
+		account.changeGender(userName, gender, (err, rows) =>{
+			if(err){
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changeGender", true);
+				}
+				else {
+					socket.emit("result", "changeGender", false);
+				}
+			}
+		})
+	});
+
+	socket.on("changeDob", (userName, dob) => {
+		account.changeDoB(userName, dob, (err, rows) =>{
+			if(err){
+				console.log(err);
+			}else{
+				if(rows.affectedRows > 0){
+					socket.emit("result", "changeDob", true);
+				}
+				else {
+					socket.emit("result", "changeDob", false);
+				}
+			}
+		})
 	});
 
 	socket.on("disconnect", () => {

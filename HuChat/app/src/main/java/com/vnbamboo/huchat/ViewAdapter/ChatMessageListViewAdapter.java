@@ -83,7 +83,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             convertView = layoutInflater.inflate(R.layout.their_message, null);
             messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtTheirMessage);
             messageListViewHolder.txtUser = (TextView) convertView.findViewById(R.id.txtTheirName);
-            messageListViewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.imgViewAvatar);
+            messageListViewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.imgAvatar);
             messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
             messageListViewHolder.line = convertView.findViewById(R.id.line);
 

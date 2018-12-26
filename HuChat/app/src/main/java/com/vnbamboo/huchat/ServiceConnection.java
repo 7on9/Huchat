@@ -15,13 +15,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
+import static com.vnbamboo.huchat.Utility.CHANGE_DOB;
+import static com.vnbamboo.huchat.Utility.CHANGE_FULL_NAME;
+import static com.vnbamboo.huchat.Utility.CHANGE_GENDER;
+import static com.vnbamboo.huchat.Utility.CHANGE_MAIL;
+import static com.vnbamboo.huchat.Utility.CHANGE_PASSWORD;
+import static com.vnbamboo.huchat.Utility.CHANGE_PHONE;
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
 import static com.vnbamboo.huchat.Utility.LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
 import static com.vnbamboo.huchat.Utility.MAP_ROOM;
@@ -42,9 +48,8 @@ import static com.vnbamboo.huchat.Utility.objectToJSONObject;
 
 public class ServiceConnection extends Service {
 
-    public static Bitmap tempImage = null;
     public static Boolean isConnected = false;
-    public static Boolean statusConnecttion = false;
+    public static Boolean statusConnection = false;
     public static Emitter.Listener onResultFromServer, onListUserFromServer;
     public static List<ChatMessage> tmpListChat = new ArrayList<>();
     public static ResultFromServer resultFromServer;
@@ -73,7 +78,7 @@ public class ServiceConnection extends Service {
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
 
-        statusConnecttion  =  false;
+        statusConnection  =  false;
         //mSocket = null;
         try
         {
@@ -88,7 +93,7 @@ public class ServiceConnection extends Service {
                 resultFromServer = new ResultFromServer((String) args[0], (Boolean) args[1]);
                 switch (resultFromServer.event) {
                     case CONNECTION:
-                        statusConnecttion = resultFromServer.success;
+                        statusConnection = resultFromServer.success;
                         break;
                     case LOGIN:
                         if (!resultFromServer.success.booleanValue()) break;
@@ -205,6 +210,19 @@ public class ServiceConnection extends Service {
                             }
                         }
                         break;
+                    case CHANGE_MAIL:
+                        break;
+                    case CHANGE_PASSWORD:
+                        break;
+                    case CHANGE_FULL_NAME:
+                        break;
+                    case CHANGE_GENDER:
+                        break;
+                    case CHANGE_PHONE:
+                        break;
+                    case CHANGE_DOB:
+                        break;
+
                 }
             }
         };
@@ -214,6 +232,7 @@ public class ServiceConnection extends Service {
                 try {
                     JSONArray jsonArray = objectToJSONArray(args[0]);
                     LIST_ALL_USER.removeAll(LIST_ALL_USER);
+                    LIST_NAME_USER.removeAll(LIST_NAME_USER);
                     MAP_ALL_USER.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         User tmpUser = new User();
@@ -221,6 +240,7 @@ public class ServiceConnection extends Service {
                         tmpUser.setUserName(jsonObject.getString("USER_NAME").toLowerCase());
                         tmpUser.setFullName(jsonObject.getString("FULL_NAME"));
                         LIST_ALL_USER.add(tmpUser);
+                        LIST_NAME_USER.add(tmpUser.getUserName());
                         MAP_ALL_USER.put(tmpUser.getUserName(), tmpUser);
                     }
                 }catch (Exception e) {
@@ -242,7 +262,7 @@ public class ServiceConnection extends Service {
     @Override
     public void onDestroy() {
         isConnected = false;
-        statusConnecttion = false;
+        statusConnection = false;
         mSocket.off(RESULT, onResultFromServer);
 //        mSocket.on(RESULT, onResultFromServer);
         mSocket.off(SERVER_SEND_MAP_ALL_USER, onListUserFromServer);
