@@ -10,6 +10,7 @@ import java.util.Map;
 public class Room {
     private String roomCode;
     private String name;
+    private String userNameOwner;
     private List<ChatMessage> chatHistory;
     private Map<String, User> listMember;
     private boolean isDual;
@@ -20,7 +21,7 @@ public class Room {
         this.name = name;
     }
     public Room(){
-        roomCode = name = "";
+        roomCode = name = userNameOwner = "";
         isDual = false;
         listMember = new HashMap<>();
         chatHistory = new ArrayList<>();
@@ -37,9 +38,16 @@ public class Room {
         this.listMember.putAll(a.listMember);
     }
 
-
     public void setRoomCode( String roomCode ) {
         this.roomCode = roomCode;
+    }
+
+    public String getUserNameOwner() {
+        return userNameOwner;
+    }
+
+    public void setUserNameOwner( String userNameOwner ) {
+        this.userNameOwner = userNameOwner;
     }
 
     public String getRoomCode() {
@@ -85,7 +93,6 @@ public class Room {
     public User getUserAt(int i){
         return listMember.get(i);
     }
-
     public Bitmap getAvatar() {
         return avatar;
     }

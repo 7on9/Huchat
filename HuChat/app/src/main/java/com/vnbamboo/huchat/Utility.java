@@ -39,12 +39,15 @@ public class Utility {
     public static final String SERVER_SEND_MAP_ALL_USER = "serverSendListPublicInfoUser";
 
     public static final String CLIENT_REQUEST_IMAGE_ROOM = "clientRequestImageRoom";
+    public static final String CLIENT_REQUEST_LIST_ROOM_OF_THIS_USER = "clientRequestListRoomOfUser";
     public static final String CLIENT_REQUEST_LIST_ROOM = "clientRequestListRoom";
+    public static final String SERVER_SEND_LIST_ROOM = "serverSendListRoom";
     public static final String CLIENT_REQUEST_LIST_MEMBER_OF_ROOM = "clientRequestListMemberOfRoom";
     public static final String SERVER_SEND_LIST_MEMBER_OF_ROOM = "serverSendListMemberOfRoom";
-    public static final String SERVER_SEND_LIST_ROOM = "serverSendListRoom";
+    public static final String SERVER_SEND_LIST_ROOM_OF_THIS_USER = "serverSendListRoomOfUser";
     public static final String NEW_ROOM = "newRoom";
     public static final String JOIN_DUAL_ROOM = "joinDualRoom";
+    public static final String JOIN_EXITS_ROOM = "joinExistRoom";
     public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
     public static final String SERVER_SEND_HISTORY_CHAT_ROOM = "serverSendHistoryChatRoom";
     public static final String JOIN_ROOM = "joinRoom";
@@ -68,8 +71,10 @@ public class Utility {
 
     public static List<User> LIST_ALL_USER = new ArrayList<>();
     public static List<String> LIST_NAME_USER = new ArrayList<>();
-    public static List<Room> LIST_ROOM = new ArrayList<>();
-    public static Map <String, Room> MAP_ROOM = new HashMap<>();
+    public static List<Room> LIST_ROOM_OF_THIS_USER = new ArrayList<>();
+    public static List<Room> LIST_ALL_PUBLIC_ROOM= new ArrayList<>();
+    public static Map<String, Room> MAP_ALL_PUBLIC_ROOM = new HashMap<>();
+    public static Map <String, Room> MAP_ROOM_OF_THIS_USER = new HashMap<>();
     public static Map <String, User> MAP_ALL_USER = new HashMap<String, User>();
 
     public static void startCreateNewMessageActivity( Context context, String userName, User user ) {
@@ -98,7 +103,7 @@ public class Utility {
 
     public static String getLocalHost() {
         //set match server ip
-        return "http://192.168.1.73:2409/";
+        return "http://172.34.183.120:2409/";
     }
 
     public static String toSHA256( String input ) {

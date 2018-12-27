@@ -139,7 +139,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             this.roomCode = room.getRoomCode();
             if (!room.isDual()) {
                 this.roomName.setText(room.getName());
-                if (room.getAvatar() == null)
+                if (room.getAvatar() != null)
                     this.imgAvatar.setImageBitmap(room.getAvatar());
                 else
                     this.imgAvatar.setImageResource(R.mipmap.squareiconhuchat);

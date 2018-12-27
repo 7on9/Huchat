@@ -131,7 +131,7 @@ io.on("connection", function (socket) {
 			socket.emit("result", "register", false);
 			return;
 		}
-		account.registerAccount(userName, password, email, (err, rows) => {
+		account.registerAccount(userName.toLowerCase(), password, email.toLowerCase(), (err, rows) => {
 			if (err) {
 				console.log(err);
 				throw err;
@@ -243,15 +243,32 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
-
-	socket.on("clientRequestListRoom", (userName) => {
+	socket.on("clientRequestListRoom", () => {
+		room.getAllListRoom((err, rows) => {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				socket.emit("serverSendListRoom", rows[0]);
+				// console.log(rows[0]);
+				for (i in rows[0]) {
+					// console.log(socket);
+					roomOfUser.push(rows[0][i].ROOM_CODE);
+					socket.join(rows[0][i].ROOM_CODE);
+					// console.log(socket.adapter.rooms);
+				}
+			}
+		//	console.log(socket.adapter.rooms);
+		})
+	});
+	socket.on("clientRequestListRoomOfUser", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
 				console.log(err);
-				socket.emit("result", "serverSendListRoom", false);
+				socket.emit("result", "serverSendListRoomOfUser", false);
 			}
 			else {
-				socket.emit("result", "serverSendListRoom", true, rows[0]);
+				socket.emit("result", "serverSendListRoomOfUser", true, rows[0]);
 				// console.log(rows[0]);
 				for (i in rows[0]) {
 					// console.log(socket);
@@ -295,6 +312,7 @@ io.on("connection", function (socket) {
 		}
 		room.joinExistRoom(roomCode, userName, password, (err, rows) => {
 			if(err || rows.affectedRows == 0){
+				console.log(rows)
 				socket.emit("result", "joinExistRoom", false, "wrongPassword");
 			}else{
 				socket.emit("result", "joinExistRoom", true);

@@ -13,6 +13,9 @@ let callSelectRoom = (roomCode) =>{
 }
 
 var  room = {
+    getAllListRoom : (callback) => {
+        return db.query("CALL PROC_GET_ALL_PUBLIC_ROOM()", callback);
+    },
     getListRoomOfUser : (userName, callback) =>{
         return db.query("CALL PROC_GET_LIST_ROOM_OF_USER(?)", [userName], callback);
     },

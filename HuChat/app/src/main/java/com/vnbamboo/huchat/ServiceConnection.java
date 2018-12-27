@@ -26,11 +26,13 @@ import static com.vnbamboo.huchat.Utility.CHANGE_GENDER;
 import static com.vnbamboo.huchat.Utility.CHANGE_MAIL;
 import static com.vnbamboo.huchat.Utility.CHANGE_PASSWORD;
 import static com.vnbamboo.huchat.Utility.CHANGE_PHONE;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.Utility.MAP_ALL_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM;
+import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.Utility.CONNECTION;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
@@ -41,6 +43,7 @@ import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_MEMBER_OF_ROOM;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.Utility.SERVER_SEND_MAP_ALL_USER;
 import static com.vnbamboo.huchat.Utility.byteArrayToBimap;
 import static com.vnbamboo.huchat.Utility.objectToJSONArray;
@@ -50,7 +53,7 @@ public class ServiceConnection extends Service {
 
     public static Boolean isConnected = false;
     public static Boolean statusConnection = false;
-    public static Emitter.Listener onResultFromServer, onListUserFromServer;
+    public static Emitter.Listener onResultFromServer, onListUserFromServer, onListRoom;
     public static List<ChatMessage> tmpListChat = new ArrayList<>();
     public static ResultFromServer resultFromServer;
     public static Socket mSocket;
@@ -129,10 +132,10 @@ public class ServiceConnection extends Service {
 
                     case SERVER_SEND_IMAGE_ROOM:
                         if (resultFromServer.success)
-                            MAP_ROOM.get((String) args[3]).setAvatar(byteArrayToBimap((byte[]) args[2]));
+                            MAP_ROOM_OF_THIS_USER.get((String) args[3]).setAvatar(byteArrayToBimap((byte[]) args[2]));
                         break;
 
-                    case SERVER_SEND_LIST_ROOM:
+                    case SERVER_SEND_LIST_ROOM_OF_THIS_USER:
                         if (resultFromServer.success) {
                             JSONArray jsonRoomArr = objectToJSONArray(args[2]);
                             try {
@@ -143,8 +146,8 @@ public class ServiceConnection extends Service {
                                     room.setRoomCode(jsonobject.getString("ROOM_CODE"));
                                     room.setName(jsonobject.getString("ROOM_NAME"));
                                     room.setDual(jsonobject.getInt("IS_DUAL") == 1 ? true : false);
-                                    LIST_ROOM.add(room);
-                                    MAP_ROOM.put(room.getRoomCode(), room);
+                                    LIST_ROOM_OF_THIS_USER.add(room);
+                                    MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -162,8 +165,8 @@ public class ServiceConnection extends Service {
                             for (String userName : listUserName){
                                 room.getListMember().put(userName, MAP_ALL_USER.get(userName));
                             }
-                            MAP_ROOM.put(room.getRoomCode(), room);
-                            LIST_ROOM.add(room);
+                            MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
+                            LIST_ROOM_OF_THIS_USER.add(room);
                         }
                         catch(Exception e){
                             e.printStackTrace();
@@ -183,7 +186,7 @@ public class ServiceConnection extends Service {
                                     chatMessage.setTime(jsonobject.getLong("TIME"));
                                     tmpListChat.add(chatMessage);
                                 }
-                                MAP_ROOM.get((String) args[3]).setChatHistory(tmpListChat);
+                                MAP_ROOM_OF_THIS_USER.get((String) args[3]).setChatHistory(tmpListChat);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -199,12 +202,12 @@ public class ServiceConnection extends Service {
                                         JSONObject jsonobject = null;
                                         jsonobject = jsonRoomArr.getJSONObject(i);
                                         String userName = jsonobject.getString("USER_NAME_MEMBER").toLowerCase();
-                                        MAP_ROOM.get((String) args[2]).getListMember().put(userName, MAP_ALL_USER.get(userName));
+                                        MAP_ROOM_OF_THIS_USER.get((String) args[2]).getListMember().put(userName, MAP_ALL_USER.get(userName));
                                     } catch (Exception ex){
                                         ex.printStackTrace();
                                     }
                                 }
-//                                MAP_ROOM.get((String) args[3]).setChatHistory(tmpListChat);
+//                                MAP_ROOM_OF_THIS_USER.get((String) args[3]).setChatHistory(tmpListChat);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -248,10 +251,31 @@ public class ServiceConnection extends Service {
                 }
             }
         };
+        onListRoom = new Emitter.Listener() {
+            @Override
+            public void call( Object... args ) {
+                JSONArray jsonRoomArr = objectToJSONArray(args[0]);
+                try {
+                    for (int i = 0; i < jsonRoomArr.length(); i++) {
+                        Room room = new Room();
+                        JSONObject jsonobject = null;
+                        jsonobject = jsonRoomArr.getJSONObject(i);
+                        room.setRoomCode(jsonobject.getString("ROOM_CODE"));
+                        room.setName(jsonobject.getString("ROOM_NAME"));
+                        room.setUserNameOwner(jsonobject.getString("USER_NAME_OWNER"));
+                        LIST_ALL_PUBLIC_ROOM.add(room);
+                        MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
         mSocket.connect();
         //Add listen event
         isConnected = true;
         mSocket.on(RESULT, onResultFromServer);
+        mSocket.on(SERVER_SEND_LIST_ROOM, onListRoom);
         mSocket.on(SERVER_SEND_MAP_ALL_USER, onListUserFromServer);
         return START_STICKY;
     }

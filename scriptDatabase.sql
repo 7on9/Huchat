@@ -317,9 +317,9 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE PROC_GET_ALL_PUBLIC_ROOM()
 BEGIN
-    SELECT B.ROOM_CODE, ROOM_NAME, IS_DUAL 
+    SELECT B.ROOM_CODE, ROOM_NAME, USER_NAME_OWNER
     FROM INFO_ROOM B, ROOMS C
-    WHERE IS_DUAL = FALSE AND B.ROOM_CODE = C.ROOM_CODE AND PRIVATE = FALSE; 
+    WHERE IS_DUAL = FALSE AND B.ROOM_CODE = C.ROOM_CODE AND PRIVATE = FALSE AND IS_DUAL = FALSE; 
 END; $$
 DELIMITER ;
 
@@ -406,12 +406,14 @@ CREATE TRIGGER TRIG_UPDATE_ACCOUNT AFTER UPDATE
 -- ---------------------------------TRIGGER----------------------------------------- --
 -- CALL PROC_DELETE_ACCOUNT("tttt");
 -- CALL PROC_CHANGE_PASSWORD_ACCOUNT ("MON", "YEYEYE");
-CALL PROC_INSERT_ACCOUNT ("Bamboo","6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", "tamdaulong207@gmail.com");
-CALL PROC_INSERT_ACCOUNT ("KarlMarx", "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", "communist@gmail.com");
+CALL PROC_INSERT_ACCOUNT ("bamboo","6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", "tamdaulong207@gmail.com");
+CALL PROC_INSERT_ACCOUNT ("karlmarx", "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", "communist@gmail.com");
 CALL PROC_INSERT_ACCOUNT ("tttt","e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8","a@gmail.com");
 -- CALL PROC_INSERT_ACCOUNT ("test","a");
-CALL PROC_UPDATE_INFO_USER("karlMarx", "Karl Marx", 1544854215, true, "communist@gmail.com", "00000001");
-CALL PROC_CREATE_ROOM("KarlMarx", "","Lớp chính trị", FALSE, FALSE);
+CALL PROC_UPDATE_INFO_USER("karlmarx", "Karl Marx", 1544854215, true, "communist@gmail.com", "00000001");
+CALL PROC_CREATE_ROOM("karlmarx", "","Lớp chính trị", FALSE, FALSE);
+CALL PROC_CREATE_ROOM("tttt", "","Lớp cảm tình Đảng", FALSE, FALSE);
+CALL PROC_CREATE_ROOM("tttt", "","Lớp cảm tình Đoàn", FALSE, FALSE);
 CALL PROC_SEND_MESSAGE("1544854215Bamboo", "Bamboo", "aaaaA");
 CALL PROC_GET_HISTORY_OF_CHAT_ROOM("1544854215Bamboo");
 CALL PROC_GET_LIST_MEMBER_OF_ROOM("bamboo#karlmarx");

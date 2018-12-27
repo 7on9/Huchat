@@ -25,9 +25,14 @@ import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.Utility.LOGOUT;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM;
+import static com.vnbamboo.huchat.Utility.MAP_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
+import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
 
 public class ProfileFragment extends Fragment {
 
@@ -116,9 +121,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mSocket.emit(LOGOUT, thisUser.getUserName());
+
                 thisUser = new User();
-                MAP_ROOM.clear();
-                LIST_ROOM.clear();
+
+                MAP_ROOM_OF_THIS_USER.clear();
+                LIST_ROOM_OF_THIS_USER.clear();
+                MAP_ALL_USER.clear();
+                MAP_ALL_PUBLIC_ROOM.clear();
+                LIST_ALL_PUBLIC_ROOM.clear();
+                LIST_NAME_USER.clear();
+                LIST_ALL_USER.clear();
+
                 resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);

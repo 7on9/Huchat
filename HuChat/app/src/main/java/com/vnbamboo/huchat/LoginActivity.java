@@ -25,6 +25,7 @@ import static com.vnbamboo.huchat.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.ServiceConnection.statusConnection;
 import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.Utility.LOGIN;
 import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 //            this.stopService(intent);
         if(!ServiceConnection.isConnected)
             this.startService(intent);
+
         if(resultFromServer == null)
             resultFromServer = new ResultFromServer();
 
@@ -68,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mSocket.emit(CLIENT_REQUEST_LIST_ROOM);
                         mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
                     }
                 });

@@ -1,34 +1,47 @@
 package com.vnbamboo.huchat.ViewAdapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ProgressBar;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.object.Room;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.Utility.LIST_ROOM;
+import static com.vnbamboo.huchat.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.Utility.JOIN_EXITS_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
 
 public class GroupGridViewAdapter extends BaseAdapter {
+
     private LayoutInflater mLayoutInflater;
-    public GroupGridViewAdapter( Context context ){
+
+    public GroupGridViewAdapter( Context context ) {
         mLayoutInflater = LayoutInflater.from(context);
     }
+
     @Override
     public int getCount() {
-        return LIST_ROOM == null ? 0 : LIST_ROOM.size();
+        return LIST_ALL_PUBLIC_ROOM == null ? 0 : LIST_ALL_PUBLIC_ROOM.size();
     }
 
     @Override
     public Object getItem( int position ) {
-        return LIST_ROOM.get(position);
+        return LIST_ALL_PUBLIC_ROOM.get(position);
     }
 
     @Override
@@ -39,40 +52,75 @@ public class GroupGridViewAdapter extends BaseAdapter {
     @Override
     public View getView( int position, View convertView, ViewGroup parent ) {
         GroupViewItem groupViewItem;
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.card_group_layout, parent, false);
             groupViewItem = new GroupViewItem(convertView);
+            final Room room = LIST_ALL_PUBLIC_ROOM.get(position);
+            Bitmap img = room.getAvatar();
 
-            Bitmap  img = LIST_ROOM.get(position).getAvatar();
-            if (img != null)
+            if (img != null) {
                 groupViewItem.imgAvatar.setImageBitmap(img);
-            groupViewItem.txtRoomCode.setText(LIST_ROOM.get(position).getRoomCode());
-            groupViewItem.txtRoomName.setText(LIST_ROOM.get(position).getName());
+            }
+
+            groupViewItem.txtRoomCode.setText(room.getRoomCode());
+            groupViewItem.txtRoomName.setText(room.getName());
+
+            groupViewItem.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick( final View v ) {
+                    if(MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null) {
+                        mSocket.emit(JOIN_EXITS_ROOM, room.getRoomCode(), thisUser.getUserName(), "");
+
+                        final ProgressDialog dialog = new ProgressDialog(v.getContext());
+                        dialog.setTitle("Đợi 1 chút nhé...");
+                        dialog.setContentView(R.layout.loading_layout);
+                        dialog.show();
+//                        long time = System.currentTimeMillis();
+//                        do {
+//                            //nothing :)
+//                        }
+//                        while (MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null || System.currentTimeMillis() - time < 5000);
+                        try {
+                            new Thread().sleep(TIME_WAIT_LONG);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                                if(resultFromServer.event.equals(JOIN_EXITS_ROOM) && resultFromServer.success){
+                                    MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
+                                    LIST_ROOM_OF_THIS_USER.add(room);
+                                    Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
+                                }
+                                else {
+
+                                }
+                            }
+                        }).start();
+                    }else {
+                        Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
+                    }
+                }
+            });
             convertView.setTag(groupViewItem);
-        }
-        else {
+        } else {
             groupViewItem = (GroupViewItem) convertView.getTag();
         }
         return convertView;
     }
-    private class GroupViewItem{
+
+    private class GroupViewItem {
         TextView txtRoomName, txtRoomCode;
         CircleImageView imgAvatar;
+        LinearLayout item;
 
-        GroupViewItem (View convertView){
+        GroupViewItem( View convertView ) {
             txtRoomName = convertView.findViewById(R.id.txtRoomName);
             txtRoomCode = convertView.findViewById(R.id.txtRoomCode);
             imgAvatar = convertView.findViewById(R.id.imgAvatar);
-        }
-
-    }
-
-    public class LoadingViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar progressBar;
-
-        public LoadingViewHolder(View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
+            item = convertView.findViewById(R.id.group);
         }
     }
 }
