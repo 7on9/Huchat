@@ -1,8 +1,7 @@
-package com.vnbamboo.huchat.ViewAdapter;
+package com.vnbamboo.huchat.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,20 +10,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.vnbamboo.huchat.ChatActivity;
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.helper.Utility;
 import com.vnbamboo.huchat.object.User;
-
-import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.JOIN_DUAL_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.JOIN_DUAL_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

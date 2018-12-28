@@ -1,7 +1,6 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,18 +20,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vnbamboo.huchat.R;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_SEND_IMAGE_USER;
-import static com.vnbamboo.huchat.Utility.REQUEST_CHOOSE_PHOTO;
-import static com.vnbamboo.huchat.Utility.REQUEST_TAKE_PHOTO;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
-import static com.vnbamboo.huchat.Utility.getByteArrayFromBitmap;
-import static com.vnbamboo.huchat.Utility.resize;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_SEND_IMAGE_USER;
+import static com.vnbamboo.huchat.helper.Utility.REQUEST_CHOOSE_PHOTO;
+import static com.vnbamboo.huchat.helper.Utility.REQUEST_TAKE_PHOTO;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.getByteArrayFromBitmap;
+import static com.vnbamboo.huchat.helper.Utility.resize;
 
 public class EditProfileActivity extends AppCompatActivity {
     Button btnBack, btnChangeFullName,

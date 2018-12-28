@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -11,18 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.vnbamboo.huchat.ViewAdapter.UserRecyclerViewAdapter;
+import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.adapter.UserRecyclerViewAdapter;
+import com.vnbamboo.huchat.helper.Utility;
 import com.vnbamboo.huchat.object.User;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.JOIN_DUAL_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
-import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.JOIN_DUAL_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_NAME_USER;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 
 public class CreateNewMessageActivity extends AppCompatActivity {
     RecyclerView rclViewCardUser;

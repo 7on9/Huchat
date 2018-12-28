@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.helper;
 
 public interface OnLoadMoreListener {
     void onLoadMore();

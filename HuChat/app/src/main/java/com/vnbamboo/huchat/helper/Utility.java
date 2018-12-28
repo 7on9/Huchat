@@ -1,10 +1,14 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.helper;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.vnbamboo.huchat.activity.ChatActivity;
+import com.vnbamboo.huchat.activity.CreateNewMessageActivity;
+import com.vnbamboo.huchat.activity.EditProfileActivity;
+import com.vnbamboo.huchat.activity.LoginActivity;
 import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
 
@@ -103,7 +107,7 @@ public class Utility {
 
     public static String getLocalHost() {
         //set match server ip
-        return "http://172.34.183.120:2409/";
+        return "http://192.168.1.18:2409/";
     }
 
     public static String toSHA256( String input ) {

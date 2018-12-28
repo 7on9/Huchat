@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.helper;
 
 import android.text.InputFilter;
 import android.text.Spanned;

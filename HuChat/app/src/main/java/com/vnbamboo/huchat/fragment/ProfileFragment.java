@@ -12,27 +12,27 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.ServiceConnection;
+import com.vnbamboo.huchat.helper.ServiceConnection;
 import com.vnbamboo.huchat.object.ResultFromServer;
-import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.helper.Utility;
 import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.ServiceConnection.tmpListChat;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
-import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.LOGOUT;
-import static com.vnbamboo.huchat.Utility.MAP_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.ServiceConnection.tmpListChat;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_NAME_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.LOGOUT;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
 
 public class ProfileFragment extends Fragment {
 
@@ -125,9 +125,9 @@ public class ProfileFragment extends Fragment {
                 thisUser = new User();
 
                 MAP_ROOM_OF_THIS_USER.clear();
-                LIST_ROOM_OF_THIS_USER.clear();
                 MAP_ALL_USER.clear();
                 MAP_ALL_PUBLIC_ROOM.clear();
+                LIST_ROOM_OF_THIS_USER.clear();
                 LIST_ALL_PUBLIC_ROOM.clear();
                 LIST_NAME_USER.clear();
                 LIST_ALL_USER.clear();

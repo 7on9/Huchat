@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat.ViewAdapter;
+package com.vnbamboo.huchat.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,8 +19,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
 
 public class ChatMessageListViewAdapter extends BaseAdapter{
 

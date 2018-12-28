@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat.ViewAdapter;
+package com.vnbamboo.huchat.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,24 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.helper.Utility;
 import com.vnbamboo.huchat.object.Room;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.JOIN_EXITS_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.JOIN_EXITS_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 
 public class GroupGridViewAdapter extends BaseAdapter {
 

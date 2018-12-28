@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.ViewAdapter.GroupGridViewAdapter;
-
-import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
+import com.vnbamboo.huchat.adapter.GroupGridViewAdapter;
 
 public class GroupFragment extends Fragment {
     GridView grdViewGroup;

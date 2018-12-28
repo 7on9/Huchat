@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,19 +19,22 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.helper.RegexInputFilter;
+import com.vnbamboo.huchat.helper.ServiceConnection;
 import com.vnbamboo.huchat.object.ResultFromServer;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.statusConnection;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
-import static com.vnbamboo.huchat.Utility.LOGIN;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
-import static com.vnbamboo.huchat.Utility.toSHA256;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.ServiceConnection.statusConnection;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
+import static com.vnbamboo.huchat.helper.Utility.LOGIN;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_SHORT;
+import static com.vnbamboo.huchat.helper.Utility.toSHA256;
 
 public class LoginActivity extends AppCompatActivity {
 

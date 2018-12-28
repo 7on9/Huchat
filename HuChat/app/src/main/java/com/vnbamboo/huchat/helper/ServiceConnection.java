@@ -1,8 +1,7 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.helper;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.IBinder;
 
 import com.vnbamboo.huchat.object.ChatMessage;
@@ -20,34 +19,34 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import static com.vnbamboo.huchat.Utility.CHANGE_DOB;
-import static com.vnbamboo.huchat.Utility.CHANGE_FULL_NAME;
-import static com.vnbamboo.huchat.Utility.CHANGE_GENDER;
-import static com.vnbamboo.huchat.Utility.CHANGE_MAIL;
-import static com.vnbamboo.huchat.Utility.CHANGE_PASSWORD;
-import static com.vnbamboo.huchat.Utility.CHANGE_PHONE;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
-import static com.vnbamboo.huchat.Utility.LIST_NAME_USER;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.Utility.MAP_ALL_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.CONNECTION;
-import static com.vnbamboo.huchat.Utility.LOGIN;
-import static com.vnbamboo.huchat.Utility.LOGOUT;
-import static com.vnbamboo.huchat.Utility.NEW_ROOM;
-import static com.vnbamboo.huchat.Utility.RESULT;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_ROOM;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_IMAGE_USER;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_MEMBER_OF_ROOM;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_ROOM;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_MAP_ALL_USER;
-import static com.vnbamboo.huchat.Utility.byteArrayToBimap;
-import static com.vnbamboo.huchat.Utility.objectToJSONArray;
-import static com.vnbamboo.huchat.Utility.objectToJSONObject;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_DOB;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_FULL_NAME;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_GENDER;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_MAIL;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_PASSWORD;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_PHONE;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_NAME_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.CONNECTION;
+import static com.vnbamboo.huchat.helper.Utility.LOGIN;
+import static com.vnbamboo.huchat.helper.Utility.LOGOUT;
+import static com.vnbamboo.huchat.helper.Utility.NEW_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.RESULT;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_IMAGE_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_IMAGE_USER;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_LIST_MEMBER_OF_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_LIST_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_MAP_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.byteArrayToBimap;
+import static com.vnbamboo.huchat.helper.Utility.objectToJSONArray;
+import static com.vnbamboo.huchat.helper.Utility.objectToJSONObject;
 
 public class ServiceConnection extends Service {
 

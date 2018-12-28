@@ -1,5 +1,6 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
+import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.fragment.GroupFragment;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.fragment.ProfileFragment;
@@ -16,16 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ALL_USER;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_ROOM;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_IMAGE_USER;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_SHORT;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_IMAGE_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_IMAGE_USER;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 

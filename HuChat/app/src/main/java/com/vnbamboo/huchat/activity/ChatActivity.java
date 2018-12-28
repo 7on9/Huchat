@@ -1,9 +1,8 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,20 +12,19 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.object.ChatMessage;
-import com.vnbamboo.huchat.ViewAdapter.ChatMessageListViewAdapter;
+import com.vnbamboo.huchat.adapter.ChatMessageListViewAdapter;
 
 import io.socket.emitter.Emitter;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
-import static com.vnbamboo.huchat.Utility.CLIENT_SEND_MESSAGE;
-import static com.vnbamboo.huchat.Utility.LEAVE_ROOM;
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.MAP_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.SERVER_SEND_MESSAGE;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_SEND_MESSAGE;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_MESSAGE;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
 
 public class ChatActivity extends AppCompatActivity {
 

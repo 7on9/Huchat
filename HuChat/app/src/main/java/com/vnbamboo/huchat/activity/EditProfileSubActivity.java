@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,18 +13,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.helper.RegexInputFilter;
+
 import static android.widget.Toast.LENGTH_SHORT;
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.CHANGE_DOB;
-import static com.vnbamboo.huchat.Utility.CHANGE_FULL_NAME;
-import static com.vnbamboo.huchat.Utility.CHANGE_GENDER;
-import static com.vnbamboo.huchat.Utility.CHANGE_MAIL;
-import static com.vnbamboo.huchat.Utility.CHANGE_PASSWORD;
-import static com.vnbamboo.huchat.Utility.CHANGE_PHONE;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
-import static com.vnbamboo.huchat.Utility.toSHA256;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_DOB;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_FULL_NAME;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_GENDER;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_MAIL;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_PASSWORD;
+import static com.vnbamboo.huchat.helper.Utility.CHANGE_PHONE;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.toSHA256;
 
 public class EditProfileSubActivity extends AppCompatActivity {
     Button btnChange, btnBack;

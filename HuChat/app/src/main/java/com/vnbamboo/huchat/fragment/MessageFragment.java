@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.vnbamboo.huchat.Utility;
-import com.vnbamboo.huchat.ViewAdapter.RoomRecyclerViewAdapter;
-import com.vnbamboo.huchat.OnLoadMoreListener;
+import com.vnbamboo.huchat.helper.Utility;
+import com.vnbamboo.huchat.adapter.RoomRecyclerViewAdapter;
+import com.vnbamboo.huchat.helper.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
@@ -21,8 +21,8 @@ import com.vnbamboo.huchat.object.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vnbamboo.huchat.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
 
 public class MessageFragment extends Fragment {
 

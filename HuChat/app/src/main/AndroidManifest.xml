@@ -12,21 +12,21 @@
         android:roundIcon="@mipmap/squareiconhuchat"
         android:theme="@style/AppTheme">
         android:supportsRtl="true"
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".CreateNewMessageActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".EditProfileSubActivity">
+        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.ChatActivity"></activity>
+        <activity android:name=".activity.CreateNewMessageActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.EditProfileSubActivity">
         </activity>
         <service
-            android:name=".ServiceConnection"
+            android:name=".helper.ServiceConnection"
             android:enabled="true"
             android:exported="true"></service>
     </application>

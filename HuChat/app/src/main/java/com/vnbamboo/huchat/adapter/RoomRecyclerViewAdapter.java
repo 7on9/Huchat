@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat.ViewAdapter;
+package com.vnbamboo.huchat.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 
-import com.vnbamboo.huchat.OnLoadMoreListener;
+import com.vnbamboo.huchat.helper.OnLoadMoreListener;
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.Utility;
+import com.vnbamboo.huchat.helper.Utility;
 import com.vnbamboo.huchat.fragment.MessageFragment;
 import com.vnbamboo.huchat.object.Room;
 import com.vnbamboo.huchat.object.User;
@@ -23,9 +23,9 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.Utility.JOIN_ROOM;
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.JOIN_ROOM;
 
 public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -111,7 +111,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class CardRoomViewHolder extends RecyclerView.ViewHolder {
-        TextView txtRoomCode, roomName;
+        TextView txtRoomCode, roomName, txtRoomType;
         CircleImageView imgAvatar;
         LinearLayout line;
         String roomCode;
@@ -121,7 +121,8 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
             roomName = itemView.findViewById(R.id.txtCardName);
-            txtRoomCode = itemView.findViewById(R.id.txtLastMessage);
+            txtRoomCode = itemView.findViewById(R.id.txtRoomCode);
+            txtRoomType = itemView.findViewById(R.id.txtType);
             line = itemView.findViewById(R.id.line);
 
             line.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +140,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             this.roomCode = room.getRoomCode();
             if (!room.isDual()) {
                 this.roomName.setText(room.getName());
+                this.txtRoomType.setText("Chat nhóm");
                 if (room.getAvatar() != null)
                     this.imgAvatar.setImageBitmap(room.getAvatar());
                 else
@@ -150,6 +152,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                         this.imgAvatar.setImageBitmap(entry.getValue().getAvatar());
                     }
                 }
+                this.txtRoomType.setText("Chat đôi");
             }
             if(room.getRoomCode().equals((thisUser.getUserName().toLowerCase().concat("#"+ thisUser.getUserName().toLowerCase())))){
                 this.roomName.setText(thisUser.getFullName());

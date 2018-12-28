@@ -1,4 +1,4 @@
-package com.vnbamboo.huchat;
+package com.vnbamboo.huchat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,13 +17,16 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.vnbamboo.huchat.ServiceConnection.mSocket;
-import static com.vnbamboo.huchat.ServiceConnection.resultFromServer;
-import static com.vnbamboo.huchat.Utility.REGISTER;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_LONG;
-import static com.vnbamboo.huchat.Utility.TIME_WAIT_MEDIUM;
-import static com.vnbamboo.huchat.Utility.startLoginActivity;
-import static com.vnbamboo.huchat.Utility.toSHA256;
+import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.helper.RegexInputFilter;
+
+import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
+import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
+import static com.vnbamboo.huchat.helper.Utility.REGISTER;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
+import static com.vnbamboo.huchat.helper.Utility.startLoginActivity;
+import static com.vnbamboo.huchat.helper.Utility.toSHA256;
 
 public class RegisterActivity extends AppCompatActivity {
 
