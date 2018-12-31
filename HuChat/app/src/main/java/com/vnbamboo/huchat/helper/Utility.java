@@ -38,6 +38,8 @@ public class Utility {
     public static final String SERVER_SEND_IMAGE_USER = "serverSendImageUser";
     public static final String SERVER_SEND_IMAGE_ROOM = "serverSendImageRoom";
     public static final String CLIENT_SEND_IMAGE_USER = "clientSendImageUser";
+
+    public static final String CREATE_ROOM = "createRoom";
     public static final String CLIENT_SEND_IMAGE_ROOM = "clientSendImageRoom";
     public static final String CLIENT_REQUEST_IMAGE_USER = "clientRequestImageUser";
     public static final String CLIENT_REQUEST_PUBLIC_INFO_USER = "clientRequestPublicInfoUser";
@@ -114,7 +116,7 @@ public class Utility {
 
     public static String getLocalHost() {
         //set match server ip
-        return "http://192.168.0.114:2409/";
+        return "http://192.168.1.30:2409/";
     }
 
     public static String toSHA256( String input ) {

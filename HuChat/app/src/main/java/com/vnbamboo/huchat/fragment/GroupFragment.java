@@ -11,7 +11,7 @@ import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.adapter.GroupGridViewAdapter;
 
 public class GroupFragment extends Fragment {
-    GridView grdViewGroup;
+    static GridView grdViewGroup;
     public GroupFragment() {
         // Required empty public constructor
     }
@@ -39,6 +39,7 @@ public class GroupFragment extends Fragment {
         GroupGridViewAdapter groupGridViewAdapter = new GroupGridViewAdapter(v.getContext());
 
         grdViewGroup.setAdapter(groupGridViewAdapter);
+
         return v;
     }
 }

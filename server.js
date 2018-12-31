@@ -243,6 +243,7 @@ io.on("connection", function (socket) {
 			}
 		})
 	});
+	
 	socket.on("clientRequestListRoom", () => {
 		room.getAllListRoom((err, rows) => {
 			if (err) {
@@ -261,6 +262,7 @@ io.on("connection", function (socket) {
 		//	console.log(socket.adapter.rooms);
 		})
 	});
+
 	socket.on("clientRequestListRoomOfUser", (userName) => {
 		room.getListRoomOfUser(userName, (err, rows) => {
 			if (err) {
@@ -301,6 +303,21 @@ io.on("connection", function (socket) {
 		}
 	});
 
+	socket.on("createRoom", (pack) => {
+		pack.roomCode = getMilis() + "" + pack.userName;
+		console.log(pack);
+	
+		room.createRoom(pack, (err, rows) => {
+			if(err){
+				console.log(err);
+				socket.emit("result","createRoom", false);
+			}else{
+				console.log(rows.affectedRows);
+				socket.emit("result", "createRoom", true, pack.roomCode);
+			}
+		});
+	});
+
 	socket.on("joinRoom", (roomCode) => {
 		socket.join(roomCode);
 	});
@@ -312,9 +329,9 @@ io.on("connection", function (socket) {
 		}
 		room.joinExistRoom(roomCode, userName, password, (err, rows) => {
 			if(err || rows.affectedRows == 0){
-				console.log(rows)
 				socket.emit("result", "joinExistRoom", false, "wrongPassword");
 			}else{
+				console.log(rows);
 				socket.emit("result", "joinExistRoom", true);
 				socket.join(roomCode);
 			}	
@@ -356,11 +373,6 @@ io.on("connection", function (socket) {
 		// 				});
 		// 			}
 		// 		});
-		socket.join(roomCode);
-	});
-
-	socket.on("joinDualRoom", (roomCode) => {
-		//find room if exist
 		socket.join(roomCode);
 	});
 

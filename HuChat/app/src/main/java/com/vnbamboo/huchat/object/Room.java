@@ -19,6 +19,9 @@ public class Room {
     public Room( String roomCode, String name){
         this.roomCode = roomCode;
         this.name = name;
+        isDual = false;
+        listMember = new HashMap<>();
+        chatHistory = new ArrayList<>();
     }
     public Room(){
         roomCode = name = userNameOwner = "";

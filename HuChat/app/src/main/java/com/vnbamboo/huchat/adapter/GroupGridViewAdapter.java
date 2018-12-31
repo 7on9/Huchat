@@ -45,7 +45,7 @@ public class GroupGridViewAdapter extends BaseAdapter {
 
     @Override
     public long getItemId( int position ) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -54,59 +54,59 @@ public class GroupGridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.card_group_layout, parent, false);
             groupViewItem = new GroupViewItem(convertView);
-            final Room room = LIST_ALL_PUBLIC_ROOM.get(position);
-            Bitmap img = room.getAvatar();
+            convertView.setTag(groupViewItem);
+        } else {
+            groupViewItem = (GroupViewItem) convertView.getTag();
+        }
+        final Room room = (Room) getItem(position);
+        Bitmap img = room.getAvatar();
 
-            if (img != null) {
-                groupViewItem.imgAvatar.setImageBitmap(img);
-            }
+        if (img != null) {
+            groupViewItem.imgAvatar.setImageBitmap(img);
+        }
 
-            groupViewItem.txtRoomCode.setText(room.getRoomCode());
-            groupViewItem.txtRoomName.setText(room.getName());
+        groupViewItem.txtRoomCode.setText(room.getRoomCode());
+        groupViewItem.txtRoomName.setText(room.getName());
 
-            groupViewItem.item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick( final View v ) {
-                    if(MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null) {
-                        mSocket.emit(JOIN_EXITS_ROOM, room.getRoomCode(), thisUser.getUserName(), "");
+        groupViewItem.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( final View v ) {
+                if(MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null) {
+                    mSocket.emit(JOIN_EXITS_ROOM, room.getRoomCode(), thisUser.getUserName(), "");
 
-                        final ProgressDialog dialog = new ProgressDialog(v.getContext());
-                        dialog.setTitle("Đợi 1 chút nhé...");
-                        dialog.setContentView(R.layout.loading_layout);
-                        dialog.show();
+                    final ProgressDialog dialog = new ProgressDialog(v.getContext());
+                    dialog.setTitle("Đợi 1 chút nhé...");
+                    dialog.setContentView(R.layout.loading_layout);
+                    dialog.show();
 //                        long time = System.currentTimeMillis();
 //                        do {
 //                            //nothing :)
 //                        }
 //                        while (MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null || System.currentTimeMillis() - time < 5000);
-                        try {
-                            new Thread().sleep(TIME_WAIT_LONG);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.dismiss();
-                                if(resultFromServer.event.equals(JOIN_EXITS_ROOM) && resultFromServer.success){
-                                    MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
-                                    LIST_ROOM_OF_THIS_USER.add(room);
-                                    Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
-                                }
-                                else {
-
-                                }
-                            }
-                        }).start();
-                    }else {
-                        Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
+                    try {
+                        new Thread().sleep(TIME_WAIT_LONG);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                            if(resultFromServer.event.equals(JOIN_EXITS_ROOM) && resultFromServer.success){
+                                MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
+                                LIST_ROOM_OF_THIS_USER.add(room);
+                                Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
+                            }
+                            else {
+
+                            }
+                        }
+                    }).start();
+                }else {
+                    Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
                 }
-            });
-            convertView.setTag(groupViewItem);
-        } else {
-            groupViewItem = (GroupViewItem) convertView.getTag();
-        }
+            }
+        });
         return convertView;
     }
 

@@ -40,6 +40,9 @@ var  room = {
             return false;
         }
     },
+    createRoom : (pack, callback) => {
+        return db.query("CALL PROC_CREATE_ROOM(?, ?, ?, ?, ?)", [pack.roomCode, pack.userName, pack.password, pack.roomName, pack.isPrivate], callback);
+    },
     createDualRoom : async(userName, userName2, roomCode, callback) => {
         return db.query("CALL PROC_CREATE_DUAL_ROOM(?, ?, ?)", [userName, userName2, roomCode], callback);
     },
