@@ -9,5 +9,6 @@
     <dimen name="high_2x6">12dp</dimen>
     <dimen name="singleLine">2px</dimen>
     <dimen name="lineHigh">40dp</dimen>
+    <dimen name="editTextHigh">50dp</dimen>
     <dimen name="menu_bar_high">50dp</dimen>
 </resources>

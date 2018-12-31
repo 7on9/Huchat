@@ -18,13 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.ChatActivity"></activity>
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.ChatActivity"/>
         <activity android:name=".activity.CreateNewMessageActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.EditProfileSubActivity">
-        </activity>
+        <activity android:name=".activity.EditProfileSubActivity"/>
+        <activity android:name=".activity.CreateNewGroupActivity"/>
         <service
             android:name=".helper.ServiceConnection"
             android:enabled="true"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.vnbamboo.huchat.activity.CreateNewGroupActivity;
 import com.vnbamboo.huchat.activity.ChatActivity;
 import com.vnbamboo.huchat.activity.CreateNewMessageActivity;
 import com.vnbamboo.huchat.activity.EditProfileActivity;
@@ -83,6 +84,12 @@ public class Utility {
 
     public static void startCreateNewMessageActivity( Context context, String userName, User user ) {
         Intent intent = new Intent(context, CreateNewMessageActivity.class);
+        intent.putExtra("UserName", userName);
+        intent.putExtra("User", (Serializable) user);
+        context.startActivity(intent);
+    }
+    public static void startCreateNewGroupActivity( Context context, String userName, User user ) {
+        Intent intent = new Intent(context, CreateNewGroupActivity.class);
         intent.putExtra("UserName", userName);
         intent.putExtra("User", (Serializable) user);
         context.startActivity(intent);

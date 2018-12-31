@@ -75,7 +75,7 @@ public class MessageFragment extends Fragment {
                 if(menuItem.getTitle().equals("Tạo tin nhắn")){
                     Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
                 }else {
-//                    Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
+                    Utility.startCreateNewGroupActivity(v.getContext(),"s", tempUser);
                 }
                 return false;
             }

@@ -46,7 +46,7 @@ public class CreateNewMessageActivity extends AppCompatActivity {
     }
     private void setControl(){
         rclViewCardUser = findViewById(R.id.rclViewCardUser);
-        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
         txtFind = findViewById(R.id.txtFind);
         btnStartChat = findViewById(R.id.btnStartChat);
     }

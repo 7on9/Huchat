@@ -86,7 +86,7 @@ io.on("connection", function (socket) {
 	socket.on("clientRequestImageRoom", function (roomCode) {
 		let dir = getFilenameImageRoom(roomCode);
 		let index = arrayImage.indexOf(dir);
-		let filename = index == -1 ? "img/default.png" : arrayImage[index];
+		let filename = index == -1 ? "" : arrayImage[index];
 		fs.readFile(filename, function (err, data) {
 			if (!err) {
 				//console.log(data.toJSON(data));
