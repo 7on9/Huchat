@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,6 +21,9 @@ import com.vnbamboo.huchat.object.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
@@ -60,17 +64,29 @@ public class MessageFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_message, container, false);
+        final View v = inflater.inflate(R.layout.fragment_message, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
 
-        FloatingActionButton btnCreateNewMessage = (FloatingActionButton) v.findViewById(R.id.btnCreateNewMessage);
-        btnCreateNewMessage.setOnClickListener(new View.OnClickListener() {
+        FabSpeedDial fabSpeedDial = (FabSpeedDial) v.findViewById(R.id.btnCreate);
+        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
-            public void onClick( View v ) {
-                Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
-             }
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                if(menuItem.getTitle().equals("Tạo tin nhắn")){
+                    Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
+                }else {
+//                    Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
+                }
+                return false;
+            }
         });
+//        btnCreate = (FloatingActionButton) v.findViewById(R.id.btnCreate);
+//        btnCreate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick( View v ) {
+//                Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
+//             }
+//        });
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

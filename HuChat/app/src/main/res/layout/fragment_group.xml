@@ -2,36 +2,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.GroupFragment"
     android:background="@color/grayColor"
+    android:clipToPadding="false"
     android:layout_marginBottom="@dimen/menu_bar_high">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:paddingBottom="10dp">
-    <AutoCompleteTextView
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:drawablePadding="10dp"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:maxLength="32"
-        android:hint="Tên tài khoản/Số điện thoại/Email"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Nhóm chat"
+            android:textColor="@color/blackTextColor"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:fontFamily="@font/notosan_regular"
+            android:background="@color/grayColor"
+            android:elevation="@dimen/high_2x2"/>
         <GridView
             android:id="@+id/grdViewGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
-            android:horizontalSpacing="10dp"
             android:numColumns="2"
+            android:layout_marginTop="5dp"
+            android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"/>
     </LinearLayout>
 

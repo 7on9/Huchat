@@ -12,8 +12,20 @@
         android:gravity="center"
         android:background="@color/grayColor"
         android:paddingBottom="20dp"
+        android:clipToPadding="false"
         android:layout_marginBottom="@dimen/menu_bar_high">
-
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Hồ sơ"
+            android:textColor="@color/blackTextColor"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:fontFamily="@font/notosan_regular"
+            android:background="@color/grayColor"
+            android:elevation="@dimen/high_2x2"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
             android:layout_width="200dp"
