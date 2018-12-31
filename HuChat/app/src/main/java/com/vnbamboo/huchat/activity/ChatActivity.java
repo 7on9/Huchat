@@ -55,13 +55,15 @@ public class ChatActivity extends AppCompatActivity {
                         chatMessage.setTime(System.currentTimeMillis());
 
                         MAP_ROOM_OF_THIS_USER.get((String) args[0]).addMessage(chatMessage);
-                        chatMessageListViewAdapter = new ChatMessageListViewAdapter(context, MAP_ROOM_OF_THIS_USER.get((String) args[0]).getChatHistory());
-                        lstChatMessage.setAdapter(chatMessageListViewAdapter);
+                        if (args[0].equals(roomCode)) {
+                            chatMessageListViewAdapter = new ChatMessageListViewAdapter(context, MAP_ROOM_OF_THIS_USER.get((String) args[0]).getChatHistory());
+                            lstChatMessage.setAdapter(chatMessageListViewAdapter);
 //                        if(!chatMessage.getUserNameSender().toLowerCase().equals(thisUser.getUserName().toLowerCase()))
 //                        chatMessageListViewAdapter.add(chatMessage);
-                        chatMessageListViewAdapter.notifyDataSetChanged();
-                      //  mSocket.once(SERVER_SEND_MESSAGE, onNewMessage);
-                        lstChatMessage.setSelection(lstChatMessage.getCount() - 1);
+                            chatMessageListViewAdapter.notifyDataSetChanged();
+                            //  mSocket.once(SERVER_SEND_MESSAGE, onNewMessage);
+                            lstChatMessage.setSelection(lstChatMessage.getCount() - 1);
+                        }
                     }
                 });
             }

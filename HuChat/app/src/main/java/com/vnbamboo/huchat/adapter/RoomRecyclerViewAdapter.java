@@ -136,7 +136,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         void bindData( Room room ) {
-            this.txtRoomCode.setText("Mã phòng : " + room.getRoomCode());
+            this.txtRoomCode.setText(room.getChatHistory().get(room.getChatHistory().size() - 1 ).getContent());
             this.roomCode = room.getRoomCode();
             if (!room.isDual()) {
                 this.roomName.setText(room.getName());

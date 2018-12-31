@@ -19,6 +19,7 @@ import android.view.MenuItem;
 
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_IMAGE_ROOM;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, LIST_ROOM_OF_THIS_USER.get(a).getRoomCode());
                             mSocket.emit(CLIENT_REQUEST_LIST_MEMBER_OF_ROOM, LIST_ROOM_OF_THIS_USER.get(a).getRoomCode());
+                            mSocket.emit(CLIENT_REQUEST_HISTORY_CHAT_ROOM, LIST_ROOM_OF_THIS_USER.get(a).getRoomCode());
                         }
                     }).start();
                 }
