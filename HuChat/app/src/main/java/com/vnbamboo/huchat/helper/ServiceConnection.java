@@ -25,7 +25,6 @@ import static com.vnbamboo.huchat.helper.Utility.CHANGE_GENDER;
 import static com.vnbamboo.huchat.helper.Utility.CHANGE_MAIL;
 import static com.vnbamboo.huchat.helper.Utility.CHANGE_PASSWORD;
 import static com.vnbamboo.huchat.helper.Utility.CHANGE_PHONE;
-import static com.vnbamboo.huchat.helper.Utility.CLIENT_SEND_IMAGE_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CREATE_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_USER;
@@ -130,13 +129,16 @@ public class ServiceConnection extends Service {
                             }
                         }
                         break;
-
                     case SERVER_SEND_IMAGE_ROOM:
                         if (resultFromServer.success) {
-                            MAP_ROOM_OF_THIS_USER.get((String) args[3]).setAvatar(byteArrayToBimap((byte[]) args[2]));
+                            try {
+                                MAP_ROOM_OF_THIS_USER.get((String) args[3]).setAvatar(byteArrayToBimap((byte[]) args[2]));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             try{
                                 MAP_ALL_PUBLIC_ROOM.get((String) args[3]).setAvatar(byteArrayToBimap((byte[]) args[2]));
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }

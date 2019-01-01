@@ -132,6 +132,7 @@ public class ProfileFragment extends Fragment {
                 LIST_NAME_USER.clear();
                 LIST_ALL_USER.clear();
 
+                LIST_ALL_PUBLIC_ROOM.add(null);
                 resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);

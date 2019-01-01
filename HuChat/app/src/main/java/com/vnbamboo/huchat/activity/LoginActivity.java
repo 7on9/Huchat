@@ -23,13 +23,21 @@ import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.helper.RegexInputFilter;
 import com.vnbamboo.huchat.helper.ServiceConnection;
 import com.vnbamboo.huchat.object.ResultFromServer;
+import com.vnbamboo.huchat.object.Room;
+
+import java.math.RoundingMode;
 
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.statusConnection;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_IMAGE_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.LOGIN;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
@@ -66,6 +74,9 @@ public class LoginActivity extends AppCompatActivity {
 
         setControl();
         addEvent();
+
+//        Room room = null;
+//        LIST_ALL_PUBLIC_ROOM.add(null);
 
         new Thread(new Runnable() {
             @Override
@@ -122,7 +133,17 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(view.getContext(), "Các ô không được để trống!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                for (int i = 0; i < LIST_ALL_PUBLIC_ROOM.size(); i++) {
+                    final int a = i;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
+//                            mSocket.emit(CLIENT_REQUEST_LIST_MEMBER_OF_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
+//                            mSocket.emit(CLIENT_REQUEST_HISTORY_CHAT_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
+                        }
+                    }).start();
+                }
                 if (!statusConnection) {
                     Toast.makeText(view.getContext(), "Không thể kết nối đến server! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
                     return;
@@ -140,10 +161,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (resultFromServer.event.equals(LOGIN) && resultFromServer.success) {
                             thisUser.setPassword( toSHA256(txtPassword.getText().toString()));
                             savingPreferences();
-                            dialog.cancel();
+                            dialog.dismiss();
                             startMainActivity();
                         } else {
-                            dialog.cancel();
+                            dialog.dismiss();
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }

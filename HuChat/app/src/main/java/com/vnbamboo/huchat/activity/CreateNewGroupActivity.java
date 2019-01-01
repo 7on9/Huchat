@@ -1,6 +1,7 @@
 package com.vnbamboo.huchat.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -69,8 +70,8 @@ public class CreateNewGroupActivity extends AppCompatActivity {
         addEvent();
     }
     void setControl(){
-        btnBack = (Button) findViewById(R.id.btnBack);
-        btnCreate = (Button) findViewById(R.id.btnCreate);
+        btnBack = findViewById(R.id.btnBack);
+        btnCreate = findViewById(R.id.btnCreate);
         txtPassword = findViewById(R.id.txtPassword);
         txtRetypePassword = findViewById(R.id.txtReTypePassword);
         txtGroupName = findViewById(R.id.txtGroupName);
@@ -150,7 +151,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     mSocket.emit(CREATE_ROOM, packCreateGroup);
-                    final ProgressDialog dialog = new ProgressDialog(v.getContext());
+                    final Dialog dialog = new ProgressDialog(v.getContext());
                     dialog.setTitle("Đang tạo nhóm chat...");
                     dialog.setContentView(R.layout.loading_layout);
                     dialog.show();

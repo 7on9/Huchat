@@ -9,6 +9,11 @@ import android.widget.GridView;
 
 import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.adapter.GroupGridViewAdapter;
+import com.vnbamboo.huchat.object.Room;
+import com.vnbamboo.huchat.object.User;
+
+import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
+import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
 
 public class GroupFragment extends Fragment {
     static GridView grdViewGroup;
@@ -35,7 +40,8 @@ public class GroupFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_group, container, false);
 
         grdViewGroup = v.findViewById(R.id.grdViewGroup);
-
+        if (!LIST_ALL_PUBLIC_ROOM.get(0).getRoomCode().equals("###"))
+            LIST_ALL_PUBLIC_ROOM.add(0, new Room("###",thisUser.getUserName()));
         GroupGridViewAdapter groupGridViewAdapter = new GroupGridViewAdapter(v.getContext());
 
         grdViewGroup.setAdapter(groupGridViewAdapter);

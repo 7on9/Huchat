@@ -111,7 +111,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class CardRoomViewHolder extends RecyclerView.ViewHolder {
-        TextView txtRoomCode, roomName, txtRoomType;
+        TextView txtRoomCode, txtRoomName, txtRoomType;
         CircleImageView imgAvatar;
         LinearLayout line;
         String roomCode;
@@ -120,7 +120,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
 
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
-            roomName = itemView.findViewById(R.id.txtCardName);
+            txtRoomName = itemView.findViewById(R.id.txtCardName);
             txtRoomCode = itemView.findViewById(R.id.txtRoomCode);
             txtRoomType = itemView.findViewById(R.id.txtType);
             line = itemView.findViewById(R.id.line);
@@ -129,7 +129,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 @Override
                 public void onClick( View v ) {
                     mSocket.emit(JOIN_ROOM, roomCode);
-                    Utility.startChatActivity(v.getContext(), (String) roomName.getText(), roomCode);
+                    Utility.startChatActivity(v.getContext(), (String) txtRoomName.getText(), roomCode);
                     // line.setBackgroundColor(R.color.colorAccent);
                 }
             });
@@ -144,7 +144,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
             this.roomCode = room.getRoomCode();
             if (!room.isDual()) {
-                this.roomName.setText(room.getName());
+                this.txtRoomName.setText(room.getName());
                 this.txtRoomType.setText("Chat nhóm");
                 if (room.getAvatar() != null)
                     this.imgAvatar.setImageBitmap(room.getAvatar());
@@ -153,14 +153,14 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             } else {
                 for (Map.Entry<String, User> entry : room.getListMember().entrySet()) {
                     if (!entry.getValue().getUserName().equals(thisUser.getUserName())) {
-                        this.roomName.setText(entry.getValue().getFullName());
+                        this.txtRoomName.setText(entry.getValue().getFullName());
                         this.imgAvatar.setImageBitmap(entry.getValue().getAvatar());
                     }
                 }
                 this.txtRoomType.setText("Chat đôi");
             }
             if(room.getRoomCode().equals((thisUser.getUserName().toLowerCase().concat("#"+ thisUser.getUserName().toLowerCase())))){
-                this.roomName.setText(thisUser.getFullName());
+                this.txtRoomName.setText(thisUser.getFullName());
                 this.imgAvatar.setImageBitmap(thisUser.getAvatar());
             }
         }

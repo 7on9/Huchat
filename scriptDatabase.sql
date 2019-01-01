@@ -405,9 +405,9 @@ CALL PROC_INSERT_ACCOUNT ("karlmarx", "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa
 CALL PROC_INSERT_ACCOUNT ("tttt","e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8","a@gmail.com");
 -- CALL PROC_INSERT_ACCOUNT ("test","a");
 CALL PROC_UPDATE_INFO_USER("karlmarx", "Karl Marx", 1544854215, true, "communist@gmail.com", "00000001");
-CALL PROC_CREATE_ROOM("zzz","karlmarx", "","Lớp chính trị", FALSE);
-CALL PROC_CREATE_ROOM("123","tttt", "","Lớp cảm tình Đảng", FALSE);
-CALL PROC_CREATE_ROOM("1222","tttt", "","Lớp cảm tình Đoàn", FALSE);
+CALL PROC_CREATE_ROOM("vn01","karlmarx", "","Lớp chính trị", FALSE);
+CALL PROC_CREATE_ROOM("vn02","tttt", "","Lớp cảm tình Đảng", FALSE);
+CALL PROC_CREATE_ROOM("vn03","tttt", "","Lớp cảm tình Đoàn", FALSE);
 
 -- CALL PROC_JOIN_ROOM("-- 1544663293TTTT", "Bamboo", "-");
 
