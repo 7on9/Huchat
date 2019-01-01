@@ -25,6 +25,7 @@
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.EditProfileSubActivity"/>
         <activity android:name=".activity.CreateNewGroupActivity"/>
+        <activity android:name=".activity.JoinGroupActivity" android:noHistory="true"/>
         <service
             android:name=".helper.ServiceConnection"
             android:enabled="true"

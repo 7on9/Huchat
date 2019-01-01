@@ -135,6 +135,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
             public void onClick( View v ) {
                 if(txtGroupName.length() == 0){
                     txtGroupName.setError("Cần đặt tên cho nhóm");
+                    return;
                 }
                 if(!txtPassword.getText().toString().equals(txtRetypePassword.getText().toString())){
                     txtRetypePassword.setError("Mật khẩu nhập lại phải trùng nhau");
@@ -147,6 +148,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                         packCreateGroup.put("roomName", txtGroupName.getText().toString());
                         packCreateGroup.put("password", txtPassword.getText().toString());
                         packCreateGroup.put("isPrivate", stwIsPrivate.isChecked() ? TRUE : FALSE);
+                        packCreateGroup.put("imgRoom", imgTemp);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -172,7 +174,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    mSocket.emit(CLIENT_SEND_IMAGE_ROOM, resultFromServer.args.toString(), imgTemp);
+//                    mSocket.emit(CLIENT_SEND_IMAGE_ROOM, resultFromServer.args.toString(), imgTemp);
                     dialog.setTitle("Tạo nhóm thành công!");
                     dialog.setContentView(R.layout.success_layout);
 
@@ -180,10 +182,10 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                     room.getListMember().put(thisUser.getUserName(), thisUser);
                     room.setDual(false);
                     room.setAvatar(img);
-                    if(!stwIsPrivate.isChecked()){
-                        LIST_ALL_PUBLIC_ROOM.add(room);
-                        MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
-                    }
+//                    if(!stwIsPrivate.isChecked()){
+//                        LIST_ALL_PUBLIC_ROOM.add(room);
+//                        MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
+//                    }
                     LIST_ROOM_OF_THIS_USER.add(room);
                     MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
                     new Handler().postDelayed(new Runnable() {

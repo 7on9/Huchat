@@ -53,8 +53,9 @@ public class Utility {
     public static final String SERVER_SEND_LIST_MEMBER_OF_ROOM = "serverSendListMemberOfRoom";
     public static final String SERVER_SEND_LIST_ROOM_OF_THIS_USER = "serverSendListRoomOfUser";
     public static final String NEW_ROOM = "newRoom";
+    public static final String NEW_PUBLIC_ROOM = "newPublicRoom";
     public static final String JOIN_DUAL_ROOM = "joinDualRoom";
-    public static final String JOIN_EXITS_ROOM = "joinExistRoom";
+    public static final String JOIN_EXIST_ROOM = "joinExistRoom";
     public static final String CLIENT_REQUEST_HISTORY_CHAT_ROOM = "clientRequestHistoryChatRoom";
     public static final String SERVER_SEND_HISTORY_CHAT_ROOM = "serverSendHistoryChatRoom";
     public static final String JOIN_ROOM = "joinRoom";

@@ -36,17 +36,15 @@
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
-    <io.github.yavski.fabspeeddial.FabSpeedDial
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCreate"
         android:elevation="@dimen/high_2x6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:fabDrawable="@drawable/ic_create_black_24dp"
-        app:fabGravity="bottom_end"
-        app:fabMenu="@menu/menu_fb_create"
-        android:layout_marginBottom="@dimen/menu_bar_high"
-        app:miniFabBackgroundTint="@android:color/white"
-        app:miniFabDrawableTint="?attr/colorPrimaryDark"
-        app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="67dp"
+        android:layout_marginRight="17dp"
+        android:src="@drawable/ic_create_black_24dp"
+        android:clickable="true"
+        android:tint="@color/white"/>
 </FrameLayout>

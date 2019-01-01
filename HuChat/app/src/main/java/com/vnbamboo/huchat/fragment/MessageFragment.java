@@ -68,25 +68,13 @@ public class MessageFragment extends Fragment {
 
         recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
 
-        FabSpeedDial fabSpeedDial = (FabSpeedDial) v.findViewById(R.id.btnCreate);
-        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
+        FloatingActionButton btnCreate = (FloatingActionButton) v.findViewById(R.id.btnCreate);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                if(menuItem.getTitle().equals("Tạo tin nhắn")){
-                    Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
-                }else {
-                    Utility.startCreateNewGroupActivity(v.getContext(),"s", tempUser);
-                }
-                return false;
-            }
+            public void onClick( View v ) {
+                Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
+             }
         });
-//        btnCreate = (FloatingActionButton) v.findViewById(R.id.btnCreate);
-//        btnCreate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick( View v ) {
-//                Utility.startCreateNewMessageActivity(v.getContext(),"s", tempUser);
-//             }
-//        });
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -305,14 +305,23 @@ io.on("connection", function (socket) {
 
 	socket.on("createRoom", (pack) => {
 		pack.roomCode = getMilis() + "" + pack.userName;
+		try {
+			console.log("SERVER SAVED A NEW IMAGE");
+			var filename = getFilenameImageRoom(pack.roomCode);
+			arrayImage.push(filename);
+			fs.writeFile(filename, pack.imgRoom);
+		} catch (ex) {
+			console.log(ex);
+		}
 		console.log(pack);
-	
 		room.createRoom(pack, (err, rows) => {
 			if(err){
 				console.log(err);
 				socket.emit("result","createRoom", false);
 			}else{
-				console.log(rows.affectedRows);
+				if(!pack.isPrivate){
+					io.emit("newPublicRoom", pack);
+				}
 				socket.emit("result", "createRoom", true, pack.roomCode);
 			}
 		});
@@ -325,7 +334,7 @@ io.on("connection", function (socket) {
 	socket.on("joinExistRoom", async (roomCode, userName, password) => {
 		let isExist =  await room.checkExistRoom(roomCode);
 		if(!isExist){
-			socket.emit("result", "joinExistRoom", false, "roomNotExit");
+			socket.emit("result", "joinExistRoom", false, "roomNotExist");
 		}
 		room.joinExistRoom(roomCode, userName, password, (err, rows) => {
 			if(err || rows.affectedRows == 0){

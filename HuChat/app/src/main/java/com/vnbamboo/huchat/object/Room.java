@@ -37,7 +37,7 @@ public class Room {
         this.isDual = a.isDual;
         this.chatHistory = new ArrayList<>();
         this.chatHistory.addAll(a.chatHistory);
-        this.listMember = new HashMap<String, User>();
+        this.listMember = new HashMap<>();
         this.listMember.putAll(a.listMember);
     }
 

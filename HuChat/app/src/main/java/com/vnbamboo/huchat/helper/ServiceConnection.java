@@ -36,6 +36,7 @@ import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.CONNECTION;
 import static com.vnbamboo.huchat.helper.Utility.LOGIN;
 import static com.vnbamboo.huchat.helper.Utility.LOGOUT;
+import static com.vnbamboo.huchat.helper.Utility.NEW_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.NEW_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.RESULT;
 import static com.vnbamboo.huchat.helper.Utility.SERVER_SEND_IMAGE_ROOM;
@@ -53,7 +54,7 @@ public class ServiceConnection extends Service {
 
     public static Boolean isConnected = false;
     public static Boolean statusConnection = false;
-    public static Emitter.Listener onResultFromServer, onListUserFromServer, onListRoom;
+    public static Emitter.Listener onResultFromServer, onListUserFromServer, onListRoom, onNewPublicRoom;
     public static List<ChatMessage> tmpListChat = new ArrayList<>();
     public static ResultFromServer resultFromServer;
     public static Socket mSocket;
@@ -264,6 +265,24 @@ public class ServiceConnection extends Service {
                 }
             }
         };
+        onNewPublicRoom = new Emitter.Listener() {
+            @Override
+            public void call( Object... args ) {
+                try {
+                    Room room = new Room();
+                    JSONObject jsonObject = objectToJSONObject(args[0]);
+                    room.setRoomCode(jsonObject.getString("roomCode"));
+                    room.setDual(false);
+                    room.setName(jsonObject.getString("roomName"));
+                    room.setAvatar(byteArrayToBimap((byte[]) jsonObject.get("imgRoom")));
+                    LIST_ALL_PUBLIC_ROOM.add(room);
+                    MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
+                    notifyAll();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
         onListRoom = new Emitter.Listener() {
             @Override
             public void call( Object... args ) {
@@ -289,6 +308,7 @@ public class ServiceConnection extends Service {
         isConnected = true;
         mSocket.on(RESULT, onResultFromServer);
         mSocket.on(SERVER_SEND_LIST_ROOM, onListRoom);
+        mSocket.on(NEW_PUBLIC_ROOM, onNewPublicRoom);
         mSocket.on(SERVER_SEND_MAP_ALL_USER, onListUserFromServer);
         return START_STICKY;
     }
