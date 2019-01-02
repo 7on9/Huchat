@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (resultFromServer.event.equals(LOGIN) && resultFromServer.success) {
+                        if (thisUser.getUserName().length() > 0) {
                             thisUser.setPassword( toSHA256(txtPassword.getText().toString()));
                             savingPreferences();
                             dialog.dismiss();
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, TIME_WAIT_LONG);
+                }, TIME_WAIT_MEDIUM);
             }
         });
 

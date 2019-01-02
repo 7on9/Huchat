@@ -15,7 +15,7 @@ var room = require("./room");
 
 var arrayImage = [];
 var recoveryCode = [];
-
+var socketUser = new Map();
 fs.readdir("img/", function (err, files) {
 	if (err) {
 		return;
@@ -160,6 +160,8 @@ io.on("connection", function (socket) {
 				if (rows.length > 0) {
 					socket.emit("result", "login", true, rows[0][0]);
 					socket.userName = rows[0][0].USER_NAME;
+					// socketUser.set()
+					socket.join(userName);
 					console.log("User " + socket.id + " connected!");
 				}
 				else {
@@ -364,7 +366,7 @@ io.on("connection", function (socket) {
 								console.log(err);
 							}else{
 								console.log(rows[0]);
-								
+								io.to(socket.userName == userName2 ? userName : userName2).emit("result", "newRoom", true, rows[0][0]);
 								socket.emit("result", "newRoom", true, rows[0][0]);
 							}
 						});

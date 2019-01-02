@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.vnbamboo.huchat.R;
+import com.vnbamboo.huchat.helper.Utility;
+import com.vnbamboo.huchat.object.Room;
 
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
 import static com.vnbamboo.huchat.helper.Utility.JOIN_EXIST_ROOM;
+import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 
 public class JoinGroupActivity extends AppCompatActivity {
@@ -46,7 +49,13 @@ public class JoinGroupActivity extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                mSocket.emit(JOIN_EXIST_ROOM, thisUser.getUserName(), txtRoomCode.getText(), txtPassword.getText());
+                Room room = MAP_ROOM_OF_THIS_USER.get(thisUser.getUserName().toLowerCase());
+                if(room == null)
+                    mSocket.emit(JOIN_EXIST_ROOM, thisUser.getUserName(), txtRoomCode.getText(), txtPassword.getText());
+                else {
+                    Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
+
+                }
             }
         });
 
@@ -55,7 +64,7 @@ public class JoinGroupActivity extends AppCompatActivity {
             public void run() {
                 if(resultFromServer.event.equals(JOIN_EXIST_ROOM)){
                     if(resultFromServer.success){
-
+                        Utility.startChatActivity(v.getContext(), room.getName(), room.getRoomCode());
                     }
                 }
             }

@@ -239,7 +239,6 @@ public class ServiceConnection extends Service {
                         break;
                     case CHANGE_DOB:
                         break;
-
                 }
             }
         };
