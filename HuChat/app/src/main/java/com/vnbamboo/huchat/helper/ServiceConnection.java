@@ -274,10 +274,10 @@ public class ServiceConnection extends Service {
                     room.setRoomCode(jsonObject.getString("roomCode"));
                     room.setDual(false);
                     room.setName(jsonObject.getString("roomName"));
-                    room.setAvatar(byteArrayToBimap((byte[]) jsonObject.get("imgRoom")));
+//                    room.setAvatar(byteArrayToBimap((byte[]) jsonObject.get("imgRoom")));
                     LIST_ALL_PUBLIC_ROOM.add(room);
                     MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
-                    notifyAll();
+//                    notifyAll();
                 }catch (Exception e){
                     e.printStackTrace();
                 }

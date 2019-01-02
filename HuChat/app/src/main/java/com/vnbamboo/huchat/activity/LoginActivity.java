@@ -31,13 +31,10 @@ import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.statusConnection;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_HISTORY_CHAT_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_IMAGE_ROOM;
-import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_MEMBER_OF_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_LIST_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CLIENT_REQUEST_PUBLIC_INFO_USER;
 import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
-import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.LOGIN;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
@@ -62,15 +59,37 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.lightGreenColor));
 
-        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
+        final Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
 
 //        if(ServiceConnection.isConnected)
 //            this.stopService(intent);
-        if(!ServiceConnection.isConnected)
-            this.startService(intent);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!ServiceConnection.isConnected)
+                            thisContext.startService(intent);
+                        if(resultFromServer == null)
+                            resultFromServer = new ResultFromServer();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mSocket.emit(CLIENT_REQUEST_LIST_ROOM);
+                                        mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+                });
+            }
+        }).start();
 
-        if(resultFromServer == null)
-            resultFromServer = new ResultFromServer();
 
         setControl();
         addEvent();
@@ -78,18 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 //        Room room = null;
 //        LIST_ALL_PUBLIC_ROOM.add(null);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSocket.emit(CLIENT_REQUEST_LIST_ROOM);
-                        mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
-                    }
-                });
-            }
-        }).start();
+
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -168,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, TIME_WAIT_MEDIUM);
+                }, TIME_WAIT_LONG);
             }
         });
 

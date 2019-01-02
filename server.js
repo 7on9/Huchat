@@ -321,6 +321,7 @@ io.on("connection", function (socket) {
 			}else{
 				if(!pack.isPrivate){
 					io.emit("newPublicRoom", pack);
+					io.emit("serverSendImageRoom", pack.imgRoom, pack.roomCode);
 				}
 				socket.emit("result", "createRoom", true, pack.roomCode);
 			}
