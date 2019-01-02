@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.vnbamboo.huchat.helper.ServiceConnection.logined;
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
@@ -131,7 +132,7 @@ public class ProfileFragment extends Fragment {
                 LIST_ALL_PUBLIC_ROOM.clear();
                 LIST_NAME_USER.clear();
                 LIST_ALL_USER.clear();
-
+                logined = false;
                 resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);

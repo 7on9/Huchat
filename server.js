@@ -340,12 +340,21 @@ io.on("connection", function (socket) {
 			socket.emit("result", "joinExistRoom", false, "roomNotExist");
 		}
 		room.joinExistRoom(roomCode, userName, password, (err, rows) => {
-			if(err || rows.affectedRows == 0){
+			if(err){
 				socket.emit("result", "joinExistRoom", false, "wrongPassword");
 			}else{
 				console.log(rows);
-				socket.emit("result", "joinExistRoom", true);
-				socket.join(roomCode);
+				room.getPublicInfoOfRoom(roomCode, (err,rows)=>{
+					if(err){
+						console.log(err);
+					}else{
+						console.log(rows[0]);
+						socket.emit("result", "newRoom", true, rows[0][0]);
+						socket.emit("result", "joinExistRoom", true);
+						socket.join(roomCode);
+					}
+				});
+				
 			}	
 		});
 	});

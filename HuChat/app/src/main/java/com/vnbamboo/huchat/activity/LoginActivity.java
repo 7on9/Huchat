@@ -27,6 +27,7 @@ import com.vnbamboo.huchat.object.Room;
 
 import java.math.RoundingMode;
 
+import static com.vnbamboo.huchat.helper.ServiceConnection.logined;
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.statusConnection;
@@ -166,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (thisUser.getUserName().length() > 0) {
+                        if (logined) {
                             thisUser.setPassword( toSHA256(txtPassword.getText().toString()));
                             savingPreferences();
                             dialog.dismiss();
@@ -176,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, TIME_WAIT_MEDIUM);
+                }, TIME_WAIT_LONG);
             }
         });
 

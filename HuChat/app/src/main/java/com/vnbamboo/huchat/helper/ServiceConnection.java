@@ -59,7 +59,7 @@ public class ServiceConnection extends Service {
     public static ResultFromServer resultFromServer;
     public static Socket mSocket;
     public static User thisUser = new User();
-
+    public static Boolean logined = false;
     public ServiceConnection() {
     }
 
@@ -100,10 +100,9 @@ public class ServiceConnection extends Service {
                         statusConnection = resultFromServer.success;
                         break;
                     case LOGIN:
-                        if (!resultFromServer.success.booleanValue()) break;
-
+                        if (!resultFromServer.success)
+                            break;
                         JSONObject jsonUser = objectToJSONObject(args[2]);
-
                         try {
                             String tmp = (String) jsonUser.get("USER_NAME");
                             thisUser.setUserName(tmp.toLowerCase());
@@ -116,6 +115,7 @@ public class ServiceConnection extends Service {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        logined = true;
                         break;
 
                     case SERVER_SEND_IMAGE_USER:
