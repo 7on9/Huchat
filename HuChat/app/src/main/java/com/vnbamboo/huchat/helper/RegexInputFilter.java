@@ -23,7 +23,6 @@ public class RegexInputFilter implements InputFilter {
         if (pattern == null) {
             throw new IllegalArgumentException(CLASS_NAME + " requires a regex.");
         }
-
         mPattern = pattern;
     }
 

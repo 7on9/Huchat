@@ -349,7 +349,7 @@ io.on("connection", function (socket) {
 						console.log(err);
 					}else{
 						console.log(rows[0]);
-						socket.emit("result", "newRoom", true, rows[0][0]);
+						// socket.emit("result", "newRoom", true, rows[0][0]);
 						socket.emit("result", "joinExistRoom", true);
 						socket.join(roomCode);
 					}
