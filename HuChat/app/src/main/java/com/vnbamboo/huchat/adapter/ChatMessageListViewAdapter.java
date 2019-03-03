@@ -64,9 +64,9 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
         ChatMessage chatMessage = listData.get(position);
         final MessageViewHolder messageListViewHolder = new MessageViewHolder();
 
-        Date date = new Date(chatMessage.getTime() * 1000); // convert seconds to milliseconds
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM "); // the format of your date
-        String formattedDate = dateFormat.format(date);
+        String date = new Date(chatMessage.getTime()*1000).toLocaleString(); // convert seconds to milliseconds
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM "); // the format of your date
+//        String formattedDate = dateFormat.format(date);
 
 
         if (chatMessage.getUserNameSender().equals(thisUser.getUserName())) {
@@ -77,8 +77,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             convertView.setTag(messageListViewHolder);
             messageListViewHolder.txtMessage.setText(chatMessage.getContent());
 
-
-            messageListViewHolder.txtTime.setText(formattedDate);
+            messageListViewHolder.txtTime.setText(date);
         } else {
             convertView = layoutInflater.inflate(R.layout.their_message, null);
             messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtTheirMessage);
@@ -93,7 +92,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             }
             messageListViewHolder.txtMessage.setText(chatMessage.getContent());
             messageListViewHolder.txtUser.setText(chatMessage.getUserNameSender());
-            messageListViewHolder.txtTime.setText(formattedDate);
+            messageListViewHolder.txtTime.setText(date);
             convertView.setTag(messageListViewHolder);
         }
 

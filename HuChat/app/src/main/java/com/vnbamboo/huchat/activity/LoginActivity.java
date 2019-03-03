@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 //        LIST_ALL_PUBLIC_ROOM.add(null);
 
 
-
+        //chỉ mang tính tham khảo
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
