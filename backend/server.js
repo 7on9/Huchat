@@ -64,9 +64,13 @@ io.on("connection", function (socket) {
 			console.log("SERVER SAVED A NEW IMAGE");
 			var filename = getFilenameImageUser(socket.userName);
 			arrayImage.push(filename);
-			fs.writeFile(filename, data);
+			console.log(filename);
+			fs.writeFileSync(filename, data);
+	
 			socket.emit("result", "clientSendImageUser", true);
 		} catch (ex) {
+			console.log(ex);
+			
 			socket.emit("result", "clientSendImageUser", false);
 		}
 	});
@@ -76,7 +80,7 @@ io.on("connection", function (socket) {
 			console.log("SERVER SAVED A NEW IMAGE");
 			var filename = getFilenameImageRoom(roomCode);
 			arrayImage.push(filename);
-			fs.writeFile(filename, data);
+			fs.writeFileSync(filename, data,);
 			socket.emit("result", "clientSendImageRoom", true);
 		} catch (ex) {
 			socket.emit("result", "clientSendImageRoom", false);
@@ -162,7 +166,7 @@ io.on("connection", function (socket) {
 					socket.userName = rows[0][0].USER_NAME;
 					// socketUser.set()
 					socket.join(userName);
-					console.log("User " + socket.id + " connected!");
+			 		console.log("User " + socket.userName + " login!");
 				}
 				else {
 					//console.log("emited");
