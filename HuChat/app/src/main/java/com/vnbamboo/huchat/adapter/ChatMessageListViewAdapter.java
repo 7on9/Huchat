@@ -71,7 +71,7 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
 
         if (chatMessage.getUserNameSender().equals(thisUser.getUserName())) {
             convertView = layoutInflater.inflate(R.layout.my_message, null);
-            messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtMyMessage);
+            messageListViewHolder.txtMessage = convertView.findViewById(R.id.txtMyMessage);
             messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
             messageListViewHolder.line = convertView.findViewById(R.id.line);
             convertView.setTag(messageListViewHolder);
@@ -80,9 +80,9 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
             messageListViewHolder.txtTime.setText(date);
         } else {
             convertView = layoutInflater.inflate(R.layout.their_message, null);
-            messageListViewHolder.txtMessage = (TextView) convertView.findViewById(R.id.txtTheirMessage);
-            messageListViewHolder.txtUser = (TextView) convertView.findViewById(R.id.txtTheirName);
-            messageListViewHolder.imgAvatar = (CircleImageView) convertView.findViewById(R.id.imgAvatar);
+            messageListViewHolder.txtMessage = convertView.findViewById(R.id.txtTheirMessage);
+            messageListViewHolder.txtUser = convertView.findViewById(R.id.txtTheirName);
+            messageListViewHolder.imgAvatar = convertView.findViewById(R.id.imgAvatar);
             messageListViewHolder.txtTime = convertView.findViewById(R.id.txtTime);
             messageListViewHolder.line = convertView.findViewById(R.id.line);
 
