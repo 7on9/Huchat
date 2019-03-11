@@ -8,7 +8,7 @@ var fs = require("fs");
 //impliment modules
 var user = require("./user");
 var account = require("./account");
-var db = require("./database");
+var db = require("./config/database");
 var mail = require("./mail");
 var room = require("./room");
 
