@@ -61,6 +61,9 @@ public class CreateNewGroupActivity extends AppCompatActivity {
     Switch stwIsPrivate;
     TextInputEditText txtPassword, txtGroupName, txtRetypePassword;
     LayoutInflater inflater;
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
+
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -90,7 +93,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
+                dialogBuilder = new AlertDialog.Builder(v.getContext());
                 @SuppressLint("ResourceType") View dialogView = inflater.inflate(R.layout.dialog_edit_profile_image_layout, (ViewGroup) findViewById(R.layout.activity_edit_profile));
 
                 imgView = dialogView.findViewById(R.id.imgAvatar);
@@ -125,14 +128,15 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                 });
                 dialogBuilder.setView(dialogView);
 //                dialogBuilder.setTitle("Chỉnh ảnh đại diện");
-                AlertDialog b = dialogBuilder.create();
-                b.show();
+                alertDialog = dialogBuilder.create();
+                alertDialog.show();
 //                choosePicture();
             }
         });
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
+                alertDialog.dismiss();
                 if(txtGroupName.length() == 0){
                     txtGroupName.setError("Cần đặt tên cho nhóm");
                     return;
@@ -165,13 +169,14 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                dialog.cancel();
+                                dialog.dismiss();
                             }
                         },TIME_WAIT_MEDIUM);
                     }
                     try {
                         new Thread().sleep(TIME_WAIT_SHORT);
                     } catch (InterruptedException e) {
+                        dialog.dismiss();
                         e.printStackTrace();
                     }
 //                    mSocket.emit(CLIENT_SEND_IMAGE_ROOM, resultFromServer.args.toString(), imgTemp);
@@ -191,7 +196,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            dialog.cancel();
+                            dialog.dismiss();
                             onBackPressed();
                         }
                     },TIME_WAIT_MEDIUM);
