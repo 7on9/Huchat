@@ -28,7 +28,7 @@ import java.io.InputStream;
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.helper.Utility.CLIENT_SEND_IMAGE_USER;
+import static com.vnbamboo.huchat.helper.Utility.SET_AVATAR;
 import static com.vnbamboo.huchat.helper.Utility.REQUEST_CHOOSE_PHOTO;
 import static com.vnbamboo.huchat.helper.Utility.REQUEST_TAKE_PHOTO;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_MEDIUM;
@@ -112,11 +112,11 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onClick( View v ) {
                         if (img != null) {
                             byte[] bytes = getByteArrayFromBitmap(img);
-                            mSocket.emit(CLIENT_SEND_IMAGE_USER, bytes);
+                            mSocket.emit(SET_AVATAR, bytes);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (resultFromServer.event.equals(CLIENT_SEND_IMAGE_USER)) {
+                                    if (resultFromServer.event.equals(SET_AVATAR)) {
                                         if (resultFromServer.success) {
                                             thisUser.setAvatar(img);
                                             imgAvatar.setImageBitmap(img);
