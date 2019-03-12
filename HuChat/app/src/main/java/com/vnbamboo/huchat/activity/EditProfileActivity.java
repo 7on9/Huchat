@@ -168,26 +168,21 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
-        Boolean success = false;
         if (requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK) {
             try {
                 Uri imageURI = data.getData();
                 InputStream is = getContentResolver().openInputStream(imageURI);
                 Bitmap bm = BitmapFactory.decodeStream(is);
-                bm = resize(bm, 300, 300);
-                img = bm;
-                success = true;
+                img = resize(bm, 300, 300);
+                imgAvatemp.setImageBitmap(img);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            bitmap = resize(bitmap, 300, 300);
-            img = bitmap;
-            success = true;
-        }
-        if (success)
+            img = resize(bitmap, 300, 300);
             imgAvatemp.setImageBitmap(img);
+        }
     }
 
     private void takePicture() {
