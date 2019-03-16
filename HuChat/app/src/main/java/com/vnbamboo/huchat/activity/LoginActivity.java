@@ -23,9 +23,6 @@ import com.vnbamboo.huchat.R;
 import com.vnbamboo.huchat.helper.RegexInputFilter;
 import com.vnbamboo.huchat.helper.ServiceConnection;
 import com.vnbamboo.huchat.object.ResultFromServer;
-import com.vnbamboo.huchat.object.Room;
-
-import java.math.RoundingMode;
 
 import static com.vnbamboo.huchat.helper.ServiceConnection.logined;
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
@@ -91,13 +88,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
 
-
         setControl();
         addEvent();
-
-//        Room room = null;
-//        LIST_ALL_PUBLIC_ROOM.add(null);
-
 
         //chỉ mang tính tham khảo
         new Handler().postDelayed(new Runnable() {
@@ -303,7 +295,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
         if(ServiceConnection.isConnected) {
-//            mSocket.off();
             this.stopService(intent);
         }
         if(!ServiceConnection.isConnected)
@@ -313,8 +304,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
-        //this.stopService(intent);
+//        Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
         super.onDestroy();
     }
 }

@@ -117,7 +117,7 @@ public class Utility {
 
     public static String getLocalHost() {
         //set match server ip
-        return "http://192.168.0.111:2409/";
+        return "http://172.104.173.28:2409/";
     }
 
     public static String toSHA256( String input ) {

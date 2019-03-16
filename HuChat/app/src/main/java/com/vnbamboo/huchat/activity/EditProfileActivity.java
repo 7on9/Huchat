@@ -59,9 +59,9 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        btnBack = (Button) findViewById(R.id.btnBack);
-        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
-        txtFullName = (TextView) findViewById(R.id.txtFullName);
+        btnBack = findViewById(R.id.btnBack);
+        imgAvatar = findViewById(R.id.imgAvatar);
+        txtFullName = findViewById(R.id.txtFullName);
         btnChangeFullName = findViewById(R.id.btnChangeFullName);
         btnChangeDob = findViewById(R.id.btnChangeDob);
         btnChangeGender = findViewById(R.id.btnChangeGender);
