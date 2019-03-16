@@ -59,7 +59,7 @@ io.on("connection", function (socket) {
 
 	});
 	
-	socket.on("clientSendImageUser", function (data) {
+	socket.on("setAvatar", function (data) {
 		try {
 			console.log("SERVER SAVED A NEW IMAGE");
 			var filename = getFilenameImageUser(socket.userName);
@@ -67,11 +67,11 @@ io.on("connection", function (socket) {
 			console.log(filename);
 			fs.writeFileSync(filename, data);
 	
-			socket.emit("result", "clientSendImageUser", true);
+			socket.emit("result", "setAvatar", true);
 		} catch (ex) {
 			console.log(ex);
 			
-			socket.emit("result", "clientSendImageUser", false);
+			socket.emit("result", "setAvatar", false);
 		}
 	});
 

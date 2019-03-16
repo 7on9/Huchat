@@ -74,22 +74,17 @@ public class ServiceConnection extends Service {
     public void onCreate() {
         super.onCreate();
         {
-
         }
     }
 
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
         if(isConnected) return START_STICKY;
-
         statusConnection  =  false;
-        //mSocket = null;
-        try
-        {
+        try {
             mSocket = IO.socket(Utility.getLocalHost());
-        }catch (Exception e)
-        {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         onResultFromServer = new Emitter.Listener() {
             @Override
@@ -180,7 +175,7 @@ public class ServiceConnection extends Service {
                         }
                         catch(Exception e){
                             e.printStackTrace();
-                        };
+                        }
                         break;
                     case SERVER_SEND_HISTORY_CHAT_ROOM :
                         if(resultFromServer.success){
@@ -189,8 +184,7 @@ public class ServiceConnection extends Service {
                                 tmpListChat = new ArrayList<>();
                                 for (int i = 0; i < jsonRoomArr.length(); i++) {
                                     ChatMessage chatMessage = new ChatMessage();
-                                    JSONObject jsonobject = null;
-                                    jsonobject = jsonRoomArr.getJSONObject(i);
+                                    JSONObject jsonobject = jsonRoomArr.getJSONObject(i);
                                     chatMessage.setContent(jsonobject.getString("CONTENT"));
                                     chatMessage.setUserNameSender(jsonobject.getString("USER_NAME").toLowerCase());
                                     chatMessage.setTime(jsonobject.getLong("TIME"));
@@ -209,8 +203,7 @@ public class ServiceConnection extends Service {
                                 tmpListChat = new ArrayList<>();
                                 for (int i = 0; i < jsonRoomArr.length(); i++) {
                                     try {
-                                        JSONObject jsonobject = null;
-                                        jsonobject = jsonRoomArr.getJSONObject(i);
+                                        JSONObject jsonobject = jsonRoomArr.getJSONObject(i);
                                         String userName = jsonobject.getString("USER_NAME_MEMBER").toLowerCase();
                                         MAP_ROOM_OF_THIS_USER.get((String) args[2]).getListMember().put(userName, MAP_ALL_USER.get(userName));
                                     } catch (Exception ex){
@@ -289,8 +282,7 @@ public class ServiceConnection extends Service {
                 try {
                     for (int i = 0; i < jsonRoomArr.length(); i++) {
                         Room room = new Room();
-                        JSONObject jsonobject = null;
-                        jsonobject = jsonRoomArr.getJSONObject(i);
+                        JSONObject jsonobject = jsonRoomArr.getJSONObject(i);
                         room.setRoomCode(jsonobject.getString("ROOM_CODE"));
                         room.setName(jsonobject.getString("ROOM_NAME"));
                         room.setUserNameOwner(jsonobject.getString("USER_NAME_OWNER"));
@@ -329,9 +321,8 @@ public class ServiceConnection extends Service {
         try
         {
             mSocket = IO.socket(Utility.getLocalHost());
-        }catch (Exception e)
-        {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         mSocket.on(RESULT, onResultFromServer);
         super.onDestroy();
