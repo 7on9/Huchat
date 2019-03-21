@@ -140,8 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             mSocket.emit(CLIENT_REQUEST_IMAGE_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
-//                            mSocket.emit(CLIENT_REQUEST_LIST_MEMBER_OF_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
-//                            mSocket.emit(CLIENT_REQUEST_HISTORY_CHAT_ROOM, LIST_ALL_PUBLIC_ROOM.get(a).getRoomCode());
                         }
                     }).start();
                 }

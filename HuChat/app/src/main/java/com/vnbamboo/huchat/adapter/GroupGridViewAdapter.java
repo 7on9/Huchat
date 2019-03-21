@@ -95,11 +95,6 @@ public class GroupGridViewAdapter extends BaseAdapter {
                         dialog.setTitle("Đợi 1 chút nhé...");
                         dialog.setContentView(R.layout.loading_layout);
                         dialog.show();
-//                        long time = System.currentTimeMillis();
-//                        do {
-//                            //nothing :)
-//                        }
-//                        while (MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null || System.currentTimeMillis() - time < 5000);
                         try {
                             new Thread().sleep(TIME_WAIT_LONG);
                         } catch (InterruptedException e) {

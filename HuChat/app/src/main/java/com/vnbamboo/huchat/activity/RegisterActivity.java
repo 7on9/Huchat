@@ -46,12 +46,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
     private void setControl(){
-        btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        txtUserName = (TextView) findViewById(R.id.txtUserName);
-        txtPassword = (TextView) findViewById(R.id.txtPassword);
-        txtRetypePassword = (TextView) findViewById(R.id.txtReTypePassword);
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        btnCancel = findViewById(R.id.btnCancel);
+        btnRegister = findViewById(R.id.btnRegister);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtPassword = findViewById(R.id.txtPassword);
+        txtRetypePassword = findViewById(R.id.txtReTypePassword);
+        txtEmail = findViewById(R.id.txtEmail);
     }
 
     private void addEvent() {

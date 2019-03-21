@@ -20,10 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.vnbamboo.huchat.R;
-import com.vnbamboo.huchat.fragment.GroupFragment;
 import com.vnbamboo.huchat.object.Room;
 
 import org.json.JSONException;
@@ -37,11 +35,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.vnbamboo.huchat.helper.ServiceConnection.mSocket;
 import static com.vnbamboo.huchat.helper.ServiceConnection.resultFromServer;
 import static com.vnbamboo.huchat.helper.ServiceConnection.thisUser;
-import static com.vnbamboo.huchat.helper.Utility.CLIENT_SEND_IMAGE_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.CREATE_ROOM;
-import static com.vnbamboo.huchat.helper.Utility.LIST_ALL_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.LIST_ROOM_OF_THIS_USER;
-import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_PUBLIC_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.MAP_ROOM_OF_THIS_USER;
 import static com.vnbamboo.huchat.helper.Utility.REQUEST_CHOOSE_PHOTO;
 import static com.vnbamboo.huchat.helper.Utility.REQUEST_TAKE_PHOTO;
@@ -130,7 +125,6 @@ public class CreateNewGroupActivity extends AppCompatActivity {
 //                dialogBuilder.setTitle("Chỉnh ảnh đại diện");
                 alertDialog = dialogBuilder.create();
                 alertDialog.show();
-//                choosePicture();
             }
         });
         btnCreate.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +173,6 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                         dialog.dismiss();
                         e.printStackTrace();
                     }
-//                    mSocket.emit(CLIENT_SEND_IMAGE_ROOM, resultFromServer.args.toString(), imgTemp);
                     dialog.setTitle("Tạo nhóm thành công!");
                     dialog.setContentView(R.layout.success_layout);
 
@@ -187,10 +180,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                     room.getListMember().put(thisUser.getUserName(), thisUser);
                     room.setDual(false);
                     room.setAvatar(img);
-//                    if(!stwIsPrivate.isChecked()){
-//                        LIST_ALL_PUBLIC_ROOM.add(room);
-//                        MAP_ALL_PUBLIC_ROOM.put(room.getRoomCode(), room);
-//                    }
+
                     LIST_ROOM_OF_THIS_USER.add(room);
                     MAP_ROOM_OF_THIS_USER.put(room.getRoomCode(), room);
                     new Handler().postDelayed(new Runnable() {
@@ -200,7 +190,6 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                     },TIME_WAIT_MEDIUM);
-//                    mSocket.emit(CLIENT_SEND_IMAGE_ROOM, imgTemp);
                 }
             }
         });

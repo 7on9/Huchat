@@ -108,7 +108,6 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
             line = itemView.findViewById(R.id.friendLine);
         }
-
     }
 }
 

@@ -79,14 +79,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setControl(){
-        btnLogout = (Button) v.findViewById(R.id.btnLogout);
-        btnEditProfile = (Button) v.findViewById(R.id.btnEditProfile);
-        txtFullName = (TextView) v.findViewById(R.id.txtFullName);
+        btnLogout = v.findViewById(R.id.btnLogout);
+        btnEditProfile = v.findViewById(R.id.btnEditProfile);
+        txtFullName = v.findViewById(R.id.txtFullName);
         txtFullName.setText(thisUser.getUserName());
-        txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+        txtEmail = v.findViewById(R.id.txtEmail);
         txtEmail.setText(thisUser.getEmail());
 
-        imgAvatar = (CircleImageView) v.findViewById(R.id.imgAvatar);
+        imgAvatar = v.findViewById(R.id.imgAvatar);
 
         if(thisUser.getAvatar() != null)
             imgAvatar.setImageBitmap(thisUser.getAvatar());
@@ -136,10 +136,7 @@ public class ProfileFragment extends Fragment {
                 resultFromServer = new ResultFromServer();
                 tmpListChat = new ArrayList<>();
                 Intent intent = new Intent(ProfileFragment.super.getContext(), ServiceConnection.class);
-//                mSocket.close();
                 ProfileFragment.super.getActivity().stopService(intent);
-//                mSocket.disconnect();
-//                mSocket.io().reconnection();
                 Utility.startLoginActivity(v.getContext());
             }
         });
