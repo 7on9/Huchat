@@ -8,7 +8,7 @@ var fs = require("fs");
 //impliment modules
 var user = require("./user");
 var account = require("./account");
-var db = require("./database");
+var db = require("./config/database");
 var mail = require("./mail");
 var room = require("./room");
 
@@ -59,7 +59,7 @@ io.on("connection", function (socket) {
 
 	});
 	
-	socket.on("clientSendImageUser", function (data) {
+	socket.on("setAvatar", function (data) {
 		try {
 			console.log("SERVER SAVED A NEW IMAGE");
 			var filename = getFilenameImageUser(socket.userName);
@@ -67,11 +67,11 @@ io.on("connection", function (socket) {
 			console.log(filename);
 			fs.writeFileSync(filename, data);
 	
-			socket.emit("result", "clientSendImageUser", true);
+			socket.emit("result", "setAvatar", true);
 		} catch (ex) {
 			console.log(ex);
 			
-			socket.emit("result", "clientSendImageUser", false);
+			socket.emit("result", "setAvatar", false);
 		}
 	});
 
@@ -578,5 +578,3 @@ function getMilis() {
 }
 
 module.exports = server;
-
-
