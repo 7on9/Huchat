@@ -65,8 +65,6 @@ public class ChatMessageListViewAdapter extends BaseAdapter{
         final MessageViewHolder messageListViewHolder = new MessageViewHolder();
 
         String date = new Date(chatMessage.getTime()*1000).toLocaleString(); // convert seconds to milliseconds
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM "); // the format of your date
-//        String formattedDate = dateFormat.format(date);
 
 
         if (chatMessage.getUserNameSender().equals(thisUser.getUserName())) {

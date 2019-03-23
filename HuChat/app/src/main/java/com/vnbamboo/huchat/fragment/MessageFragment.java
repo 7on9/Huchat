@@ -66,9 +66,9 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_message, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.rclViewCardMessage);
+        recyclerView = v.findViewById(R.id.rclViewCardMessage);
 
-        FloatingActionButton btnCreate = (FloatingActionButton) v.findViewById(R.id.btnCreate);
+        FloatingActionButton btnCreate = v.findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
@@ -80,7 +80,6 @@ public class MessageFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         bounData();
-
         return v;
     }
 
@@ -95,16 +94,13 @@ public class MessageFragment extends Fragment {
             public void onLoadMore() {
                 size = LIST_ROOM_OF_THIS_USER.size() + 7;
                 if(listData.size() <= size){
-                    listData.add(null); //if listData[i] == null -> loading view
+                    listData.add(null);
                     recyclerViewAdapter.notifyItemInserted(listData.size()-1);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             listData.remove(listData.size()-1);
                             recyclerViewAdapter.notifyItemRemoved(listData.size());
-
-                            //random data
-//                            createRandom10User();
                             recyclerViewAdapter.notifyDataSetChanged();
                             recyclerViewAdapter.setLoaded();
                         }
@@ -115,12 +111,4 @@ public class MessageFragment extends Fragment {
             }
         });
     }
-
-//    void createRandom10User(){
-//        for(int i = 1; i <= 10; i++){
-//            int x = (int) (Math.random()*10)%4;
-//            tempUser = new User((User) listTempData.get(x));
-//            listData.add(tempUser);
-//        }
-//    }
 }

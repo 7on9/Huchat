@@ -52,7 +52,7 @@ public class GroupFragment extends Fragment {
 
         grdViewGroup.setAdapter(groupGridViewAdapter);
 
-        FabSpeedDial fabSpeedDial = (FabSpeedDial) v.findViewById(R.id.btnMenu);
+        FabSpeedDial fabSpeedDial = v.findViewById(R.id.btnMenu);
 
         fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
