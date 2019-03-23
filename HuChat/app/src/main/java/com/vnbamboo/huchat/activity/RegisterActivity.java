@@ -84,9 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 mSocket.emit(REGISTER, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
-                dialog.setTitle("Đang tiến hành...");
-                dialog.setContentView(R.layout.loading_layout);
                 dialog.show();
+                dialog.setContentView(R.layout.loading_layout);
+                dialog.setTitle("Đang tiến hành...");
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -101,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }, TIME_WAIT_LONG);
                         } else
                             Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+                        dialog.dismiss();
                     }
                 }, TIME_WAIT_MEDIUM);
             }

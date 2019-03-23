@@ -59,32 +59,13 @@ public class LoginActivity extends AppCompatActivity {
 
         final Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
 
-//        if(ServiceConnection.isConnected)
-//            this.stopService(intent);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!ServiceConnection.isConnected)
-                            thisContext.startService(intent);
-                        if(resultFromServer == null)
-                            resultFromServer = new ResultFromServer();
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mSocket.emit(CLIENT_REQUEST_LIST_ROOM);
-                                        mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
-                                    }
-                                });
-                            }
-                        }).start();
-                    }
-                });
+                if(!ServiceConnection.isConnected)
+                    thisContext.startService(intent);
+                if(resultFromServer == null)
+                    resultFromServer = new ResultFromServer();
             }
         }).start();
 
@@ -95,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                mSocket.emit(CLIENT_REQUEST_LIST_ROOM);
+                mSocket.emit(CLIENT_REQUEST_PUBLIC_INFO_USER);
                 if(resultFromServer.success)
                     txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0,0, R.mipmap.bullet_green, 0);
                 else
@@ -125,15 +108,20 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, ServiceConnection.class);
                     LoginActivity.super.startService(intent);
                 }
-                if (statusConnection)
-                    txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
-                else
-                    txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_red, 0);
 
-                if(txtUserName.length()*txtPassword.length() == 0){
+                if (statusConnection) {
+                    txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_green, 0);
+                } else {
+                    txtConnectionState.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bullet_red, 0);
+                    Toast.makeText(view.getContext(), "Không thể kết nối đến server! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(txtUserName.length()*txtPassword.length() == 0) {
                     Toast.makeText(view.getContext(), "Các ô không được để trống!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 for (int i = 0; i < LIST_ALL_PUBLIC_ROOM.size(); i++) {
                     final int a = i;
                     new Thread(new Runnable() {
@@ -143,20 +131,18 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }).start();
                 }
-                if (!statusConnection) {
-                    Toast.makeText(view.getContext(), "Không thể kết nối đến server! Hãy kiểm tra lại kết nối mạng!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
                 resultFromServer.event = "";
                 mSocket.emit(LOGIN, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()));
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
+                dialog.show();
                 dialog.setTitle("Đang đăng nhập...");
                 dialog.setContentView(R.layout.loading_layout);
-                dialog.show();
-//                dialog.cancel();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         if (logined) {
                             thisUser.setPassword( toSHA256(txtPassword.getText().toString()));
                             savingPreferences();
@@ -167,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(thisContext, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, TIME_WAIT_LONG);
+                }, TIME_WAIT_MEDIUM);
             }
         });
 

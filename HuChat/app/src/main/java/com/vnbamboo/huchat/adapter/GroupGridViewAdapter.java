@@ -92,9 +92,10 @@ public class GroupGridViewAdapter extends BaseAdapter {
                     if(MAP_ROOM_OF_THIS_USER.get(room.getRoomCode()) == null) {
                         mSocket.emit(JOIN_EXIST_ROOM, room.getRoomCode(), thisUser.getUserName(), "");
                         final ProgressDialog dialog = new ProgressDialog(v.getContext());
+                        dialog.show();
                         dialog.setTitle("Đợi 1 chút nhé...");
                         dialog.setContentView(R.layout.loading_layout);
-                        dialog.show();
+
                         try {
                             new Thread().sleep(TIME_WAIT_LONG);
                         } catch (InterruptedException e) {
