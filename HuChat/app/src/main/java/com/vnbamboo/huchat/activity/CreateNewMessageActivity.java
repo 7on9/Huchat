@@ -23,6 +23,7 @@ import static com.vnbamboo.huchat.helper.Utility.JOIN_DUAL_ROOM;
 import static com.vnbamboo.huchat.helper.Utility.LIST_NAME_USER;
 import static com.vnbamboo.huchat.helper.Utility.MAP_ALL_USER;
 import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_LONG;
+import static com.vnbamboo.huchat.helper.Utility.TIME_WAIT_SHORT;
 
 public class CreateNewMessageActivity extends AppCompatActivity {
     RecyclerView rclViewCardUser;
@@ -89,11 +90,12 @@ public class CreateNewMessageActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.loading_layout);
 
 
-                try {
-                    new Thread().sleep(TIME_WAIT_LONG);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    new Thread().sleep(TIME_WAIT_SHORT);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

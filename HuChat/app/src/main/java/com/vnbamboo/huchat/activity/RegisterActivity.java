@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }, TIME_WAIT_LONG);
                         } else
                             Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+                        dialog.dismiss();
                     }
                 }, TIME_WAIT_MEDIUM);
             }
