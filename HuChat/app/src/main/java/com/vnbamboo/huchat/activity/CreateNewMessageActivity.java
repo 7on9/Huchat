@@ -84,9 +84,10 @@ public class CreateNewMessageActivity extends AppCompatActivity {
                 mSocket.emit(JOIN_DUAL_ROOM, thisUser.getUserName(), user.getUserName());
 
                 final ProgressDialog dialog = new ProgressDialog(v.getContext());
+                dialog.show();
                 dialog.setTitle("Đợi 1 chút nhé...");
                 dialog.setContentView(R.layout.loading_layout);
-                dialog.show();
+
 
                 try {
                     new Thread().sleep(TIME_WAIT_LONG);

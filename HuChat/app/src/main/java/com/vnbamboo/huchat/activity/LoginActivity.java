@@ -150,10 +150,10 @@ public class LoginActivity extends AppCompatActivity {
                 resultFromServer.event = "";
                 mSocket.emit(LOGIN, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()));
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
+                dialog.show();
                 dialog.setTitle("Đang đăng nhập...");
                 dialog.setContentView(R.layout.loading_layout);
-                dialog.show();
-//                dialog.cancel();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

@@ -84,9 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 mSocket.emit(REGISTER, txtUserName.getText().toString(), toSHA256(txtPassword.getText().toString()), txtEmail.getText().toString());
                 final ProgressDialog dialog = new ProgressDialog(thisContext);
-                dialog.setTitle("Đang tiến hành...");
-                dialog.setContentView(R.layout.loading_layout);
                 dialog.show();
+                dialog.setContentView(R.layout.loading_layout);
+                dialog.setTitle("Đang tiến hành...");
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
