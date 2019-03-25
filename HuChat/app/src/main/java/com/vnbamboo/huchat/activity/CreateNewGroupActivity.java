@@ -152,9 +152,10 @@ public class CreateNewGroupActivity extends AppCompatActivity {
                     }
                     mSocket.emit(CREATE_ROOM, packCreateGroup);
                     final Dialog dialog = new ProgressDialog(v.getContext());
+                    dialog.show();
                     dialog.setTitle("Đang tạo nhóm chat...");
                     dialog.setContentView(R.layout.loading_layout);
-                    dialog.show();
+
                     while (!resultFromServer.event.equals(CREATE_ROOM)){
                     //nothing
                     }
