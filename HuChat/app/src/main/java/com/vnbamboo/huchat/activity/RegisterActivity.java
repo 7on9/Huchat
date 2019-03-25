@@ -1,5 +1,6 @@
 package com.vnbamboo.huchat.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addEvent() {
 
         txtUserName.setFilters(new InputFilter[] {
@@ -101,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }, TIME_WAIT_LONG);
                         } else
                             Toast.makeText(thisContext, "Có lỗi khi đăng ký! Xin hãy thử lại!", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+                        dialog.dismiss();
                     }
                 }, TIME_WAIT_MEDIUM);
             }

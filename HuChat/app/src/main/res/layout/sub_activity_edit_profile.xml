@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/grayColor"
         android:paddingBottom="30dp"
-        android:elevation="8dp">
+        android:elevation="@dimen/high_2x3">
         <Button
             android:id="@+id/btnBack"
             android:layout_width="20dp"
@@ -54,7 +54,7 @@
             android:background="@color/white"
             app:hintEnabled="true"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/high_2x3"
+            android:elevation="@dimen/high_2x1"
             android:layout_marginBottom="15dp">
 
             <android.support.design.widget.TextInputEditText
@@ -79,7 +79,7 @@
             app:hintEnabled="true"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/singleLine"
-            android:elevation="@dimen/high_2x3"
+            android:elevation="@dimen/high_2x1"
             android:layout_marginBottom="15dp">
 
             <android.support.design.widget.TextInputEditText
@@ -104,7 +104,7 @@
             app:hintEnabled="true"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/singleLine"
-            android:elevation="@dimen/high_2x3"
+            android:elevation="@dimen/high_2x1"
             android:layout_marginBottom="15dp">
 
             <android.support.design.widget.TextInputEditText
